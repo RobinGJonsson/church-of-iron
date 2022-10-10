@@ -34,25 +34,32 @@
         <title>Church of Iron | {% block page_title %}{% endblock page_title %}</title>
     </head>
     <body>
-        <header>
+        <header class="container-fluid fixed-top">
             <!-- Top Bar -->
             <!-- Logo, Cart, Login/Logout/Join, My Profile -->
 
             <!-- Navigation elements -->
             <nav>
                 <!-- Main navbar if large screen -->
-                {% include 'include/main-navbar' %}
+                {% include 'include/main-navbar.html' %}
 
                 <!-- Mobile nav if mobile scrren -->
-                {% include 'include/mobile-nav' %}
+                {% include 'include/mobile-nav.html' %}
             </nav>
         </header>
+
+        {% block page_header %}{% endblock page_header %}
+
+        <!-- Block for potential messages -->
+        {% if messages %}
+            <div class="message-container"></div>
+        {% endif %}
 
         <!-- Page content -->
         <main>
             {% block content %}{% endblock content %}
         </main>
-
+        
         <!-- Footer -->
         <footer>
             <!-- Main footer if large screen -->
