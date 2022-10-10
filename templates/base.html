@@ -1,10 +1,66 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Church of Iron | {% block title %}{% endblock title %}</title>
+        {% block meta %}
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% endblock %}
+
+        {% block extra_meta %}{% endblock %}
+
+        {% block main_css %}
+            <!-- Bootstrap css -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+            <!-- Custom CSS -->
+            <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% endblock %}    
+        
+        {% block extra_css %}{% endblock %}
+
+        {% block main_js %}
+            <!-- Font Awsome -->
+            <script src="https://kit.fontawesome.com/e9c73d7092.js" crossorigin="anonymous"></script>
+            <!-- JQuery -->
+            <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {% endblock %}
+
+        {% block extra_js %}{% endblock %}
+
+        <title>Church of Iron | {% block page_title %}{% endblock page_title %}</title>
     </head>
-    <body></body>
+    <body>
+        <header>
+            <!-- Top Bar -->
+            <!-- Logo, Cart, Login/Logout/Join, My Profile -->
+
+            <!-- Navigation elements -->
+            <nav>
+                <!-- Main navbar if large screen -->
+                {% include 'include/main-navbar' %}
+
+                <!-- Mobile nav if mobile scrren -->
+                {% include 'include/mobile-nav' %}
+            </nav>
+        </header>
+
+        <!-- Page content -->
+        <main>
+            {% block content %}{% endblock content %}
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <!-- Main footer if large screen -->
+            {% include 'include/main-footer.html' %}
+
+            <!-- Mobile footer if large screen -->
+            {% include 'include/main-footer.html' %}
+        </footer>
+        {% block postloadjs %}{% endblock %}
+    </body>
 </html>
