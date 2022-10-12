@@ -1,11 +1,159 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block page_title %}Home{% endblock page_title %}
 
 {% block content %}
+<div class="container">
+    <!-- Hero section -->
+    <section>
+        <div class="row">
+            <div class="col-12"> <!-- full vh with background image -->
+                <h1>Train in all of our gyms for only $40/month</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate reprehenderit soluta a 
+                    ipsa placeat voluptate rerum, illum delectus quos velit explicabo cum necessitatibus fugiat
+                     corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
+                     quibusdam nihil maiores labore deleniti, delectus ut natus excepturi blanditiis et!
+                </p>
+                <a href="#" class="btn btn-success">Join Now!</a>
+            </div>
+        </div>
+    </section>
+    <!-- Brief company description -->
+    <section>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="#">
+                    <h3>Our Gyms</h3>
+                    <p>Train in any or all of our gyms</p>
+                    <span class="arrow-container">
+                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                    </span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <h3>Become a Member</h3>
+                    <p>Achive Greatness</p>
+                    <span class="arrow-container">
+                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                    </span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <h3>Start training</h3>
+                    <p>From $30/Month</p>
+                    <span class="arrow-container">
+                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                    </span>
+                </a>
+            </div>
+            <div class="col-12">
+                <h2>GYM AND TRAINING 24/7</h2>
+                <p class="text-center">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                    Doloremque, exercitationem perspiciatis. Fugit, exercitationem a, 
+                    repellendus et obcaecati iste natus reiciendis nostrum eum cum ad aliquam. 
+                    Reprehenderit, perspiciatis est illo assumenda voluptatem 
+                    ducimus hic fuga eos temporibus eum recusandae inventore quisquam deserunt? 
+                    Ipsam quam assumenda iste sunt, aperiam ipsa similique doloribus!
+                </p>
+            </div>
+        </div>
+    </section>
 
-    <h1 class="display-4 text-success">It works</h1>
+    <!-- Deals -->
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h2>DEALS</h2>
+            </div>
+            <div class="col-4">
+                <img src="#" alt="#">
+                <h3>Monthly Offer</h3>
+                <p>
+                    20% off on all protein shakes 
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                    Incidunt unde officia in ducimus doloribus culpa?
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+            <div class="col-4">
+                <img src="#" alt="#">
+                <h3>Limited offer</h3>
+                <p>
+                    Free yoga-mat
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                    Incidunt unde officia in ducimus doloribus culpa?
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+            <div class="col-4">
+                <h3>Free Delivery</h3>
+                <p>
+                    On purchases over $50
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                    Incidunt unde officia in ducimus doloribus culpa?
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
 
+    <!-- Gyms and locations -->
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h3>OUR GYMS</h3>
+                <p>
+                    Gym walkthrough by employees
+                    We welcome beginners and experienced gym-goers and we want everybody to feel at home in our gyms. It can be intimidating to enter a new gym that youo aren't familiar with
+                    so our staff is always available during manned hours to answer any questions and also to have a full walkthrough of the gym. We want all our memebers to feel comfortable so don't be afraid to ask we are here to help!
+                </p>
+            </div> 
+            {% for gym in gyms %}
+                <div class="col-6">
+                    <a href="#">
+                        <div>
+                            <img src="{{ gym.main_image.url }}" alt="">
+                            <h4>{{ gym.name }}</h4>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Memberships -->
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h2>Membership</h2>
+                <h5>Sign up for a membership to any of our gyms starting at $30 per month</h5>
+            </div>
+            <div class="col-12">
+                <h3>Perks</h3>
+                <p>
+                    As a member you have access to exclusive deals and offers
+                </p>
+                <a href="#" class="btn">Learn More</a>
+
+            </div>
+            <div class="col-12">
+                <a href="#"><h5>Membership name</h5></a>                
+                <div>Price</div>
+                <div>Price</div>
+                <div>Price</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <div class="row">
+        <div class="col-12"></div>
+    </div>
+</div>
 {% endblock content %}
 
 

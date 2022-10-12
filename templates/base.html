@@ -22,30 +22,20 @@
 
         {% block main_js %}
             <!-- Font Awsome -->
-            <script src="https://kit.fontawesome.com/e9c73d7092.js" crossorigin="anonymous"></script>
+            <script src="https://kit.fontawesome.com/0be8f1ee62.js" crossorigin="anonymous"></script>
             <!-- JQuery -->
             <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
             <!-- Bootstrap JS -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        {% endblock %}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>   
+     {% endblock %}
 
         {% block extra_js %}{% endblock %}
 
         <title>Church of Iron | {% block page_title %}{% endblock page_title %}</title>
     </head>
     <body>
-        <header class="container-fluid fixed-top">
-            <!-- Top Bar -->
-            <!-- Logo, Cart, Login/Logout/Join, My Profile -->
-
-            <!-- Navigation elements -->
-            <nav>
-                <!-- Main navbar if large screen -->
-                {% include 'include/main-navbar.html' %}
-
-                <!-- Mobile nav if mobile scrren -->
-                {% include 'include/mobile-nav.html' %}
-            </nav>
+        <header class="container-fluid fixed-top bg-white">
+            {% include 'include/navbar.html' %}
         </header>
 
         {% block page_header %}{% endblock page_header %}
@@ -61,12 +51,9 @@
         </main>
         
         <!-- Footer -->
-        <footer>
+        <footer class="bg-black text-white">
             <!-- Main footer if large screen -->
-            {% include 'include/main-footer.html' %}
-
-            <!-- Mobile footer if large screen -->
-            {% include 'include/main-footer.html' %}
+            {% include 'include/footer.html' %}
         </footer>
         {% block postloadjs %}{% endblock %}
     </body>

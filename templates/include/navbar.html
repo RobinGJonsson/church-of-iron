@@ -1,0 +1,96 @@
+<!-- Navigation elements -->
+<div class="row pt-3">
+    <div class="col-2">
+        <a href="{% url 'home' %}" class="nav-logo"><b>Church</b><small>of</small><b>Iron</b></a>
+    </div>
+    <div class="col-7">
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <div class="col-12">
+                    <ul class="navbar-nav justify-content-evenly">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gym</a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Gym 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Gym 2</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Equipment</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Supplements</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Memberships</a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Bronse</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Silver</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item">Gold</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>  
+    <div class="col-3">
+        <div class="col-12">
+            <ul class="d-flex justify-content-evenly">                        
+                {% if user.is_authenticated %}
+                <li class="list-inline-item dropdown">
+                    <a class="text-black nav-link" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="text-center">
+                            <div><i class="fas fa-user fa-lg"></i></div>
+                            <p class="my-0">My Account</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="user-options">
+                        <a href="#" class="dropdown-item">My Info</a>
+                        <a href="#" class="dropdown-item">Membership</a>
+                        <a href="#" class="dropdown-item">Order History</a>
+                        <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="list-inline-item">
+                    <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="{% url 'account_signup' %}" class="nav-link btn btn-success text-light">Join</a>
+                </li>
+                {% endif %}
+                <li class="list-inline-item">
+                    <a href="#" class="nav-link lh-lg"><i class="fa-solid fa-lg fa-basket-shopping"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

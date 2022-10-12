@@ -1,0 +1,58 @@
+:root {
+    --green: #00d823;
+    --darkgreen: #003e00;
+    --blue: #00659e;
+    --black: #151e12 !important;
+    --white: #fff;
+}
+.text-green {
+    color: var(--green);
+}
+.text-darkgreen {
+    color: var(--darkgreen);
+}
+.text-blue {
+    color: var(--blue);
+}
+
+.bg-green {
+    background-color: var(--green);
+}
+.bg-darkgreen {
+    background-color: var(--darkgreen);
+}
+.bg-blue {
+    background-color: var(--blue);
+}
+.bg-black {
+    background-color: var(--black) !important;
+}
+
+/* -----------------  Elements */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* -----------------  Header */
+header {
+    box-shadow: 0 -16px 20px 5px gray;
+}
+
+.nav-logo {
+    font-weight: 500;
+    font-size: 2rem;
+    text-decoration: none;
+    color: var(--black);
+}
+
+/* -----------------  Footer */
+
+footer ul li a {
+    color: var(--white);
+}
+
+.social-links {
+    display: flex;
+    font-size: 25px;
+}
