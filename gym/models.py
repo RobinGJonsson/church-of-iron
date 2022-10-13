@@ -72,6 +72,8 @@ class Gym(models.Model):
     name = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
+    coordinates_long = models.CharField(max_length=50)
+    coordinates_lat = models.CharField(max_length=50)
     phone = models.CharField(max_length=50)
     description = models.TextField()
     main_image = models.ImageField()

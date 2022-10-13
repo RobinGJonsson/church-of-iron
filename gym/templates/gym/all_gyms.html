@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}All Gyms{% endblock page_title %}
+
+
+{% block page_header %}
+<div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+{% endblock page_header %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-header fs-1 mt-4">OUR GYMS</h1>
+    <hr>
+    <div class="row">
+        {% for gym in gyms %}
+        <div class="col-md-10 mx-auto">
+            <h2 class="mb-3">{{ gym.name }}</h2>
+            <img src="{{ gym.main_image.url }}" alt="">
+            <!-- Amenities -->
+            <div class="container border border-secondary border-2 rounded-bottom">
+                <h3 class="text-decoration-underline">Amenities</h3>
+                <div class="container">
+                    <ul class="row text-center">
+                        {% for amenity in gym.amenities.all %}
+                        <li class="col-4 my-2">{{ amenity.friendly_name }} <i class="{{amenity.icon}}"></i></li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'gym' gym.name %}" class="btn btn-success btn-lg">To Gym</a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+

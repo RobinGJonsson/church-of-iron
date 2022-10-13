@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Gym {{ gym.name }}{% endblock page_title %}
+
+{% block extra_css %}
+    <!-- Map styling -->
+    <style>
+        #map {
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block page_header %}
+    <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
+{% endblock page_header %}
+
+{% block content %}
+<div class="contianer">
+    <div class="band"></div>
+    <!-- Carousel of all the gyms images -->
+    <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
+    <div class="carousel-indicators">
+        {% for image in gym_images %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide {{forloop.counter0}}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for image in gym_images %}
+        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+    <div class="row mt-5 mx-0">
+        <div class="col-12">    
+            <h3 class="section-header">OUR ANEMITIES</h3>
+        </div>
+        <div class="container text-center w-75">
+            <ul class="row justify-content-center m-0">
+                {% for amenity in gym.amenities.all %}
+                <li class="col-md-3">
+                    <div class="anemity-container">
+                        <div><i class="{{amenity.icon}}"></i></div>
+                        <div>{{ amenity.friendly_name }}</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="position-relative" id="map">
+        <div class="map-cover overlay-50">
+            <button class="btn btn-success" id="modal-btn">Show Map</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block postloadjs %}
+    <script>
+
+        function initMap() {
+            let options = {
+                zoom: 10, 
+                center: { lat: {{ gym.coordinates_lat }}, lng: {{ gym.coordinates_long }} }
+            }
+
+            let map = new 
+            google.maps.Map(document.getElementById('map'), options);
+
+            let marker = new google.maps.Marker({
+                position: { lat: {{ gym.coordinates_lat }}, lng: {{ gym.coordinates_long }} },
+                map: map
+            })
+        }
+
+        document.querySelector('#modal-btn').addEventListener('click', function() {
+            document.querySelector('.map-cover').classList.add('d-none')
+            initMap()
+        })
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ1kL0kr5pef6JJ1l7AM3s2FaCJxQSMVI"> //&callback=initMap
+    </script>
+{% endblock postloadjs %}
+
+
