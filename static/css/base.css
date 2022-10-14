@@ -28,6 +28,9 @@
 .bg-dark {
     background-color: var(--dark) !important;
 }
+.bg-light {
+    background-color: var(--light) !important;
+}
 
 /* -----------------  General */
 
@@ -54,7 +57,7 @@
 }
 
 .top-banner {
-    height: 60vh;
+    height: 70vh;
 }
 
 .band {
@@ -93,6 +96,11 @@ h4,
 h5,
 h6 {
     font-family: "Orbitron", sans-serif;
+}
+
+hr {
+    border-width: 3px;
+    opacity: 0.2;
 }
 
 /* -----------------  Shortcuts */
@@ -187,4 +195,15 @@ footer ul li a {
     height: 100%;
     background: url("/media/worldmap.jpg") center;
     background-size: cover;
+}
+
+#modal-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contact-boxes h5 {
+    font-size: 1rem;
 }

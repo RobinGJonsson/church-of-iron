@@ -6,8 +6,8 @@
     <!-- Map styling -->
     <style>
         #map {
-            width: 400px;
-            height: 400px;
+            width: 75%;
+            height: 500px;
         }
     </style>
 {% endblock extra_css %}
@@ -18,58 +18,103 @@
 
 {% block content %}
 <div class="contianer">
-    <div class="band"></div>
-    <!-- Carousel of all the gyms images -->
-    <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
-    <div class="carousel-indicators">
-        {% for image in gym_images %}
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide {{forloop.counter0}}"></button>
-        {% endfor %}
-    </div>
-    <div class="carousel-inner">
-        {% for image in gym_images %}
-        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+    <section>
+        <div class="band"></div>
+        <!-- Carousel of all the gyms images -->
+        <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
+        <div class="carousel-indicators">
+            {% for image in gym_images %}
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide {{forloop.counter0}}"></button>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-    </div>
-    <div class="row mt-5 mx-0">
-        <div class="col-12">    
-            <h3 class="section-header">OUR ANEMITIES</h3>
+        <div class="carousel-inner">
+            {% for image in gym_images %}
+            <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+            <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+            </div>
+            {% endfor %}
         </div>
-        <div class="container text-center w-75">
-            <ul class="row justify-content-center m-0">
-                {% for amenity in gym.amenities.all %}
-                <li class="col-md-3">
-                    <div class="anemity-container">
-                        <div><i class="{{amenity.icon}}"></i></div>
-                        <div>{{ amenity.friendly_name }}</div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
         </div>
-    </div>
-    <div class="position-relative" id="map">
-        <div class="map-cover overlay-50">
-            <button class="btn btn-success" id="modal-btn">Show Map</button>
+    </section>
+    <section>
+        <div class="row mt-5 mx-0">
+            <div class="col-12">    
+                <h3 class="section-header">OUR ANEMITIES</h3>
+            </div>
+            <div class="container text-center w-75">
+                <ul class="row justify-content-center m-0">
+                    {% for amenity in gym.amenities.all %}
+                    <li class="col-md-3">
+                        <div class="anemity-container">
+                            <div><i class="{{amenity.icon}}"></i></div>
+                            <div>{{ amenity.friendly_name }}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
+    </section>
+    <!-- Map -->
+    <section>
+        <div class="position-relative mx-auto" id="map">
+            <div class="map-cover overlay-50">
+                <button class="btn btn-success" id="modal-btn">Show Map</button>
+            </div>
+        </div>
+    </section>
+    <!-- Contact info and open hours -->
+    <section class="my-4">
+        <div class="row contact-boxes me-0 text-center justify-content-evenly">
+            <div class="col-md-5 col-10 bg-light my-3 py-4">
+                <h3>Contact</h3>
+                <hr>
+                <ul>
+                    <li>
+                        <h5>Address</h5>
+                        <p>{{ gym.address }}</p>
+                    </li>                    
+                    <hr>
+                    <li>
+                        <h5>Phone</h5>
+                        <p>{{ gym.phone }}</p>
+                    </li>
+                    <hr>
+                    <li>
+                        <h5>Email</h5>
+                        <p>{{ gym.email }}</p>
+                    </li>                
+                </ul>
+            </div>
+            <div class="col-md-5 col-10 bg-light my-3 py-4">
+                <h3>Open Hours</h3>
+                <hr>
+                <ul>
+                    <li class="row">
+                        <div class="col-6"><h5>Weekdays</h5></div>
+                        <div class="col-6"><h5>Weekends</h5></div>
+                    </li>
+                    <li class="row">
+                        <div class="col-6"> {{ gym.opening_hours_weekdays }} - {{ gym.closing_hours_weekdays }}</div>
+                        <div class="col-6"> {{ gym.opening_hours_weekends }} - {{ gym.closing_hours_weekends }}</div>
+                    </li>                    
+                </ul>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock content %}
 
 {% block postloadjs %}
     <script>
-
         function initMap() {
             let options = {
                 zoom: 10, 
@@ -89,10 +134,9 @@
             document.querySelector('.map-cover').classList.add('d-none')
             initMap()
         })
-
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ1kL0kr5pef6JJ1l7AM3s2FaCJxQSMVI"> //&callback=initMap
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ1kL0kr5pef6JJ1l7AM3s2FaCJxQSMVI">
     </script>
 {% endblock postloadjs %}
 
