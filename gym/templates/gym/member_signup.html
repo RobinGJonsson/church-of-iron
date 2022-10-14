@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Sign Up{% endblock page_title %}
+
+
+{% block page_header %}
+    <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
+    <div class="band"></div>
+{% endblock page_header %}
+
+
+{% block content %}
+<section class="text-center">
+    <h1 class="section header">{{ membership.name|upper }} MEMBERSHIP</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-11 mx-auto">
+
+                {% if user.is_authenticated and user.member.membership.name == membership %}
+                You already have a {{ membership.name }} membership
+                <br>
+                You can change your membership <a href="">here</a>
+                Goes to change membership
+
+                {% else %}
+                <form method="POST" action="">
+                    <div class="input-box">
+                        <div class="d-flex">
+                            <input class="input-item me-3" type="text" placeholder="First Name..." name='first_name'>
+                            <input class="input-item" type="text" placeholder="Last Name..." name='last_name'>
+                        </div>
+                        <input class="input-item" type="email" placeholder="Your Email..." name='email'>
+                        <input class="input-item" type="text" placeholder="Phone Number..." name='phone'>
+                    </div>
+                    <hr>
+                    <p>Payment Plan</p>
+                    <div class="row justify-content-evenly mx-0">
+                        <div class="col-6">
+                            <p><b>Price Monthly: ${{ membership.month_price }}</b></p>
+                        </div>
+                        <div class="col-6">
+                            <p><b>Price Yearly: ${{ membership.year_price }}</b></p>
+                        </div>
+                        <div class="col-5">
+                            <label for="monthly">Monthly</label>
+                            <input type="radio" name="payment_plan" id="monthly" value="monthly">
+                        </div>
+                        <div class="col-5">
+                            <label for="yearly">Yearly</label>
+                            <input type="radio" name="payment_plan" id="yearly" value="yearly">
+                        </div>
+                        <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -46,3 +46,14 @@ def membership(request, membership_name):
     }
 
     return render(request, 'gym/membership.html', context)
+
+
+def member_signup(request, membership_name):
+
+    membership = Membership.objects.get(name=membership_name)
+
+    context = {
+        'membership': membership,
+    }
+
+    return render(request, 'gym/member_signup.html', context)

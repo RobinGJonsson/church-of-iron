@@ -1,5 +1,5 @@
 from django.db import models
-from profiles.models import UserProfile
+from django.contrib.auth.models import User
 from datetime import timedelta
 
 
@@ -11,7 +11,7 @@ class Membership(models.Model):
 
     @property
     def year_price(self):
-        return (float(self.month_price) * 12) * 0.9
+        return int(round(((float(self.month_price) * 12) * 0.9), 0))
 
     def __str__(self):
         return self.name
@@ -24,9 +24,13 @@ class Member(models.Model):
         ("yearly", "Yearly"),
     )
 
-    member = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    member = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
     membership = models.ForeignKey(
-        Membership, on_delete=models.SET_NULL, null=True, blank=True)
+        Membership, on_delete=models.SET_NULL, null=True)
     payment_plan = models.CharField(max_length=50,
                                     choices=PAYMENT_FREQ,
                                     blank=True)
@@ -51,7 +55,7 @@ class Member(models.Model):
         return (self.membership_renewed + time_to_expiration)
 
     def __str__(self):
-        return self.member.user.username
+        return self.member.username
 
 
 class Amenity(models.Model):
