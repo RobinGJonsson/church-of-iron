@@ -1,6 +1,15 @@
 from django.shortcuts import render
+from .models import Category, Product
 
 
-def all_products(request):
+def store(request):
 
-    return render(request, 'store.store.html')
+    products = Product.objects.all()
+    categories = None
+
+    context = {
+        'products': products,
+        'categories': categories,
+    }
+
+    return render(request, 'store/store.html', context)

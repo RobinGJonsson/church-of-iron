@@ -7,9 +7,11 @@
 -   Delivery package image: https://unsplash.com/photos/YiSD-1eJ_1g
 -   Yoga image: https://unsplash.com/photos/Eszi6jZ0Pfk
 -   Map image: https://unsplash.com/photos/5F4oYUg-WvM
+-   Store top image: https://unsplash.com/photos/mTorQ9gFfOg
 
 ##Tools
 
 -   TinyPNG
 -   ColorSpace
 -   Google Maps API
+-   iloveimg: for resizing images
