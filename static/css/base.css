@@ -49,6 +49,10 @@
 .text-bronze {
     color: rgb(203, 125, 0);
 }
+
+.text-bold {
+    font-weight: 900;
+}
 /* -----------------  Backgrounds */
 .hero-bg {
     background: url("/media/hero-image.jpg") no-repeat center center;
@@ -72,6 +76,10 @@
 }
 
 /* -----------------  Elements */
+section {
+    padding: 2rem 0;
+}
+
 ul {
     list-style: none;
     padding-left: 0;

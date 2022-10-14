@@ -14,7 +14,7 @@
                     corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
                     quibusdam nihil maiores labore deleniti, delectus ut natus excepturi blanditiis et!
             </p>
-            <a href="#" class="btn btn-success">Join Now!</a>
+            <a href="{% url 'all_memberships' %}" class="btn btn-success">Join Now!</a>
         </div>
     </div>
 </section>
@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="col-md-4 motivation-box">
-                    <a href="#" class="text-decor-none">
+                    <a href="{% url 'all_memberships' %}" class="text-decor-none">
                         <div class="box position-relative">
                             <h3 class="fs-6">Become a Member</h3>
                             <p>
@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 <li class="col-md-4 motivation-box">
-                    <a href="#" class="text-decor-none">
+                    <a href="{% url 'all_memberships' %}" class="text-decor-none">
                         <div class="box position-relative">
                             <h3 class="fs-6">Start training from</h3>
                             <p>
@@ -113,7 +113,7 @@
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                         Incidunt unde officia in ducimus doloribus culpa?
                     </p>
-                    <a href="" class="btn btn-success">Learn More</a>
+                    <a href="#" class="btn btn-success">Learn More</a>
                 </div>
             </div>
         </div>
@@ -156,11 +156,11 @@
                 <p>
                     As a member you have access to exclusive deals and offers
                 </p>
-                <a href="#" class="btn btn-success">Learn More</a>
+                <a href="{% url 'all_memberships' %}" class="btn btn-success">Learn More</a>
 
             </div>
             {% for membership in memberships %}
-                <div class="col-3">
+                <div class="col-3 bg-light py-3">
                     <h5 class="text-center text-{{ membership.name|lower }}">{{ membership.name }}</h5>                
                     <p>${{ membership.month_price}}/month  |  ${{ membership.year_price|floatformat:0 }}/year</p>
                     <a href="#" class="btn btn-success">Learn More</a>

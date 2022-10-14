@@ -14,12 +14,12 @@
 
 {% block page_header %}
     <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
+    <div class="band"></div>
 {% endblock page_header %}
 
 {% block content %}
 <div class="contianer">
     <section>
-        <div class="band"></div>
         <!-- Carousel of all the gyms images -->
         <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
         <div class="carousel-indicators">
@@ -45,7 +45,7 @@
         </div>
     </section>
     <section>
-        <div class="row mt-5 mx-0">
+        <div class="row mx-0">
             <div class="col-12">    
                 <h3 class="section-header">OUR ANEMITIES</h3>
             </div>
@@ -72,7 +72,7 @@
         </div>
     </section>
     <!-- Contact info and open hours -->
-    <section class="my-4">
+    <section>
         <div class="row contact-boxes me-0 text-center justify-content-evenly">
             <div class="col-md-5 col-10 bg-light my-3 py-4">
                 <h3>Contact</h3>

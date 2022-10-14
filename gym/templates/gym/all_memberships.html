@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Memberships{% endblock page_title %}
+
+
+{% block page_header %}
+    <div class="row px-0 mx-0">
+        <div class="col-5 bg-white position-relative">
+            <p class="offset-ts fs-5 fst-italic">
+                Join a month to month payment or a yearly payment 
+                <br>
+                <br>
+                <strong class="fs-1">10% off on yearly payments</strong>
+            </p>
+        </div>
+        <div class="col-7 px-0 mx-0">
+            <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
+        </div>
+    </div>
+    <div class="band"></div>
+{% endblock page_header %}
+
+
+{% block content %}
+<section>
+    <div class="row">
+        <div class="col-7 mx-auto text-center">
+            <h2 class="section-header">PERKS</h2>
+            <p>
+                As a memeber with a <strong>memebership</strong> of silver or gold you
+                also have access to <strong>exclusive offers</strong> in the store and at the gym. 
+                In the store you always have <strong>5%</strong> off in the online store. 
+                At our gyms you can choose to have 1 <strong>free protein shake</strong> per month 
+                or enjoy <strong>10%</strong> off on all protein shakes which you can buy in the reception.
+            </p>
+        </div>
+    </div>
+</section>
+<section class="bg-light">
+    <h1 class="section-header my-4">ALL MEMBERSHIPS</h1>
+    <ul class="row mx-0 justify-content-evenly">
+        {% for membership in memberships %}
+            <li class="col-xl-3 col-md-5 col-10 p-4 my-3 bg-white">
+                <h3 class="fs-5"><strong>{{ membership.name }} Membership</strong></h3>
+                <hr>
+                <div class="row">
+                    <div class="col-8">
+                        <p class="text-bold text-green"><b>{{ membership.month_price }}/month | {{ membership.year_price|floatformat:0 }}/year</b></p>
+                    </div>
+                    <div class="col-4 px-0 text-end pt-1">
+                        <a href="{% url 'membership' membership.name %}" class="text-decor-none text-black"><b>Show More</b></a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock content %} 

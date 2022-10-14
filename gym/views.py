@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Gym, GymImage
+from .models import Gym, GymImage, Membership
 
 
 def all_gyms(request):
@@ -24,3 +24,25 @@ def gym(request, gym_name):
     }
 
     return render(request, 'gym/gym.html', context)
+
+
+def all_memberships(request):
+
+    memberships = Membership.objects.all()
+
+    context = {
+        'memberships': memberships,
+    }
+
+    return render(request, 'gym/all_memberships.html', context)
+
+
+def membership(request, membership_name):
+
+    membership = Membership.objects.get(name=membership_name)
+
+    context = {
+        'membership': membership,
+    }
+
+    return render(request, 'gym/membership.html', context)
