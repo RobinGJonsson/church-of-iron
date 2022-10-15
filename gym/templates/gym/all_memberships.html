@@ -7,7 +7,7 @@
     <div class="row px-0 mx-0">
         <div class="col-5 bg-white position-relative">
             <p class="offset-ts fs-5 fst-italic">
-                Join a month to month payment or a yearly payment 
+                Sign up for a month to month membership or a yearly membership 
                 <br>
                 <br>
                 <strong class="fs-1">10% off on yearly payments</strong>
@@ -45,7 +45,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-8">
-                        <p class="text-bold text-green"><b>{{ membership.month_price }}/month | {{ membership.year_price|floatformat:0 }}/year</b></p>
+                        <p class="text-bold text-green"><b>{{ membership.monthly_price }}/month | {{ membership.yearly_price }}/year</b></p>
                     </div>
                     <div class="col-4 px-0 text-end pt-1">
                         <a href="{% url 'membership' membership.name %}" class="text-decor-none text-black"><b>Show More</b></a>

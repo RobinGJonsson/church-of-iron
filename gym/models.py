@@ -11,7 +11,7 @@ class Membership(models.Model):
 
     @property
     def yearly_price(self):
-        return int(round(((float(self.month_price) * 12) * 0.9), 0))
+        return int(round(((float(self.monthly_price) * 12) * 0.9), 0))
 
     def __str__(self):
         return self.name
