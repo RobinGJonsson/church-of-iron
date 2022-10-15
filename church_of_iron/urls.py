@@ -1,5 +1,4 @@
 
-import imp
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -12,4 +11,5 @@ urlpatterns = [
     path('gym/', include('gym.urls')),
     path('store/', include('store.urls')),
     path('profile/', include('profiles.urls')),
+    path('cart/', include('cart.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

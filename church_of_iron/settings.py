@@ -42,9 +42,10 @@ INSTALLED_APPS = [
 
     # Project Apps
     'home',
-    'store',
     'gym',
     'profiles',
+    'store',
+    'cart',
     # Third-party apps
     'allauth',
     'allauth.account',

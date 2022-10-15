@@ -137,7 +137,7 @@
                     <img src="{{ gym.main_image.url }}" alt="">
                     <h4>{{ gym.name }}</h4>
                 </div>
-                <span><a href="{% url 'gyms' gym.name %}" class="btn btn-success">Read More</a></span>
+                <span><a href="{% url 'gym_details' gym.name %}" class="btn btn-success">Read More</a></span>
             </div>
             {% endfor %}
         </div>
@@ -162,7 +162,7 @@
             {% for membership in memberships %}
                 <div class="col-3 bg-light py-3">
                     <h5 class="text-center text-{{ membership.name|lower }}">{{ membership.name }}</h5>                
-                    <p>${{ membership.month_price}}/month  |  ${{ membership.year_price|floatformat:0 }}/year</p>
+                    <p>${{ membership.monthly_price}}/month  |  ${{ membership.yearly_price }}/year</p>
                     <a href="#" class="btn btn-success">Learn More</a>
                 </div>
             {% endfor %}

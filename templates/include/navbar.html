@@ -20,7 +20,7 @@
                                 <ul>
                                     {% for gym in gyms %}
                                         <li>
-                                            <a href="{% url 'gyms' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
+                                            <a href="{% url 'gym_details' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
                                         </li>                                    
                                     {% endfor %}
                                 </ul>
@@ -60,16 +60,16 @@
             <ul class="d-flex justify-content-evenly">                        
                 {% if user.is_authenticated %}
                 <li class="list-inline-item dropdown">
-                    <a class="text-black nav-link" href="#" aria-haspopup="true" aria-expanded="false">
+                    <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
                         <div class="text-center">
                             <div><i class="fas fa-user fa-lg"></i></div>
                             <p class="my-0">My Account</p>
                         </div>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="user-options">
-                        <a href="#" class="dropdown-item">My Info</a>
-                        <a href="#" class="dropdown-item">Membership</a>
-                        <a href="#" class="dropdown-item">Order History</a>
+                        <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
+                        <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
+                        <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
                         <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
                     </div>
                 </li>
@@ -82,7 +82,7 @@
                 </li>
                 {% endif %}
                 <li class="list-inline-item">
-                    <a href="#" class="nav-link lh-lg"><i class="fa-solid fa-lg fa-basket-shopping"></i></a>
+                    <a href="{% url 'cart_view' %}" class="nav-link lh-lg"><i class="fa-solid fa-lg fa-basket-shopping"></i></a>
                 </li>
             </ul>
         </div>

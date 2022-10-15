@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Cart{% endblock page_title %}
+
+{% block page_header %}
+<div class="container empty-header"></div>
+{% endblock page_header %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="section-header">Cart</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if cart_items %}
+                
+                {% else %}
+                <p>Your cart is empty</p>
+                <a href="{% url 'store' %}">
+                    <span>
+                        <i class="fa fa-chevron-left"></i>
+                    </span>
+                    <span>Browse store</span> 
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+
+ 
