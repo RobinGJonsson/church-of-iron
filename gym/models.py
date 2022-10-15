@@ -7,10 +7,10 @@ class Membership(models.Model):
 
     name = models.CharField(max_length=50)
     description = models.TextField()
-    month_price = models.DecimalField(max_digits=5, decimal_places=2)
+    monthly_price = models.DecimalField(max_digits=5, decimal_places=2)
 
     @property
-    def year_price(self):
+    def yearly_price(self):
         return int(round(((float(self.month_price) * 12) * 0.9), 0))
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Member(models.Model):
         ("yearly", "Yearly"),
     )
 
-    member = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    member = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
@@ -35,22 +35,21 @@ class Member(models.Model):
                                     choices=PAYMENT_FREQ,
                                     blank=True)
     member_since = models.DateTimeField(auto_now_add=True, null=True)
-    membership_renewed = models.DateTimeField(auto_now=True, null=True)
+
+    # ! Update from view when membership is renewed
+    membership_renewed = models.DateTimeField()
 
     @property
     def membership_expires_on(self):
         """Returns the membership expiration date"""
 
         print(self.payment_plan)
-        if self.payment_plan == 'mothly':
+        if self.payment_plan == 'monthly':
             time_to_expiration = timedelta(days=30)
         elif self.payment_plan == 'yearly':
             time_to_expiration = timedelta(days=365)
         else:
-            print('No active memebrship')
             return 'No active membership'
-
-        print(self.membership_renewed + time_to_expiration)
 
         return (self.membership_renewed + time_to_expiration)
 

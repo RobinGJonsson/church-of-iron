@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}All Gyms{% endblock page_title %}
+
+
+{% block page_header %}
+<div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+{% endblock page_header %}
+
+{% block content %}
+<section class="bg-dark text-white">
+    <div class="container">
+        <h1 class="section-header fs-1 mt-4">My Profile</h1>
+        <hr>
+        <div class="row">
+            <!-- User info -->
+            <div class="col-md-6 col-10">
+                <h2 class="ps-3">My Details</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="{% url 'profile' %}" method="POST">
+                                {% csrf_token %}
+                                {{ form }}
+                                <input class="btn btn-success float-end" type="submit" value="Update Information">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- User membership -->
+            <div class="col-md-6 col-10">
+                <h2>{{ member.membership.name }} Membership</h2>
+                <ul class="list-group">
+                    {% if member.payment_plan == 'monthly' %}
+                    <li class="list-group-item"><b>Month to Month Membership</b></li>
+                    {% elif member.payment_plan == 'yearly' %}
+                    <li class="list-group-item"><b>Year to Year Membership</b></li>
+                    {% endif %}
+                    <li class="list-group-item"> <b>{{ member.payment_plan|title }} Payment:</b> ${{ membership_price }} </li>
+                    <li class="list-group-item"> <b>Member Since:</b> {{ member.member_since }} </li>
+                    <li class="list-group-item"> <b>Last Renewed:</b> {{ member.membership_renewed }} </li>
+                    <li class="list-group-item"> <b>Membership Expires:</b> {{ member.membership_expires_on }} </li>
+                </ul>
+            </div>
+            <!-- User order history -->
+            <div class="col-md-6 col-10">
+                <h2>My Orderhistory</h2>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
