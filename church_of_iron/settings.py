@@ -79,6 +79,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'global_context.navbar_context.navbar_context'
+                'global_context.cart_content.cart_content'
             ],
         },
     },
@@ -162,3 +163,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#!Make editable as admin
+FREE_DELIVERY_THRESHOLD = 50
+FREE_DELIVERY_PERCETNAGE = 10
