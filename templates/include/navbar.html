@@ -27,12 +27,12 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{% url 'store' %}" aria-haspopup="true" aria-expanded="false">Store</a>
+                            <a class="nav-link" href="{% url 'store_view' %}" aria-haspopup="true" aria-expanded="false">Store</a>
                             <div class="dropdown-menu">
                                 <ul>
                                     {% for category in categories %}                                    
                                     <li>
-                                        <a href="{% url 'store' category %}" class="dropdown-item"> {{ category|title }} </a>
+                                        <a href="{% url 'store_view' %}?category={{ category.name }}" class="dropdown-item"> {{ category.friendly_name|title }} </a>
                                     </li>
                                     {% endfor %}
                                 </ul>

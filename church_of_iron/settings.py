@@ -78,8 +78,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'global_context.navbar_context.navbar_context'
-                'global_context.cart_content.cart_content'
+                'global_context.navbar_context.navbar_context',
+                'global_context.cart_content.cart_content',
             ],
         },
     },
@@ -166,4 +166,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #!Make editable as admin
 FREE_DELIVERY_THRESHOLD = 50
-FREE_DELIVERY_PERCETNAGE = 10
+FREE_DELIVERY_PERCENTAGE = 10
