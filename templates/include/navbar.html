@@ -81,8 +81,15 @@
                     <a href="{% url 'account_signup' %}" class="nav-link btn btn-success text-light">Join</a>
                 </li>
                 {% endif %}
-                <li class="list-inline-item">
-                    <a href="{% url 'cart_view' %}" class="nav-link lh-lg"><i class="fa-solid fa-lg fa-basket-shopping"></i></a>
+                <li class="list-inline-item position-relative">
+                    <span class="cart-count"> {{ cart_count }} </span>
+                    <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
+                        <div class="text-center">
+                            <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
+                            <p class="my-0">Cart</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="user-options"></div>
                 </li>
             </ul>
         </div>

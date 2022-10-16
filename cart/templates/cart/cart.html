@@ -15,13 +15,73 @@
                 <hr>
             </div>
         </div>
-        <div class="row">
+        <div class="row"> 
             <div class="col">
                 {% if cart_items %}
-                
-                {% else %}
+                <div class="table-responsive rounded">
+                    <table class="table table-striped">
+                        <thead class="table-light text-black">
+                            <tr>
+                                <th scope="col">Product Info</th>
+                                <th scope="col"></th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td class="p-3 w-25">
+                                    <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="">
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0"><strong{{ item.product.name }}</strong></p> 
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0">${{ item.product.price }}</p> 
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0">{{ item.quantity }}</p> 
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0">${{ item.product.price }}</p> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr colspan="5" class="pt-5 text-end">
+                                <h6><strong>Cart Total: ${{ cart_total|floatformat:2 }}</strong></h6>
+                                <h6>Delivery: ${{ delivery_cost|floatformat:2 }}</h6>
+                                <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
+                                {% if spend_for_free_delivery %}
+                                    <p class="mb-1 text-danger">
+                                        You could get free delivery by spending just <strong>${{ spend_for_free_delivery }}</strong> more!
+                                    </p>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end">
+                                    <a href="{% url 'store_view' %}" class="btn btn-success btn-lg">
+                                        <span>
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <span class="text-upper">Keep Shopping</span>
+                                    </a>
+                                    <a href="{% url 'store_view' %}" class="btn btn-success btn-lg">
+                                        <span class="text-uppercase">Secure Checkout</span>
+                                        <span>
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% else %}
+                </div>
                 <p>Your cart is empty</p>
-                <a href="{% url 'store' %}">
+                <a href="{% url 'store_view' %}">
                     <span>
                         <i class="fa fa-chevron-left"></i>
                     </span>
