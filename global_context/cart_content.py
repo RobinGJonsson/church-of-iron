@@ -11,15 +11,28 @@ def cart_content(request):
     cart_count = 0
     cart = request.session.get('cart', {})
 
-    for item_id, quantity in cart.items():
+    for item_id, item_data in cart.items():
         product = get_object_or_404(Product, id=item_id)
-        cart_total += quantity * product.price
-        cart_count += quantity
-        cart_items.append({
-            'item_id': item_id,
-            'quantity': quantity,
-            'product': product,
-        })
+
+        # If item data is an int the item data is quantity
+        if isinstance(item_data, int):
+            cart_total += item_data * product.price
+            cart_count += item_data
+            cart_items.append({
+                'item_id': item_id,
+                'quantity': item_data,
+                'product': product,
+            })
+        else:
+            for size, quantity in item_data['items_by_size'].keys():
+                total += quantity * product.price
+                cart_count += quantity
+                cart_items.append({
+                    'item_id': item_id,
+                    'quantity': quantity,
+                    'product': product,
+                    'size': size,
+                })
 
     if cart_total < settings.FREE_DELIVERY_THRESHOLD:
         delivery_cost = cart_total * \

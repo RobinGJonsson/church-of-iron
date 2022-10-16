@@ -23,7 +23,7 @@ class Product(models.Model):
         max_digits=6, decimal_places=1, null=True, blank=True)
     description = models.TextField()
     reviews = models.TextField(null=True, blank=True)
-    has_size = models.BooleanField()
+    has_size = models.BooleanField(default=False)
     inventory = models.IntegerField()
     delivery = models.BooleanField(default=True)
     image = models.ImageField(null=True, blank=True)

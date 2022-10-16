@@ -36,13 +36,14 @@
                                     <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="">
                                 </td>
                                 <td class="py-3">
-                                    <p class="my-0"><strong{{ item.product.name }}</strong></p> 
+                                    <p class="my-0"><strong>{{ item.product.name }}</strong></p> 
+                                    <p class="my-0"><strong>Size: </strong>{% if item.product.has_size %}{{ item.size|upper }}{% else %}N/A{% endif %}</p> 
                                 </td>
                                 <td class="py-3">
                                     <p class="my-0">${{ item.product.price }}</p> 
                                 </td>
                                 <td class="py-3">
-                                    <p class="my-0">{{ item.quantity }}</p> 
+                                    <p class="my-0">{{ item.product.quantity }}</p> 
                                 </td>
                                 <td class="py-3">
                                     <p class="my-0">${{ item.product.price }}</p> 
