@@ -53,6 +53,10 @@
 .text-bold {
     font-weight: 900;
 }
+
+.pointer {
+    cursor: pointer;
+}
 /* -----------------  Backgrounds */
 .hero-bg {
     background: url("/media/hero-image.jpg") no-repeat center center;
