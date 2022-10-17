@@ -129,6 +129,7 @@
 {% endblock content %}
 
 {% block postloadjs %}
+    {{ block.super }}
     <script src="{% static 'js/store.js' %}"></script>
 {% endblock postloadjs %}
 

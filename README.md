@@ -15,3 +15,7 @@
 -   ColorSpace
 -   Google Maps API
 -   iloveimg: for resizing images
+
+##Bugs
+
+-   Closing the toats was not working, by removing the JS in the postloadjs on base.html and adding a show class to the toast element made it show and hide as expercted

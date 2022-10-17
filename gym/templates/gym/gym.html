@@ -114,6 +114,7 @@
 {% endblock content %}
 
 {% block postloadjs %}
+    {{ block.super }}
     <script>
         function initMap() {
             let options = {

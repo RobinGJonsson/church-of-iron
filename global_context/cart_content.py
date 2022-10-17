@@ -38,7 +38,7 @@ def cart_content(request):
         delivery_cost = cart_total * \
             Decimal(settings.FREE_DELIVERY_PERCENTAGE / 100)
         spend_for_free_delivery = round(
-            (settings.FREE_DELIVERY_THRESHOLD - delivery_cost), 2)
+            (settings.FREE_DELIVERY_THRESHOLD - cart_total), 2)
     else:
         delivery_cost = 0
         spend_for_free_delivery = 0
@@ -55,5 +55,4 @@ def cart_content(request):
         'spend_for_free_delivery': spend_for_free_delivery,
     }
 
-    print('cart: ', cart)
     return context
