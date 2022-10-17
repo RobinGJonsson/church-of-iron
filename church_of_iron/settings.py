@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'profiles',
     'store',
     'cart',
+    'checkout',
     # Third-party apps
     'allauth',
     'allauth.account',
