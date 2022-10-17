@@ -36,7 +36,7 @@ def cart_content(request):
 
     if cart_total < settings.FREE_DELIVERY_THRESHOLD:
         delivery_cost = cart_total * \
-            Decimal(settings.FREE_DELIVERY_PERCENTAGE / 100)
+            Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
         spend_for_free_delivery = round(
             (settings.FREE_DELIVERY_THRESHOLD - cart_total), 2)
     else:

@@ -21,6 +21,8 @@ class Order(models.Model):
     phone = models.CharField(max_length=20, null=False, blank=False)
     postcode = models.CharField(max_length=20, null=True, blank=True)
     city = models.CharField(max_length=40, null=False, blank=False)
+    county = models.CharField(
+        max_length=40, null=False, blank=False, default='None')
     street_address1 = models.CharField(max_length=80, null=False, blank=False)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -39,7 +41,8 @@ class Order(models.Model):
         Update grand total each time a line item is added,
         accounting for delivery costs.
         """
-        self.order_total = self.order_items.aggregate(Sum('item_subtotal'))
+        self.order_total = self.order_items.aggregate(
+            Sum('item_subtotal'))
         if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
             sdp = settings.STANDARD_DELIVERY_PERCENTAGE
             self.delivery_cost = self.order_total * sdp / 100
