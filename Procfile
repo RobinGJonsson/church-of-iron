@@ -1,0 +1,1 @@
+web: gunicorn church_of_iron.wsgi:application

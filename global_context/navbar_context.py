@@ -1,5 +1,6 @@
 from gym.models import Gym, Membership
 from store.models import Category
+from django.conf import settings
 
 
 def navbar_context(request):
@@ -8,9 +9,12 @@ def navbar_context(request):
     memberships = Membership.objects.all()
     categories = Category.objects.all()
 
+    GOOGLE_MAPS_SECRET_KEY = settings.GOOGLE_MAPS_SECRET_KEY
+
     context = {
         'gyms': gyms,
         'memberships': memberships,
         'categories': categories,
     }
+
     return context

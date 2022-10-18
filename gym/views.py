@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from .models import Gym, GymImage, Membership, Member
 
 
@@ -17,10 +18,12 @@ def gym_details(request, gym_name):
 
     gym = Gym.objects.get(name=gym_name)
     gym_images = GymImage.objects.filter(gym=gym)
+    GOOGLE_MAPS_SECRET_KEY = settings.GOOGLE_MAPS_SECRET_KEY
 
     context = {
         'gym': gym,
         'gym_images': gym_images,
+        'GOOGLE_MAPS_SECRET_KEY': GOOGLE_MAPS_SECRET_KEY,
     }
 
     return render(request, 'gym/gym.html', context)
