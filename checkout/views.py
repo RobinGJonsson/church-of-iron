@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from .forms import OrderForm
 from .models import Order, OrderItem
 from store.models import Product
-from global_context import cart_content
+from global_context.cart_content import cart_content
 
 import stripe
 import json
@@ -36,7 +36,6 @@ def checkout_view(request):
     # Prevent access to checkout page through url if cart is empty
     cart = request.session.get('cart', {})
 
-    form = OrderForm()
     if request.method == 'POST':
         form_data = {
             'full_name': request.POST['full_name'],
@@ -51,7 +50,11 @@ def checkout_view(request):
 
         form = OrderForm(form_data)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.original_cart = json.dumps(cart)
+            order.save()
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -90,10 +93,11 @@ def checkout_view(request):
 
     else:
         if not cart:
-            messages.error(request, 'Your cart is empty!')
-            return redirect, reverse('store_view')
+            messages.error(
+                request, "There's nothing in your cart at the moment")
+            return redirect(reverse('products'))
 
-        current_cart = cart_content.cart_content(request)
+        current_cart = cart_content(request)
         total = current_cart['grand_total']
         stripe_total = round(total * 100)
         stripe.api_key = stripe_secret_key
@@ -102,10 +106,16 @@ def checkout_view(request):
             currency=settings.STRIPE_CURRENCY,
         )
 
+        order_form = OrderForm()
+
+    if not stripe_public_key:
+        messages.warning(request, 'Stripe public key is missing. \
+            Did you forget to set it in your environment?')
+
     context = {
+        'form': form,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
-        'form': form,
     }
 
     return render(request, 'checkout/checkout.html', context)

@@ -218,6 +218,10 @@ header {
     color: var(--black);
 }
 
+.clear-navbar {
+    padding-top: 88px;
+}
+
 .section-header {
     font-size: 2rem;
     text-align: center;
@@ -333,7 +337,7 @@ footer ul li a {
 }
 
 
-/* -----------------  Checkout Page */
+/* -----------------  Stripe */
 
 .StripeElement,
 .stripe-style-input {
