@@ -20,8 +20,8 @@ class OrderForm(ModelForm):
             'email': 'Email...',
             'phone': 'Phone Number...',
             'postcode': 'Postal Code...',
-            'street_address1': 'Street Address 1...',
-            'street_address2': 'Street Address 2...',
+            'street_address1': 'Street Address...',
+            'street_address2': 'Apartment number...',
             'city': 'City...',
             'county': 'County...',
         }
