@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from datetime import timedelta
+from profiles.models import UserProfile
 
 
 class Membership(models.Model):
@@ -18,46 +17,6 @@ class Membership(models.Model):
         return self.name
 
 
-class Member(models.Model):
-
-    PAYMENT_FREQ = (
-        ("monthly", "Monthly"),
-        ("yearly", "Yearly"),
-    )
-
-    member = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=50, null=True, blank=True)
-    phone = models.CharField(max_length=50, null=True, blank=True)
-    membership = models.ForeignKey(
-        Membership, on_delete=models.SET_NULL, null=True)
-    payment_plan = models.CharField(max_length=50,
-                                    choices=PAYMENT_FREQ,
-                                    blank=True)
-    member_since = models.DateTimeField(auto_now_add=True, null=True)
-
-    # ! Update from view when membership is renewed
-    membership_renewed = models.DateTimeField(null=True)
-
-    @property
-    def membership_expires_on(self):
-        """Returns the membership expiration date"""
-
-        print(self.payment_plan)
-        if self.payment_plan == 'monthly':
-            time_to_expiration = timedelta(days=30)
-        elif self.payment_plan == 'yearly':
-            time_to_expiration = timedelta(days=365)
-        else:
-            return 'No active membership'
-
-        return (self.membership_renewed + time_to_expiration)
-
-    def __str__(self):
-        return self.member.username
-
-
 class Amenity(models.Model):
     class Meta:
         verbose_name_plural = 'Amenites'
@@ -72,7 +31,7 @@ class Amenity(models.Model):
 
 class Gym(models.Model):
 
-    members = models.ManyToManyField(Member, blank=True)
+    members = models.ManyToManyField(UserProfile, blank=True)
     name = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     address = models.CharField(max_length=50)

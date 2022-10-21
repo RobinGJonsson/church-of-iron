@@ -7,7 +7,7 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = ('full_name', 'email', 'phone',
-                  'street_address1', 'street_address2',
+                  'address', 'apartment_number',
                   'city', 'postcode',
                   'county',)
 
@@ -20,8 +20,8 @@ class OrderForm(ModelForm):
             'email': 'Email...',
             'phone': 'Phone Number...',
             'postcode': 'Postal Code...',
-            'street_address1': 'Street Address...',
-            'street_address2': 'Apartment number...',
+            'address': 'Address...',
+            'apartment_number': 'Apartment Number...',
             'city': 'City...',
             'county': 'County...',
         }
@@ -33,6 +33,9 @@ class OrderForm(ModelForm):
             else:
                 placeholder = placeholders[field]
 
-            self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'stripe-style-input'
+            self.fields[field].widget.attrs = {
+                'placeholder': placeholder,
+                'class': 'stripe-style-input',
+            }
+
             self.fields[field].label = False

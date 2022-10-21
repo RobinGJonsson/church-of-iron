@@ -5,14 +5,14 @@ from django.db.models import Sum
 from django.conf import settings
 
 from store.models import Product
-from gym.models import Member
+from profiles.models import UserProfile
 
 
 class Order(models.Model):
     order_number = models.CharField(
         max_length=32, null=False, editable=False, default=False)
     #! Change user profile to work for non memebers
-    user_profile = models.ForeignKey(Member, on_delete=models.SET_NULL,
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
@@ -22,8 +22,8 @@ class Order(models.Model):
     city = models.CharField(max_length=40, null=False, blank=False)
     county = models.CharField(
         max_length=40, null=False, blank=False, default='')
-    street_address1 = models.CharField(max_length=80, null=False, blank=False)
-    street_address2 = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    apartment_number = models.IntegerField(null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2,
                                         null=False, default=0)

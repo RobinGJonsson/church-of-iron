@@ -1,11 +1,11 @@
 from django.forms import ModelForm
-from gym.models import Member
+from .models import UserProfile
 
 
-class MemberForm(ModelForm):
+class UserProfileForm(ModelForm):
     class Meta:
-        model = Member
-        exclude = ('member', 'membership',
+        model = UserProfile
+        exclude = ('user', 'membership',
                    'payment_plan', 'membership_renewed')
 
     def __init__(self, *args, **kwargs):
@@ -15,11 +15,14 @@ class MemberForm(ModelForm):
         """
         super().__init__(*args, **kwargs)
         placeholders = {
-            'first_name': 'First Name...',
-            'last_name': 'Last Name...',
+            'full_name': 'Full Name...',
             'phone': 'Phone Number...',
-            'city': 'City...',
+            'email': 'Email...',
             'address': 'Address...',
+            'apartment_number': 'Apartment Number...',
+            'postcode': 'Postal Code...',
+            'city': 'City...',
+            'county': 'County...'
         }
 
         self.fields['phone'].widget.attrs['autofocus'] = True

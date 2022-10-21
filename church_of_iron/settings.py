@@ -49,12 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Project Apps
-    'home',
-    'gym',
-    'profiles',
-    'store',
-    'cart',
-    'checkout',
+    'home.apps.HomeConfig',
+    'gym.apps.GymConfig',
+    'profiles.apps.ProfilesConfig',
+    'store.apps.StoreConfig',
+    'cart.apps.CartConfig',
+    'checkout.apps.CheckoutConfig',
     # Third-party apps
     'crispy_forms',
     'allauth',
@@ -113,11 +113,13 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
@@ -198,3 +200,5 @@ STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 
 GOOGLE_MAPS_SECRET_KEY = env('GOOGLE_MAPS_SECRET_KEY')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

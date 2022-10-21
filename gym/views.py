@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.conf import settings
-from .models import Gym, GymImage, Membership, Member
+
+from .models import Gym, GymImage, Membership
+from profiles.models import UserProfile
 
 
 def all_gyms(request):
@@ -54,7 +56,14 @@ def membership(request, membership_name):
 def member_signup(request, membership_name):
 
     membership = Membership.objects.get(name=membership_name)
-    member = Member.objects.get(member=request.user)
+    member = UserProfile.objects.get(user=request.user)
+
+    # This is jsut a regular signup form for a user account that assigns a memebersship to the userprofile
+
+    # How to send userprofile memebership details on the same click as signup
+
+    # If the user is authenticated
+    # if request.method == 'POST':
 
     context = {
         'membership': membership,

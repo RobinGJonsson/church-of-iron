@@ -4,7 +4,9 @@ from django.conf import settings
 from django.views.decorators.http import require_POST
 
 from .forms import OrderForm
+from profiles.forms import UserProfileForm
 from .models import Order, OrderItem
+from profiles.models import UserProfile
 from store.models import Product
 from global_context.cart_content import cart_content
 
@@ -13,8 +15,10 @@ import json
 
 
 @require_POST
+# Save extra data to the payment intent
 def cache_checkout_data(request):
     try:
+        # Payment Intent Data
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
@@ -33,7 +37,7 @@ def cache_checkout_data(request):
 def checkout_view(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-    # Prevent access to checkout page through url if cart is empty
+
     cart = request.session.get('cart', {})
 
     if request.method == 'POST':
@@ -43,8 +47,8 @@ def checkout_view(request):
             'phone': request.POST['phone'],
             'postcode': request.POST['postcode'],
             'city': request.POST['city'],
-            'street_address1': request.POST['street_address1'],
-            'street_address2': request.POST['street_address2'],
+            'address': request.POST['address'],
+            'apartment_number': request.POST['apartment_number'],
             'county': request.POST['county'],
         }
 
@@ -92,6 +96,7 @@ def checkout_view(request):
                                      'Please double check your information.'))
 
     else:
+        # Prevent access to checkout page through url if cart is empty
         if not cart:
             messages.error(
                 request, "There's nothing in your cart at the moment")
@@ -106,7 +111,10 @@ def checkout_view(request):
             currency=settings.STRIPE_CURRENCY,
         )
 
-        order_form = OrderForm()
+        user = request.user
+        if user.is_authenticated:
+            user = UserProfile.objects.get(user=user)
+            form = OrderForm(instance=user)
 
     if not stripe_public_key:
         messages.warning(request, 'Stripe public key is missing. \
@@ -126,10 +134,29 @@ def checkout_success(request, order_number):
     Handle successful checkouts
     """
     save_info = request.session.get('save_info')
-    print('order_number: ', order_number)
-    order = Order.objects.get(order_number=order_number)
-    print('order: ', order)
     order = get_object_or_404(Order, order_number=order_number)
+
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=request.user)
+        # Attach the user's profile to the order
+        order.user_profile = profile
+        order.save()
+
+        # Save the user's info
+        if save_info:
+            profile_data = {
+                'full_name': order.full_name,
+                'phone': order.phone_number,
+                'email': order.email,
+                'postcode': order.postcode,
+                'city': order.town_or_city,
+                'address': order.address,
+                'apartment_number': order.street_address2,
+                'county': order.county,
+            }
+            user_profile_form = UserProfileForm(profile_data, instance=profile)
+            if user_profile_form.is_valid():
+                user_profile_form.save()
 
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
@@ -138,8 +165,9 @@ def checkout_success(request, order_number):
     if 'cart' in request.session:
         del request.session['cart']
 
+    template = 'checkout/checkout_success.html'
     context = {
         'order': order,
     }
 
-    return render(request, 'checkout/checkout_success.html', context)
+    return render(request, template, context)

@@ -2,35 +2,41 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import MemberForm
-from gym.models import Member
+from .forms import UserProfileForm
+from .models import UserProfile
+from checkout.models import Order
 
 
 @login_required
 def profile(request):
 
-    member = get_object_or_404(Member, member=request.user)
+    user = get_object_or_404(UserProfile, user=request.user)
+    membership_price = None
+    order_history = Order.objects.filter(user_profile=user)
 
-    if member.payment_plan == 'monthly':
-        membership_price = member.membership.monthly_price
-    elif member.payment_plan == 'yearly':
-        membership_price = member.membership.yearly_price
+    if user.payment_plan == 'monthly':
+        membership_price = user.membership.monthly_price
+    elif user.payment_plan == 'yearly':
+        membership_price = user.membership.yearly_price
 
     if request.method == 'POST':
-        form = MemberForm(request.POST, instance=member)
+        print(user)
+        form = UserProfileForm(request.POST, instance=user)
         if form.is_valid:
             form.save()
-            messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'user updated successfully')
         else:
             messages.error(
                 request, 'Update failed. Please ensure the form is valid.')
     else:
-        form = MemberForm(instance=member)
+        print(user.address)
+        form = UserProfileForm(instance=user)
 
     context = {
         'form': form,
-        'member': member,
+        'user': user,
         'membership_price': membership_price,
+        'order_history': order_history,
     }
 
     return render(request, 'profiles/profile.html', context)
