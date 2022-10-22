@@ -16,48 +16,54 @@
         <div class="row">
             <div class="col-lg-6 col-md-8 col-11 mx-auto">
 
-                {% if user.is_authenticated %}
-                    {% if member.membership.name == membership.name %}
-                    You already have a {{ member.membership.name }} membership
-                    <br>
-                    You can change your membership <a href="{% url 'all_memberships' %}">here</a>
-                    {% elif membership.level < member.membership.level%}
-                    You have a {{ member.membership.name }} membership
-                    <br>
-                    You can only apply for a higher level membership 
-                    <br>
-                    You can choose a higher level membership <a href="{% url 'all_memberships' %}">here</a>
-                    {% else %}
-                    <form method="POST" action="">
-                        <div class="input-box">
-                            <div class="d-flex">
-                                <input class="input-item me-3" type="text" placeholder="First Name..." name='first_name'>
-                                <input class="input-item" type="text" placeholder="Last Name..." name='last_name'>
-                            </div>
-                            <input class="input-item" type="email" placeholder="Your Email..." name='email'>
-                            <input class="input-item" type="text" placeholder="Phone Number..." name='phone'>
+                {% if user.is_authenticated and user_profile.membership.name == membership.name %}
+                You already have a {{ member.membership.name }} membership
+                <br>
+                You can change your membership <a href="{% url 'all_memberships' %}">here</a>
+                {% elif user.is_authenticated and  membership.level < user_profile.membership.level%}
+                You have a {{ user_profile.membership.name }} membership
+                <br>
+                You can only apply for a higher level membership 
+                <br>
+                You can choose a higher level membership <a href="{% url 'all_memberships' %}">here</a>
+                {% else %}
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-box">
+                        <fieldset>
+                            <legend>Member Information</legend>
+                            {{ form.full_name | as_crispy_field }}
+                            {{ form.email | as_crispy_field }}
+                            {{ form.phone | as_crispy_field }}
+
+                            {% if not user.is_authenticated %}
+                                <p>Already have an account?</p>
+                                <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
+                                <input class="input-item" type="password" placeholder="Password..." name='password1' required>
+                                <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
+                            {% endif %}
+                        </fieldset>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-evenly mx-0">
+                        <div class="col-6">
+                            <p><b>Price Monthly: ${{ membership.monthly_price }}</b></p>
                         </div>
-                        <hr>
-                        <p>Payment Plan</p>
-                        <div class="row justify-content-evenly mx-0">
-                            <div class="col-6">
-                                <p><b>Price Monthly: ${{ membership.month_price }}</b></p>
-                            </div>
-                            <div class="col-6">
-                                <p><b>Price Yearly: ${{ membership.year_price }}</b></p>
-                            </div>
-                            <div class="col-5">
-                                <label for="monthly">Monthly</label>
-                                <input type="radio" name="payment_plan" id="monthly" value="monthly">
-                            </div>
-                            <div class="col-5">
-                                <label for="yearly">Yearly</label>
-                                <input type="radio" name="payment_plan" id="yearly" value="yearly">
-                            </div>
-                            <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
+                        <div class="col-6">
+                            <p><b>Price Yearly: ${{ membership.yearly_price }}</b></p>
                         </div>
-                    </form>
-                    {% endif %}
+                        <div class="col-5">
+                            <label for="monthly">Monthly</label>
+                            <input type="radio" name="payment_plan" id="monthly" value="monthly" checked>
+                        </div>
+                        <div class="col-5">
+                            <label for="yearly">Yearly</label>
+                            <input type="radio" name="payment_plan" id="yearly" value="yearly">
+                        </div>
+                        <input type="hidden" name="membership" value="{{membership.name}}">
+                        <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
+                    </div>
+                </form>
                 {% endif %}
             </div>
         </div>

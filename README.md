@@ -19,3 +19,4 @@
 ##Bugs
 
 -   Closing the toats was not working, by removing the JS in the postloadjs on base.html and adding a show class to the toast element made it show and hide as expercted
+-   Navbar on profile page acts as if the user is logged out: This was because in the profile view, the context contained a key called "user" which is a reseved keyword

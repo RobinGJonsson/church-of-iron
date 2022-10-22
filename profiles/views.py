@@ -7,34 +7,32 @@ from .models import UserProfile
 from checkout.models import Order
 
 
-@login_required
+# @login_required
 def profile(request):
 
-    user = get_object_or_404(UserProfile, user=request.user)
+    member = get_object_or_404(UserProfile, user=request.user)
     membership_price = None
-    order_history = Order.objects.filter(user_profile=user)
+    order_history = Order.objects.filter(user_profile=member)
 
-    if user.payment_plan == 'monthly':
-        membership_price = user.membership.monthly_price
-    elif user.payment_plan == 'yearly':
-        membership_price = user.membership.yearly_price
+    if member.payment_plan == 'monthly':
+        membership_price = member.membership.monthly_price
+    elif member.payment_plan == 'yearly':
+        membership_price = member.membership.yearly_price
 
     if request.method == 'POST':
-        print(user)
-        form = UserProfileForm(request.POST, instance=user)
+        form = UserProfileForm(request.POST, instance=member)
         if form.is_valid:
             form.save()
-            messages.success(request, 'user updated successfully')
+            messages.success(request, 'member Updated Successfully')
         else:
             messages.error(
                 request, 'Update failed. Please ensure the form is valid.')
     else:
-        print(user.address)
-        form = UserProfileForm(instance=user)
+        form = UserProfileForm(instance=member)
 
     context = {
         'form': form,
-        'user': user,
+        'member': member,
         'membership_price': membership_price,
         'order_history': order_history,
     }

@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 
 from .models import Gym, GymImage, Membership
 from profiles.models import UserProfile
+from profiles.forms import UserProfileForm
 
 
 def all_gyms(request):
@@ -56,18 +60,62 @@ def membership(request, membership_name):
 def member_signup(request, membership_name):
 
     membership = Membership.objects.get(name=membership_name)
-    member = UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user_profile = UserProfile.objects.get(user=request.user)
+        form = UserProfileForm(instance=user_profile)
+    else:
+        user_profile = request.user
+        form = UserProfileForm()
 
-    # This is jsut a regular signup form for a user account that assigns a memebersship to the userprofile
+    if request.method == 'POST':
 
-    # How to send userprofile memebership details on the same click as signup
+        # If user does not have an account create an account
+        if not request.user.is_authenticated:
+            rq = request.POST
 
-    # If the user is authenticated
-    # if request.method == 'POST':
+            if rq['password1'] == rq['password2']:
+
+                user = authenticate(username=rq['email'],
+                                    password=rq['password1'])
+
+                # Create User if they don't exist
+                if not user:
+                    User.objects.create_user(
+                        username=rq['email'],
+                        email=rq['email'],
+                        password=rq['password1'],
+                    )
+
+                user = authenticate(username=rq['email'],
+                                    password=rq['password1'])
+
+                login(request, user)
+                messages.info(
+                    request, f"You are now logged in as {rq['full_name']}.")
+                user_profile = UserProfile.objects.get(user=request.user)
+
+            else:
+                # Handle wrong passwords diffrently
+                return redirect(reverse('member_signup', args=[membership.name]))
+
+        rq = request.POST
+        form_data = {
+            'full_name': rq['full_name'],
+            'email': rq['email'],
+            'phone': rq['phone'],
+            'membership': membership,
+            'payment_plan': rq['payment_plan'],
+        }
+
+        for key, value in form_data.items():
+            setattr(user_profile, key, value)
+        user_profile.save()
+        return redirect('/')
 
     context = {
         'membership': membership,
-        'member': member,
+        'user_profile': user_profile,
+        'form': form,
     }
 
     return render(request, 'gym/member_signup.html', context)

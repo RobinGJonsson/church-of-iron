@@ -115,6 +115,8 @@ def checkout_view(request):
         if user.is_authenticated:
             user = UserProfile.objects.get(user=user)
             form = OrderForm(instance=user)
+        else:
+            form = OrderForm()
 
     if not stripe_public_key:
         messages.warning(request, 'Stripe public key is missing. \
