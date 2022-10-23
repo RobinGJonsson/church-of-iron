@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Update Membership{% endblock page_title %}
+
+
+{% block page_header %}
+    <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
+    <div class="band"></div>
+{% endblock page_header %}
+
+
+{% block content %}
+<section class="text-center">
+    <h1 class="section header">UPADTE MY {{ membership.name|upper }} MEMBERSHIP</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-11 mx-auto">
+                <!-- Display membership details -->
+                <div class="col-md-6 col-10">
+                    <ul class="list-group">
+                        <form id="payment-form" action="" method="POST">
+                            {% csrf_token %}
+                            <!-- Update membership -->
+                            <li class="list-group-item">{{ form.membership | as_crispy_field }}</li>
+
+                            {% if member.payment_plan == 'monthly' %}
+                                <li class="list-group-item"><b>Month to Month Membership</b></li>
+                            {% elif member.payment_plan == 'yearly' %}
+                                <li class="list-group-item"><b>Year to Year Membership</b></li>
+                            {% endif %}
+                            {{ form.payment_plan | as_crispy_field }}
+
+                            {% if member.membership.level < 3 %}
+                                <!-- Change gym -->
+                                <li class="list-group-item"> <b>My Gym:</b> {{ member.gym.all | first }} </li>
+                            {% else %}
+                                <li class="list-group-item"> <b>My Gym:</b> Full Access To All Gyms </li>
+                            {% endif %}
+                            
+                            <!-- Update payment plan -->
+                            <li class="list-group-item"> <b>{{ member.payment_plan|title }} Payment:</b> ${{ membership_price }} </li>
+                            
+                            <!-- Relvant dates -->
+                            <li class="list-group-item"> <b>Member Since:</b> {{ member.member_since }} </li>
+                            <li class="list-group-item"> <b>Last Renewed:</b> {{ member.membership_renewed }} </li>
+                            <li class="list-group-item"> <b>Membership Expires:</b> {{ member.membership_expires_on }} </li>
+                            <input class="mt-4 btn btn-success btn-lg" type="submit" value="Submit">
+                        </form>
+                    </ul>
+                <div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

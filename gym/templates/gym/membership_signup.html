@@ -19,7 +19,7 @@
                 {% if user.is_authenticated and user_profile.membership.name == membership.name %}
                 You already have a {{ member.membership.name }} membership
                 <br>
-                You can change your membership <a href="{% url 'all_memberships' %}">here</a>
+                You can update or change your membership <a href="{% url 'all_memberships' %}">here</a>
                 {% elif user.is_authenticated and  membership.level < user_profile.membership.level%}
                 You have a {{ user_profile.membership.name }} membership
                 <br>
@@ -60,6 +60,15 @@
                             <label for="yearly">Yearly</label>
                             <input type="radio" name="payment_plan" id="yearly" value="yearly">
                         </div>
+                        <!-- Ask for a gym if the membership level is less than gold -->
+                        {% if membership.level < 3 %}
+                            <label for="gyms">Select a Gym</label>
+                            <select class="input-item" name="gyms" id="gyms">
+                                {% for gym in gyms %}
+                                <option value="{{ gym }}">{{ gym }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
                         <input type="hidden" name="membership" value="{{membership.name}}">
                         <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
                     </div>

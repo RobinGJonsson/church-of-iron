@@ -31,7 +31,8 @@ class Amenity(models.Model):
 
 class Gym(models.Model):
 
-    members = models.ManyToManyField(UserProfile, blank=True)
+    members = models.ManyToManyField(
+        UserProfile, blank=True, related_name='gym')
     name = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     address = models.CharField(max_length=50)

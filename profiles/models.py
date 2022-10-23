@@ -44,7 +44,7 @@ class UserProfile(models.Model):
         else:
             return 'No active membership'
 
-        return (self.membership_renewed + time_to_expiration).date()
+        return (self.membership_renewed + time_to_expiration)
 
     def __str__(self):
         return self.user.email

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block page_title %}All Gyms{% endblock page_title %}
+{% block page_title %}Profile{% endblock page_title %}
 
 
 {% block page_header %}
@@ -32,11 +32,16 @@
             <div class="col-md-6 col-10">
                 <h2>{{ member.membership.name }} Membership</h2>
                 <ul class="list-group">
-                        {% if member.membership %}
-                            {% if member.payment_plan == 'monthly' %}
+                    {% if member.membership %}
+                        {% if member.payment_plan == 'monthly' %}
                             <li class="list-group-item"><b>Month to Month Membership</b></li>
-                            {% elif member.payment_plan == 'yearly' %}
+                        {% elif member.payment_plan == 'yearly' %}
                             <li class="list-group-item"><b>Year to Year Membership</b></li>
+                        {% endif %}
+                        {% if member.membership.level < 3 %}
+                            <li class="list-group-item"> <b>My Gym:</b> {{ member.gym.all | first }} </li>
+                            {% else %}
+                            <li class="list-group-item"> <b>My Gym:</b> Full Access To All Gyms </li>
                             {% endif %}
                             <li class="list-group-item"> <b>{{ member.payment_plan|title }} Payment:</b> ${{ membership_price }} </li>
                             <li class="list-group-item"> <b>Member Since:</b> {{ member.member_since }} </li>
@@ -46,6 +51,7 @@
                             <li class="list-group-item"><b>You currently don't have an active membership</b></li>
                             <p>You can sign up for a membership <a href="{% url 'all_memberships' %}">here</a></p>
                         {% endif %}
+                        <p>You can update your membership <a href="{% url 'membership_update' %}">here</a></p>
                     </ul>
             </div>
             <!-- User order history -->

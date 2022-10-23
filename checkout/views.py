@@ -59,6 +59,8 @@ def checkout_view(request):
             order.stripe_pid = pid
             order.original_cart = json.dumps(cart)
             order.save()
+
+            # Releate an orderitem to an order for use in Order History
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -117,10 +119,6 @@ def checkout_view(request):
             form = OrderForm(instance=user)
         else:
             form = OrderForm()
-
-    if not stripe_public_key:
-        messages.warning(request, 'Stripe public key is missing. \
-            Did you forget to set it in your environment?')
 
     context = {
         'form': form,

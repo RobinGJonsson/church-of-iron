@@ -26,7 +26,7 @@ def update_membership_renewed(sender, instance, **kwargs):
         membership_changed = old_instance.membership != instance.membership
 
         if payment_plan_changed or membership_changed:
-            instance.membership_renewed = datetime.now().date()
+            instance.membership_renewed = datetime.now()
 
     except Exception as e:
         print(e, '\nMembership renewed will not be updated from signal because the UserProfile does not exist yet')

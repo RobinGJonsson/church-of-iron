@@ -101,12 +101,6 @@
                     </fieldset>
 
                     <div class="submit-button text-end mt-5 mb-2">                    
-						<a href="{% url 'cart_view' %}" class="btn btn-outline-black rounded-0">
-							<span class="icon">
-								<i class="fas fa-chevron-left"></i>
-							</span>
-							<span class="font-weight-bold">Adjust Bag</span>
-						</a>
 						<button id="submit-button" class="btn btn-black rounded-0">
 							<span class="font-weight-bold">Complete Order</span>
 							<span class="icon">
@@ -117,7 +111,7 @@
 							<span class="icon">
 								<i class="fas fa-exclamation-circle"></i>
 							</span>
-							<span>Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong></span>
+							<span>Your card will be charged <strong>${{  }}</strong></span>
 						</p>
 					</div>
                 </form>
