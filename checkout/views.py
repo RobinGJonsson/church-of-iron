@@ -8,6 +8,7 @@ from profiles.forms import UserProfileForm
 from .models import Order, OrderItem
 from profiles.models import UserProfile
 from store.models import Product
+from gym.models import Membership
 from global_context.cart_content import cart_content
 
 import stripe
@@ -39,6 +40,11 @@ def checkout_view(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     cart = request.session.get('cart', {})
+    membership_data = request.session.get('membership_data', {})
+    print(membership_data)
+
+    refund = 0
+    payment_plan_change_cost = 0
 
     if request.method == 'POST':
         form_data = {
@@ -105,7 +111,16 @@ def checkout_view(request):
             return redirect(reverse('products'))
 
         current_cart = cart_content(request)
-        total = current_cart['grand_total']
+        total = float(current_cart['grand_total'])
+
+        if membership_data:
+            if 'cost_of_change' in membership_data:
+                total += membership_data['cost_of_change']
+            if 'payment_plan_change_cost' in membership_data:
+                payment_plan_change_cost = membership_data['payment_plan_change_cost']
+            if 'refund' in membership_data:
+                refund = membership_data['refund']
+
         stripe_total = round(total * 100)
         stripe.api_key = stripe_secret_key
         intent = stripe.PaymentIntent.create(
@@ -124,6 +139,8 @@ def checkout_view(request):
         'form': form,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
+        'payment_plan_change_cost': payment_plan_change_cost,
+        'refund': refund,
     }
 
     return render(request, 'checkout/checkout.html', context)
@@ -134,6 +151,8 @@ def checkout_success(request, order_number):
     Handle successful checkouts
     """
     save_info = request.session.get('save_info')
+    membership_data = request.session.get('membership_data', {})
+
     order = get_object_or_404(Order, order_number=order_number)
 
     if request.user.is_authenticated:
@@ -158,12 +177,23 @@ def checkout_success(request, order_number):
             if user_profile_form.is_valid():
                 user_profile_form.save()
 
+        if membership_data:
+            user_profile_form = UserProfileForm(profile_data, instance=profile)
+            membership = Membership.objects.get(
+                name=membership_data['membership'])
+            user_profile_form(membership=membership)
+            if user_profile_form.is_valid():
+                user_profile_form.save()
+                print('Membership paid for and updated ')
+
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')
 
     if 'cart' in request.session:
         del request.session['cart']
+    if 'refund' in request.session:
+        del request.session['refund']
 
     template = 'checkout/checkout_success.html'
     context = {

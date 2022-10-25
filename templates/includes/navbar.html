@@ -81,7 +81,7 @@
                     <a href="{% url 'account_signup' %}" class="nav-link btn btn-success text-light">Join</a>
                 </li>
                 {% endif %}
-                <li class="list-inline-item position-relative">
+                <li class="list-inline-item position-relative cart-dropdown">
                     <span class="cart-count"> {{ cart_count }} </span>
                     <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
                         <div class="text-center">
@@ -89,7 +89,26 @@
                             <p class="my-0">Cart</p>
                         </div>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="user-options"></div>
+                    <div class="show-cart">
+                        {% include 'includes/cart-show.html' %}
+                    </div>
+                    {% comment %} <div class="cart-dropdown-content d-none">
+                        <div class="cart-dropdown-header">
+                            <h3>Cart</h3>
+                        </div>
+                        <div class="cart-dropdown-body">
+                            {% for item in cart %}
+                            <div>
+                                <div>{{ item.name }}</div>
+                                <span><img src="{{ item.image.url }}" alt=""></span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="cart-dropdown-footer">
+                            <a href="{% url 'checkout_view' %}" class="btn bg-dark text-white">Go To Checkout</a>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="user-options"></div> {% endcomment %}
                 </li>
             </ul>
         </div>

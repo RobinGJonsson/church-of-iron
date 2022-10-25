@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from django.views.decorators.http import require_POST
 
 
 from .models import Gym, GymImage, Membership
@@ -11,10 +10,6 @@ from profiles.models import UserProfile
 from profiles.forms import UserProfileForm
 from .forms import UpdateMembershipForm
 from store.models import Product
-
-import stripe
-import json
-from datetime import datetime
 
 
 def all_gyms(request):
@@ -46,9 +41,10 @@ def gym_details(request, gym_name):
 def all_memberships(request):
 
     memberships = Membership.objects.all()
-
+    form = UserProfileForm(instance=request.user)
     context = {
         'memberships': memberships,
+        'form': form
     }
 
     return render(request, 'gym/all_memberships.html', context)
@@ -113,7 +109,7 @@ def membership_signup(request, membership_name):
             'full_name': rq['full_name'],
             'email': rq['email'],
             'phone': rq['phone'],
-            'membership': membership,
+            'membership': membership.name,
             'payment_plan': rq['payment_plan'],
         }
 
@@ -123,22 +119,9 @@ def membership_signup(request, membership_name):
 
         cart[membership_product.id] = 1
         request.session['cart'] = cart
+        request.session['membership_data'] = form_data
 
-        # # Update each value from the form_data to the userprofile
-        # for key, value in form_data.items():
-        #     setattr(user_profile, key, value)
-        # user_profile.save()
-
-        # # Add user to gyms
-        # # If bronze or silver add to one choosen gym
-        # if 'gyms' in rq:
-        #     gym = gyms.get(name=rq['gyms'])
-        #     gym.members.add(user_profile)
-
-        # # else add to all gyms
-        # else:
-        #     for gym in gyms:
-        #         gym.members.add(user_profile)
+        # Update each value from the form_data to the userprofile
 
     context = {
         'membership': membership,
@@ -161,6 +144,8 @@ def membership_update(request):
     months_remaining = round((mshp_expires - last_mshp_chg).days / 30)
 
     if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        membership_data = request.session.get('membership_data', {})
         rq = request.POST
 
         if 'membership' in rq:
@@ -172,9 +157,12 @@ def membership_update(request):
                 # Refund for the months that are left of the memberships since they already paid for the full year
                 refund = ((prev_mshp.yearly_price) / 12) * months_remaining
 
+                request.session['membership_data']['refund'] = refund
+
                 cost_of_change += new_mshp.yearly_price - refund
                 print(
                     f'Refund ${refund} owed to member when switching from {prev_mshp} membership to a {new_mshp} membership\nTotal membership difference: ${round(cost_of_change, 2)}')
+            request.session['membership_data']['membership'] = new_mshp.name
 
         if 'payment_plan' in rq:
             prev_pp = member.payment_plan
@@ -186,14 +174,24 @@ def membership_update(request):
                     yearly_price_month_avg = membership.yearly_price / 12
                     price_diff = float(monthly_price) - yearly_price_month_avg
 
+                    request.session['membership_data']['payment_plan_change_cost'] = price_diff
+
                     cost_of_change += price_diff * months_remaining
                     print(
                         f'Extra ${round(price_diff * months_remaining, 2)} owed from member when switching from a yearly to a monthly membership')
+            request.session['membership_data']['payment_plan'] = new_pp
 
         print(
             f'Total cost for change of membership: ${round(cost_of_change, 2)}')
 
-        request.session['cost_of_change'] = cost_of_change
+        payment_plan = f"{rq['payment_plan'][0]}/{rq['payment_plan'][0]}"
+        membership_product = Product.objects.get(
+            name=f'{membership.name} membership {payment_plan}')
+        cart[membership_product.id] = 1
+
+        request.session['membership_data']['cost_of_change'] = cost_of_change
+        print(request.session['membership_data'])
+        request.session['cart'] = cart
 
     if member.payment_plan == 'monthly':
         membership_price = member.membership.monthly_price

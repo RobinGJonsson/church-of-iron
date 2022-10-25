@@ -10,6 +10,7 @@ def cart_content(request):
     cart_total = 0
     cart_count = 0
     cart = request.session.get('cart', {})
+    membership_data = request.session.get('membership_data', {})
 
     for item_id, item_data in cart.items():
         product = get_object_or_404(Product, id=item_id)
@@ -43,7 +44,14 @@ def cart_content(request):
         delivery_cost = 0
         spend_for_free_delivery = 0
 
-    grand_total = delivery_cost + cart_total
+    grand_total = float(delivery_cost + cart_total)
+
+    if membership_data:
+        if 'refund' in membership_data:
+            grand_total -= membership_data['refund']
+
+        if 'payment_plan_change_cost' in membership_data:
+            grand_total += membership_data['payment_plan_change_cost']
 
     context = {
         'cart_items': cart_items,
