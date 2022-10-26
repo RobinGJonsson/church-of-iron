@@ -1,46 +1,41 @@
 <form method="POST" action="">
-        {% csrf_token %}
-        <div class="input-box">
-            <fieldset>
-                {% if user.is_authenticated %}
-                <legend>Member Information</legend>
-                {{ form.full_name | as_crispy_field }}
-                {{ form.email | as_crispy_field }}
-                {{ form.phone | as_crispy_field }}
-                {% else %}
-                    <p>Already have an account?</p>
-                    <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
-                    <input class="input-item" type="password" placeholder="Password..." name='password1' required>
-                    <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
-                {% endif %}
-            </fieldset>
+    {% csrf_token %}
+    <fieldset>
+        <legend>Member Information</legend>
+        {{ form.full_name | as_crispy_field }}
+        {{ form.email | as_crispy_field }}
+        {{ form.phone | as_crispy_field }}
+        <p>Already have an account?</p>
+        <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
+        <input class="input-item" type="password" placeholder="Password..." name='password1' required>
+        <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
+    </fieldset>
+    <hr>
+    <div class="row justify-content-evenly mx-0">
+        <div class="col-6">
+            <p><b>Price Monthly: ${{ membership.monthly_price }}</b></p>
         </div>
-        <hr>
-        <div class="row justify-content-evenly mx-0">
-            <div class="col-6">
-                <p><b>Price Monthly: ${{ membership.monthly_price }}</b></p>
-            </div>
-            <div class="col-6">
-                <p><b>Price Yearly: ${{ membership.yearly_price }}</b></p>
-            </div>
-            <div class="col-5">
-                <label for="monthly">Monthly</label>
-                <input type="radio" name="payment_plan" id="monthly" value="monthly" checked>
-            </div>
-            <div class="col-5">
-                <label for="yearly">Yearly</label>
-                <input type="radio" name="payment_plan" id="yearly" value="yearly">
-            </div>
-            <!-- Ask for a gym if the membership level is less than gold -->
-            {% if membership.level < 3 %}
-                <label for="gyms">Select a Gym</label>
-                <select class="input-item" name="gyms" id="gyms">
-                    {% for gym in gyms %}
-                    <option value="{{ gym }}">{{ gym }}</option>
-                    {% endfor %}
-                </select>
-            {% endif %}
-            <input type="hidden" name="membership" value="{{membership.name}}">
-            <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
+        <div class="col-6">
+            <p><b>Price Yearly: ${{ membership.yearly_price }}</b></p>
         </div>
-    </form>
+        <div class="col-5">
+            <label for="monthly">Monthly</label>
+            <input type="radio" name="payment_plan" id="monthly" value="monthly" checked>
+        </div>
+        <div class="col-5">
+            <label for="yearly">Yearly</label>
+            <input type="radio" name="payment_plan" id="yearly" value="yearly">
+        </div>
+        <!-- Ask for a gym if the membership level is less than gold -->
+        {% if membership.level < 3 %}
+            <label for="gyms">Select a Gym</label>
+            <select class="input-item" name="gyms" id="gyms">
+                {% for gym in gyms %}
+                <option value="{{ gym }}">{{ gym }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        <input type="hidden" name="membership" value="{{membership.name}}">
+        <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
+    </div>
+</form>

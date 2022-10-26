@@ -41,24 +41,73 @@ def gym_details(request, gym_name):
 def all_memberships(request):
 
     memberships = Membership.objects.all()
-    form = UserProfileForm(instance=request.user)
+    user_profile = request.user
+
+    if user_profile.is_authenticated:
+        user_profile = UserProfile.objects.get(user=user_profile)
+        form = UserProfileForm(instance=user_profile)
+
+        if request.method == 'POST':
+            rq = request.POST
+
+    else:
+        if request.method == 'POST':
+            rq = request.POST
+
+            # Check if the password matches and login
+            if rq['password1'] == rq['password2']:
+
+                user = authenticate(username=rq['email'],
+                                    password=rq['password1'])
+
+                # Create User if they don't exist
+                if not user:
+                    User.objects.create_user(
+                        username=rq['email'],
+                        email=rq['email'],
+                        password=rq['password1'],
+                    )
+                    user = authenticate(username=rq['email'],
+                                        password=rq['password1'])
+
+                login(request, user)
+                messages.info(
+                    request, f"You are now logged in as {rq['full_name']}.")
+                user_profile = UserProfile.objects.get(user=request.user)
+
+            else:
+                # Handle wrong passwords diffrently
+                messages.info(
+                    request, f"The passwords don't match, please try again")
+
+            requested_membership = Membership.objects.get(
+                name=rq['membership'])
+
+            # Check so that the user doesn't have the same or a lower membership
+            if user_profile.membership:
+                if user_profile.membership.level > requested_membership.level:
+                    messages.warning(
+                        request, 'You cannot sign up for lower membership than you already have')
+                    return redirect(reverse('all_memberships'))
+
+                if user_profile.membership.level == requested_membership.level:
+                    messages.warning(
+                        request, f'You already have a {requested_membership.name} membership')
+                    return redirect(reverse('all_memberships'))
+
+            else:
+                # Go to membership checkout page
+                pass
+
+        form = UserProfileForm()
+
     context = {
         'memberships': memberships,
-        'form': form
+        'form': form,
+        'user_profile': user_profile,
     }
 
     return render(request, 'gym/all_memberships.html', context)
-
-
-def membership(request, membership_name):
-
-    membership = Membership.objects.get(name=membership_name)
-
-    context = {
-        'membership': membership,
-    }
-
-    return render(request, 'gym/membership.html', context)
 
 
 def membership_signup(request, membership_name):
@@ -84,14 +133,6 @@ def membership_signup(request, membership_name):
 
                 user = authenticate(username=rq['email'],
                                     password=rq['password1'])
-
-                # Create User if they don't exist
-                if not user:
-                    User.objects.create_user(
-                        username=rq['email'],
-                        email=rq['email'],
-                        password=rq['password1'],
-                    )
 
                 user = authenticate(username=rq['email'],
                                     password=rq['password1'])
