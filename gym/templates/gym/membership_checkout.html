@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block page_title %}Update Membership{% endblock page_title %}
+{% block page_title %}Checkout{% endblock page_title %}
 
 
 {% block page_header %}
@@ -10,42 +10,64 @@
 
 
 {% block content %}
-<section class="text-center">
-    <h1 class="section header">CHECKOUT</h1>
-    <form id="payment-form" action="" method="POST">
-        <fieldset class="px-3">
-                <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-                <!-- A Stripe card element will go here -->
-                <div class="mb-3" id="card-element"></div>
-                <!-- Used to display form errors -->
-                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                <!-- Pass the client secret to the view so we can get the payment intent id -->
-                <input type="hidden" value="{{ client_secret }}" name="client_secret">
-        </fieldset>
-
-        <div class="submit-button text-end mt-5 mb-2">                    
-            <button id="submit-button" class="btn btn-black rounded-0">
-                <span class="font-weight-bold">Complete Order</span>
-                <span class="icon">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </button>
-            <p class="small text-danger my-0">
-                <span class="icon">
-                    <i class="fas fa-exclamation-circle"></i>
-                </span>
-                <span>Your card will be charged <strong>${{ total_cost }}</strong></span>
-            </p>
+<!-- Checkout summary -->
+<section>
+    <div class="row">
+        <h1 class="section header mb-5">CHECKOUT</h1>
+        <hr>
+        <div class="col-md-6 col-8 offset-2">
+            <h3>{{ membership_data.membership }} Membership</h3>
+            <ul>
+                <li>
+                    <p>Gym Access: {% if membership_data.gym is None %} All gyms {% else %} {{ membership_data.gym }} {% endif %}</p>
+                </li>
+                <li>
+                    <p>Membership Starting: {{ starting_date }}</p>
+                </li>
+                <li>
+                    <p>Membership Expires: {{ expiration_date }}</p>
+                </li>
+                <li>
+                    <p>Payment Plan: {{ membership_data.payment_plan|title }}</p>
+                </li>
+                {% if payment_plan != yearly %}
+                <li>
+                    <p>Change to a yearly subscription to save {{ membership }} per year!</p>
+                    <a href="#">Click here</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
+    </div>
+</section>
 
-        <input class="mt-4 btn btn-success btn-lg" type="submit" value="Submit">
-    </form>
+<!-- Payment section -->
+<section>
+    <fieldset class="px-3">
+        <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+        <!-- A Stripe card element will go here -->
+        <div class="mb-3" id="card-element"></div>
+        <!-- Used to display form errors -->
+        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+    </fieldset>
+    <div class="submit-button text-end mt-5 mb-2">                    
+        <button id="submit-btn" class="btn btn-black rounded-0">
+            <span class="font-weight-bold">Complete Order</span>
+            <span class="icon">
+                <i class="fas fa-lock"></i>
+            </span>
+        </button>
+        <p class="small text-danger my-0">
+            <span class="icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </span>
+            <span>Your card will be charged <strong>${{ total_cost }}</strong></span>
+        </p>
+    </div>
 </section>
 {% endblock content %}
 
 {% block postloadjs %}
     {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'js/stripe.js' %}"></script>
+    <script src="{% static 'js/membership_stripe.js' %}"></script>
 {% endblock postloadjs %}

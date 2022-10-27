@@ -49,7 +49,9 @@ let form = document.getElementById("payment-form");
 form.addEventListener("submit", function (ev) {
     ev.preventDefault();
     card.update({ disabled: true });
+    //Disable submit button  to prevent multiple submits
     $("#submit-button").attr("disabled", true);
+    //Display the loading modal
     $("#payment-form").fadeToggle(100);
     $("#loading-overlay").fadeToggle(100);
 
@@ -64,6 +66,7 @@ form.addEventListener("submit", function (ev) {
     let url = "/checkout/cache_checkout_data/";
 
     $.post(url, postData)
+        //When postData has been posted to the url; confirm the payment
         .done(function () {
             stripe
                 .confirmCardPayment(clientSecret, {

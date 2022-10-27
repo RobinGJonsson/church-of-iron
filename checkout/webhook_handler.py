@@ -61,6 +61,7 @@ class StripeWH_Handler:
 
         order_exists = False
         attempt = 1
+        # Try to get a successful event from stripe for 5 seconds
         while attempt <= 5:
             try:
                 order = Order.objects.get(

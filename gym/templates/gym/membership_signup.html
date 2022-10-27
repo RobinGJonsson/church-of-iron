@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block page_title %}Memberships{% endblock page_title %}
+{% block page_title %}{{ membership.name }} Membership{% endblock page_title %}
 
 
 {% block page_header %}
@@ -65,6 +65,12 @@
         {% endfor %}
     </ul>
 </section>
+<section>
+    <div class="col-8 mx-auto form-container">
+        <h4 class="membership-title"> {{ membership.name }} Membership</h4>
+        {% include 'includes/signup-form.html' %}
+    </div>
+</section>
 
 {% endblock content %} 
 
@@ -76,6 +82,7 @@
         let targetMemberhsip = `membership-details-${membershipId}`;
         $(`.${targetMemberhsip}`).toggleClass("d-none");
     })
+
 </script>
 {% endblock postloadjs %}
 

@@ -5,10 +5,12 @@
         {{ form.full_name | as_crispy_field }}
         {{ form.email | as_crispy_field }}
         {{ form.phone | as_crispy_field }}
-        <p>Already have an account?</p>
-        <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
-        <input class="input-item" type="password" placeholder="Password..." name='password1' required>
-        <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
+        {% if not user.is_authenticated %}
+            <p>Already have an account?</p>
+            <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
+            <input class="input-item" type="password" placeholder="Password..." name='password1' required>
+            <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
+        {% endif %}
     </fieldset>
     <hr>
     <div class="row justify-content-evenly mx-0">

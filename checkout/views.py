@@ -1,7 +1,10 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .forms import OrderForm
 from profiles.forms import UserProfileForm
@@ -192,8 +195,6 @@ def checkout_success(request, order_number):
 
     if 'cart' in request.session:
         del request.session['cart']
-    if 'refund' in request.session:
-        del request.session['refund']
 
     template = 'checkout/checkout_success.html'
     context = {
@@ -201,3 +202,47 @@ def checkout_success(request, order_number):
     }
 
     return render(request, template, context)
+
+
+# Gets called from stripe.js to initialize stripe
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': settings.STRIPE_PUBLIC_KEY}
+        return JsonResponse(stripe_config, safe=False)
+
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'GET':
+        domain_url = settings.DOMAIN_URL
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        try:
+            # Items will be collected from session storage
+            signup_membership_data = request.session['signup_membership_data']
+
+            # Create stripe product and price so that they cannot be manipulated
+            product = stripe.Product.create(
+                name=f'{signup_membership_data["membership"]} membership')
+            price = stripe.Price.create(
+                product=product, unit_amount=signup_membership_data['price'], currency=settings.STRIPE_CURRENCY)
+
+            line_items = {
+                'price': price,
+                'quantity': signup_membership_data['quantity'],
+            }
+
+            # Create the session
+            checkout_session = stripe.checkout.Session.create(
+                success_url=f'{domain_url}',
+                cancel_url=f'{domain_url}cancelled/',
+                payment_method_types=['card'],
+                mode='payment',
+                line_items=[line_items, ]
+            )
+
+            # Send the data to the js file
+            return JsonResponse({'sessionId': checkout_session['id']})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'error': str(e)})

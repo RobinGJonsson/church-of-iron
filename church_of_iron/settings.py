@@ -33,9 +33,14 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'localhost',
 ]
 
+if DEBUG:
+    DOMAIN_URL = 'http://127.0.0.1:8000/'
+else:
+    DOMAIN_URL = ''
 
 # Application definition
 

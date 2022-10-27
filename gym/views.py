@@ -39,9 +39,24 @@ def gym_details(request, gym_name):
 
 
 def all_memberships(request):
+    """Info about all the memberships"""
 
     memberships = Membership.objects.all()
     user_profile = request.user
+
+    context = {
+        'memberships': memberships,
+        'user_profile': user_profile,
+    }
+
+    return render(request, 'gym/all_memberships.html', context)
+
+
+def membership_signup(request, membership_name):
+    user_profile = request.user
+    membership = Membership.objects.get(name=membership_name)
+    gyms = Gym.objects.all()
+    form = UserProfileForm()
 
     if user_profile.is_authenticated:
         user_profile = UserProfile.objects.get(user=user_profile)
@@ -49,6 +64,30 @@ def all_memberships(request):
 
         if request.method == 'POST':
             rq = request.POST
+            requested_membership = Membership.objects.get(
+                name=rq['membership'])
+
+            if rq['payment_plan'] == 'monthly':
+                stripe_price = requested_membership.monthly_price * 100
+            elif rq['payment_plan'] == 'yearly':
+                stripe_price = requested_membership.monthly_price * 100
+            # Create membership checkout session storage with the membership request data
+            signup_membership_data = {
+                'membership': rq['membership'],
+                'payment_plan': rq['payment_plan'],
+                'gym': rq['gyms'] if 'gyms' in rq else None,
+                'price': int(stripe_price),
+                'quantity': 1,
+            }
+
+            # Save the member profile details
+            form = UserProfileForm(request.POST, instance=user_profile)
+            if form.is_valid:
+                form.save()
+
+            # Store the data in session storage and continue to checkout
+            request.session['signup_membership_data'] = signup_membership_data
+            return redirect(reverse('membership_checkout'))
 
     else:
         if request.method == 'POST':
@@ -75,6 +114,11 @@ def all_memberships(request):
                     request, f"You are now logged in as {rq['full_name']}.")
                 user_profile = UserProfile.objects.get(user=request.user)
 
+                # Save the member profile details
+                form = UserProfileForm(request.POST, instance=user_profile)
+                if form.is_valid:
+                    form.save()
+
             else:
                 # Handle wrong passwords diffrently
                 messages.info(
@@ -97,72 +141,22 @@ def all_memberships(request):
 
             else:
                 # Go to membership checkout page
-                pass
+                # Create membership checkout session storage with the membership request data
+                if rq['payment_plan'] == 'monthly':
+                    stripe_price = requested_membership.monthly_price * 100
+                elif rq['payment_plan'] == 'yearly':
+                    stripe_price = requested_membership.monthly_price * 100
 
-        form = UserProfileForm()
+                signup_membership_data = {
+                    'membership': rq['membership'],
+                    'payment_plan': rq['payment_plan'],
+                    'gym': rq['gyms'] if 'gyms' in rq else None,
+                    'price': int(stripe_price),
+                    'quantity': 1,
+                }
 
-    context = {
-        'memberships': memberships,
-        'form': form,
-        'user_profile': user_profile,
-    }
-
-    return render(request, 'gym/all_memberships.html', context)
-
-
-def membership_signup(request, membership_name):
-
-    membership = Membership.objects.get(name=membership_name)
-    gyms = Gym.objects.all()
-
-    if request.user.is_authenticated:
-        user_profile = UserProfile.objects.get(user=request.user)
-        form = UserProfileForm(instance=user_profile)
-    else:
-        user_profile = request.user
-        form = UserProfileForm()
-
-    if request.method == 'POST':
-        rq = request.POST
-        cart = request.session.get('cart', {})
-
-        # If user does not have an account create an account
-        if not request.user.is_authenticated:
-
-            if rq['password1'] == rq['password2']:
-
-                user = authenticate(username=rq['email'],
-                                    password=rq['password1'])
-
-                user = authenticate(username=rq['email'],
-                                    password=rq['password1'])
-
-                login(request, user)
-                messages.info(
-                    request, f"You are now logged in as {rq['full_name']}.")
-                user_profile = UserProfile.objects.get(user=request.user)
-
-            else:
-                # Handle wrong passwords diffrently
-                return redirect(reverse('membership_signup', args=[membership.name]))
-
-        form_data = {
-            'full_name': rq['full_name'],
-            'email': rq['email'],
-            'phone': rq['phone'],
-            'membership': membership.name,
-            'payment_plan': rq['payment_plan'],
-        }
-
-        payment_plan = f"{rq['payment_plan'][0]}/{rq['payment_plan'][0]}"
-        membership_product = Product.objects.get(
-            name=f'{membership.name} membership {payment_plan}')
-
-        cart[membership_product.id] = 1
-        request.session['cart'] = cart
-        request.session['membership_data'] = form_data
-
-        # Update each value from the form_data to the userprofile
+                request.session['signup_membership_data'] = signup_membership_data
+                return redirect(reverse('membership_checkout'))
 
     context = {
         'membership': membership,
@@ -246,3 +240,25 @@ def membership_update(request):
     }
 
     return render(request, 'gym/membership_update.html', context)
+
+
+def membership_checkout(request):
+    from datetime import datetime, timedelta
+
+    membership_data = request.session['signup_membership_data']
+    starting_date = datetime.now().date()
+
+    if membership_data['payment_plan'] == 'monthly':
+        expiration_date = starting_date + timedelta(days=30)
+
+    elif membership_data['payment_plan'] == 'yearly':
+        expiration_date = starting_date + timedelta(days=365)
+
+    context = {
+        'membership_data': membership_data,
+        'starting_date': starting_date,
+        'expiration_date': expiration_date,
+        'client_secret': settings.STRIPE_SECRET_KEY,
+    }
+
+    return render(request, 'gym/membership_checkout.html', context)
