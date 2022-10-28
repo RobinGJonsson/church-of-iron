@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from .forms import OrderForm
 from profiles.forms import UserProfileForm
 from .models import Order, OrderItem
+from gym.models import Gym
 from profiles.models import UserProfile
 from store.models import Product
 from gym.models import Membership
@@ -154,7 +155,7 @@ def checkout_success(request, order_number):
     Handle successful checkouts
     """
     save_info = request.session.get('save_info')
-    membership_data = request.session.get('membership_data', {})
+    signup_membership_data = request.session.get('signup_membership_data', {})
 
     order = get_object_or_404(Order, order_number=order_number)
 
@@ -168,26 +169,35 @@ def checkout_success(request, order_number):
         if save_info:
             profile_data = {
                 'full_name': order.full_name,
-                'phone': order.phone_number,
+                'phone': order.phone,
                 'email': order.email,
                 'postcode': order.postcode,
-                'city': order.town_or_city,
+                'city': order.city,
                 'address': order.address,
-                'apartment_number': order.street_address2,
+                'apartment_number': order.apartment_number,
                 'county': order.county,
             }
             user_profile_form = UserProfileForm(profile_data, instance=profile)
             if user_profile_form.is_valid():
                 user_profile_form.save()
 
-        if membership_data:
-            user_profile_form = UserProfileForm(profile_data, instance=profile)
+        # If a membership signup, register the membership details to the user and assign the user to the relevant gyms
+        if signup_membership_data:
             membership = Membership.objects.get(
-                name=membership_data['membership'])
-            user_profile_form(membership=membership)
-            if user_profile_form.is_valid():
-                user_profile_form.save()
-                print('Membership paid for and updated ')
+                name=signup_membership_data['membership'])
+            UserProfile.objects.filter(id=profile.id).update(
+                membership=membership, payment_plan=signup_membership_data['payment_plan'])
+
+            print('Membership paid for and updated ')
+
+            # Add the member to the gym/gyms they signed up for
+            if signup_membership_data['gym']:
+                gym = Gym.objects.get(name=signup_membership_data['gym'])
+                gym.members.add(profile)
+            else:
+                gyms = Gym.objects.all()
+                for gym in gyms:
+                    gym.members.add(profile)
 
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
@@ -234,7 +244,7 @@ def create_checkout_session(request):
 
             # Create the session
             checkout_session = stripe.checkout.Session.create(
-                success_url=f'{domain_url}',
+                success_url=f'{domain_url}checkout/membership-checkout-success/',
                 cancel_url=f'{domain_url}cancelled/',
                 payment_method_types=['card'],
                 mode='payment',
@@ -246,3 +256,42 @@ def create_checkout_session(request):
         except Exception as e:
             print(e)
             return JsonResponse({'error': str(e)})
+
+
+def membership_checkout_success(request):
+    """
+    Handle successful checkouts
+    """
+    signup_membership_data = request.session.get('signup_membership_data', {})
+    profile = UserProfile.objects.get(user=request.user)
+
+    # If a membership signup, register the membership details to the user and assign the user to the relevant gyms
+    membership = Membership.objects.get(
+        name=signup_membership_data['membership'])
+
+    # Save membership data to profile
+    profile.membership = membership
+    profile.payment_plan = signup_membership_data['payment_plan']
+    profile.save()
+
+    # Add the member to the gym/gyms they signed up for
+    if signup_membership_data['gym']:
+        gym = Gym.objects.get(name=signup_membership_data['gym'])
+        gym.members.add(profile)
+    else:
+        gyms = Gym.objects.all()
+        for gym in gyms:
+            gym.members.add(profile)
+    print('Membership paid for and updated ')
+
+    messages.success(
+        request, f'Membership successfully paid for! A confirmation email will be sent to {profile.email}.')
+
+    del request.session['signup_membership_data']
+
+    template = 'checkout/membership_checkout_success.html'
+    context = {
+        'profile': profile,
+    }
+
+    return render(request, template, context)

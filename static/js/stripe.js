@@ -64,7 +64,6 @@ form.addEventListener("submit", function (ev) {
         save_info: saveInfo,
     };
     let url = "/checkout/cache_checkout_data/";
-
     $.post(url, postData)
         //When postData has been posted to the url; confirm the payment
         .done(function () {
@@ -77,8 +76,8 @@ form.addEventListener("submit", function (ev) {
                             phone: $.trim(form.phone.value),
                             email: $.trim(form.email.value),
                             address: {
-                                line1: $.trim(form.street_address1.value),
-                                line2: $.trim(form.street_address2.value),
+                                line1: $.trim(form.address.value),
+                                line2: $.trim(form.apartment_number.value),
                                 city: $.trim(form.city.value),
                                 state: $.trim(form.county.value),
                             },
@@ -88,8 +87,8 @@ form.addEventListener("submit", function (ev) {
                         name: $.trim(form.full_name.value),
                         phone: $.trim(form.phone.value),
                         address: {
-                            line1: $.trim(form.street_address1.value),
-                            line2: $.trim(form.street_address2.value),
+                            line1: $.trim(form.address.value),
+                            line2: $.trim(form.apartment_number.value),
                             city: $.trim(form.city.value),
                             postal_code: $.trim(form.postcode.value),
                             state: $.trim(form.county.value),

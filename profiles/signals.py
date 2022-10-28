@@ -17,8 +17,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 def update_membership_renewed(sender, instance, **kwargs):
 
     # Wrap in try block because if the this signal was called when a
-    # User was created, the UserProfile does not yet exist because
-    # this is pre_save
+    # User was created, the UserProfile does not yet exist because this is pre_save
     # A post_save doesn't know about the previous instance, so it has to be pre_save
     try:
         old_instance = sender.objects.get(id=instance.id)

@@ -11,6 +11,8 @@ from profiles.forms import UserProfileForm
 from .forms import UpdateMembershipForm
 from store.models import Product
 
+from datetime import datetime, timedelta
+
 
 def all_gyms(request):
 
@@ -42,8 +44,12 @@ def all_memberships(request):
     """Info about all the memberships"""
 
     memberships = Membership.objects.all()
-    user_profile = request.user
+    if request.user.is_authenticated:
+        user_profile = UserProfile.objects.get(user=request.user)
+    else:
+        user_profile = request.user
 
+    print(user_profile)
     context = {
         'memberships': memberships,
         'user_profile': user_profile,
@@ -243,7 +249,6 @@ def membership_update(request):
 
 
 def membership_checkout(request):
-    from datetime import datetime, timedelta
 
     membership_data = request.session['signup_membership_data']
     starting_date = datetime.now().date()
