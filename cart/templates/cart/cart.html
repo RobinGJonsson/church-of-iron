@@ -86,7 +86,6 @@
                             <tr colspan="5" class="pt-5 text-end">
                                 <h6><strong>Cart Total: ${{ cart_total|floatformat:2 }}</strong></h6>
                                 <h6>Delivery: ${{ delivery_cost|floatformat:2 }}</h6>
-                                <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
                                 {% if spend_for_free_delivery %}
                                     <p class="mb-1 text-danger">
                                         You could get free delivery by spending just <strong>${{ spend_for_free_delivery }}</strong> more!

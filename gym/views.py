@@ -74,15 +74,15 @@ def membership_signup(request, membership_name):
                 name=rq['membership'])
 
             if rq['payment_plan'] == 'monthly':
-                stripe_price = requested_membership.monthly_price * 100
+                price = requested_membership.monthly_price
             elif rq['payment_plan'] == 'yearly':
-                stripe_price = requested_membership.monthly_price * 100
+                price = requested_membership.yearly_price
             # Create membership checkout session storage with the membership request data
-            signup_membership_data = {
+            membership_data = {
                 'membership': rq['membership'],
                 'payment_plan': rq['payment_plan'],
                 'gym': rq['gyms'] if 'gyms' in rq else None,
-                'price': int(stripe_price),
+                'price': float(price),
                 'quantity': 1,
             }
 
@@ -92,8 +92,8 @@ def membership_signup(request, membership_name):
                 form.save()
 
             # Store the data in session storage and continue to checkout
-            request.session['signup_membership_data'] = signup_membership_data
-            return redirect(reverse('membership_checkout'))
+            request.session['membership_data'] = membership_data
+            return redirect(reverse('checkout_view'))
 
     else:
         if request.method == 'POST':
@@ -116,7 +116,7 @@ def membership_signup(request, membership_name):
                                         password=rq['password1'])
 
                 login(request, user)
-                messages.info(
+                messages.success(
                     request, f"You are now logged in as {rq['full_name']}.")
                 user_profile = UserProfile.objects.get(user=request.user)
 
@@ -149,20 +149,21 @@ def membership_signup(request, membership_name):
                 # Go to membership checkout page
                 # Create membership checkout session storage with the membership request data
                 if rq['payment_plan'] == 'monthly':
-                    stripe_price = requested_membership.monthly_price * 100
+                    price = requested_membership.monthly_price
                 elif rq['payment_plan'] == 'yearly':
-                    stripe_price = requested_membership.monthly_price * 100
+                    price = requested_membership.monthly_price
 
-                signup_membership_data = {
+                membership_data = {
+                    'user_profile_id': user_profile.id,
                     'membership': rq['membership'],
                     'payment_plan': rq['payment_plan'],
                     'gym': rq['gyms'] if 'gyms' in rq else None,
-                    'price': int(stripe_price),
+                    'price': float(price),
                     'quantity': 1,
                 }
 
-                request.session['signup_membership_data'] = signup_membership_data
-                return redirect(reverse('membership_checkout'))
+                request.session['membership_data'] = membership_data
+                return redirect(reverse('checkout_view'))
 
     context = {
         'membership': membership,
@@ -246,24 +247,3 @@ def membership_update(request):
     }
 
     return render(request, 'gym/membership_update.html', context)
-
-
-def membership_checkout(request):
-
-    membership_data = request.session['signup_membership_data']
-    starting_date = datetime.now().date()
-
-    if membership_data['payment_plan'] == 'monthly':
-        expiration_date = starting_date + timedelta(days=30)
-
-    elif membership_data['payment_plan'] == 'yearly':
-        expiration_date = starting_date + timedelta(days=365)
-
-    context = {
-        'membership_data': membership_data,
-        'starting_date': starting_date,
-        'expiration_date': expiration_date,
-        'client_secret': settings.STRIPE_SECRET_KEY,
-    }
-
-    return render(request, 'gym/membership_checkout.html', context)

@@ -20,6 +20,7 @@
             </div>
         </div>
 
+        {% if order %}
         <div class="row">
             <div class="col-12 col-lg-7">
                 <div class="order-confirmation-wrapper p-2 border">
@@ -86,17 +87,16 @@
                             <p class="mb-0 text-black font-weight-bold">Address</p>
                         </div>
                         <div class="col-12 col-md-8 text-md-end">
-                            <p class="mb-0">{{ order.street_address1 }}</p>
-                        </div>
+                            <p class="mb-0">{{ order.address }}
                     </div>
 
-                    {% if order.street_address2 %}
+                    {% if order.apartment_number %}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Apartment Number</p>
                         </div>
                         <div class="col-12 col-md-8 text-md-end">
-                            <p class="mb-0">{{ order.street_address1 }}</p>
+                            <p class="mb-0">{{ order.apartment_number }}</p>
                         </div>
                     </div>
                     {% endif %}
@@ -176,6 +176,53 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if membership %}
+        <div class="row">
+            <div class="col-12 col-lg-7">
+                <div class="order-confirmation-wrapper p-2 border">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="mb-0 text-black font-weight-bold">{{ membership.name }} membership</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="mb-0 text-black font-weight-bold">My Gyms:</p>
+                        </div>
+                        <div class="col-12 col-md-8 text-md-end">
+                            <p class="mb-0">{{ gym }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="mb-0 text-black font-weight-bold">Payment:</p>
+                        </div>
+                        <div class="col-12 col-md-8 text-md-end">
+                            <p class="mb-0">${{ payment_plan }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="mb-0 text-black font-weight-bold">Starting:</p>
+                        </div>
+                        <div class="col-12 col-md-8 text-md-end">
+                            <p class="mb-0">{{ user_profile.membership_renewed }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="mb-0 text-black font-weight-bold">Ends:</p>
+                        </div>
+                        <div class="col-12 col-md-8 text-md-end">
+                            <p class="mb-0">{{ user_profile.membership_expires_on }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         <div class="row">
 			<div class="col-12 col-lg-7 text-end">
                 {% if from_profile %}

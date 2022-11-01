@@ -1,0 +1,21 @@
+Hello {{ user_profile.full_name }}!
+
+This is a confirmation of your order at Boutique Ado. Your order information is below:
+
+Order Date: {{ user_profile.membership_renewed }}
+
+{{ user_profile.payment_plan|title }} payments: ${{ price }}
+Starting Date: ${{ user_profile.membership_renewed }}
+Expiration Date: ${{ user_profile.membership_expires_on }}
+
+Your Gym/Gyms: {{ gym.name }}
+
+We've got your phone number on file as {{ user_profile.phone }}.
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+Thank you for your order!
+
+Sincerely,
+
+Boutique Ado

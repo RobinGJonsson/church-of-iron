@@ -1,0 +1,1 @@
+Church Of Iron confirmation for purchase of membership {{ purchase.name }} membership  

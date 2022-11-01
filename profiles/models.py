@@ -28,7 +28,6 @@ class UserProfile(models.Model):
     member_since = models.DateTimeField(
         auto_now_add=True, null=True, editable=False)
 
-    # ! Update from signals when membership is renewed
     membership_renewed = models.DateTimeField(
         null=True, blank=True, editable=False)
 
