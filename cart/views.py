@@ -1,5 +1,5 @@
 from django.shortcuts import (
-    render, redirect, reverse, HttpResponse, get_object_or_404)
+    render, redirect, reverse, HttpResponse)
 from django.contrib import messages
 
 from store.models import Product
@@ -12,7 +12,7 @@ def cart_view(request):
 
 def add_to_cart(request, item_id):
 
-    product = get_object_or_404(Product, id=item_id)
+    product = Product.objects.get(id=item_id)
     quantity = int(request.POST.get('quantity'))
     size = None
     if 'product_size' in request.POST:
@@ -52,7 +52,7 @@ def add_to_cart(request, item_id):
 def adjust_cart(request, item_id):
     """Adjust the quantity of the specified product to the specified amount"""
 
-    product = get_object_or_404(Product, id=item_id)
+    product = Product.objects.get(id=item_id)
     quantity = int(request.POST.get('quantity'))
     size = None
     if 'product_size' in request.POST:
@@ -91,7 +91,7 @@ def adjust_cart(request, item_id):
 def remove_from_cart(request, item_id):
     """Remove the item from the shopping cart"""
     try:
-        product = get_object_or_404(Product, id=item_id)
+        product = Product.objects.get(id=item_id)
         size = None
         if 'product_size' in request.POST:
             size = request.POST['product_size']

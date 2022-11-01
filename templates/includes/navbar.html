@@ -39,16 +39,8 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{% url 'all_memberships' %}" aria-haspopup="true" aria-expanded="false">Memberships</a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    {% for membership in memberships %}
-                                    <li>
-                                        <a href="{% url 'membership' membership.name %}" class="dropdown-item">{{ membership.name }}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            <a class="nav-link" href="{% url 'all_memberships' %}">Memberships</a>
+
                         </li>
                     </ul>
                 </div>
@@ -81,7 +73,7 @@
                     <a href="{% url 'account_signup' %}" class="nav-link btn btn-success text-light">Join</a>
                 </li>
                 {% endif %}
-                <li class="list-inline-item position-relative">
+                <li class="list-inline-item position-relative cart-dropdown">
                     <span class="cart-count"> {{ cart_count }} </span>
                     <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
                         <div class="text-center">
@@ -89,7 +81,9 @@
                             <p class="my-0">Cart</p>
                         </div>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="user-options"></div>
+                    <div class="show-cart">
+                        {% include 'includes/cart-show.html' %}
+                    </div>
                 </li>
             </ul>
         </div>

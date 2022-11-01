@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from django.views.decorators.http import require_POST
 
 
 from .models import Gym, GymImage, Membership
@@ -12,9 +11,7 @@ from profiles.forms import UserProfileForm
 from .forms import UpdateMembershipForm
 from store.models import Product
 
-import stripe
-import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def all_gyms(request):
@@ -44,46 +41,65 @@ def gym_details(request, gym_name):
 
 
 def all_memberships(request):
+    """Info about all the memberships"""
 
     memberships = Membership.objects.all()
+    if request.user.is_authenticated:
+        user_profile = UserProfile.objects.get(user=request.user)
+    else:
+        user_profile = request.user
 
+    print(user_profile)
     context = {
         'memberships': memberships,
+        'user_profile': user_profile,
     }
 
     return render(request, 'gym/all_memberships.html', context)
 
 
-def membership(request, membership_name):
-
-    membership = Membership.objects.get(name=membership_name)
-
-    context = {
-        'membership': membership,
-    }
-
-    return render(request, 'gym/membership.html', context)
-
-
 def membership_signup(request, membership_name):
-
+    user_profile = request.user
     membership = Membership.objects.get(name=membership_name)
     gyms = Gym.objects.all()
+    form = UserProfileForm()
 
-    if request.user.is_authenticated:
-        user_profile = UserProfile.objects.get(user=request.user)
+    if user_profile.is_authenticated:
+        user_profile = UserProfile.objects.get(user=user_profile)
         form = UserProfileForm(instance=user_profile)
+
+        if request.method == 'POST':
+            rq = request.POST
+            requested_membership = Membership.objects.get(
+                name=rq['membership'])
+
+            if rq['payment_plan'] == 'monthly':
+                price = requested_membership.monthly_price
+            elif rq['payment_plan'] == 'yearly':
+                price = requested_membership.yearly_price
+            # Create membership checkout session storage with the membership request data
+            membership_data = {
+                'membership': rq['membership'],
+                'payment_plan': rq['payment_plan'],
+                'gym': rq['gyms'] if 'gyms' in rq else None,
+                'price': float(price),
+                'quantity': 1,
+            }
+
+            # Save the member profile details
+            form = UserProfileForm(request.POST, instance=user_profile)
+            if form.is_valid:
+                form.save()
+
+            # Store the data in session storage and continue to checkout
+            request.session['membership_data'] = membership_data
+            return redirect(reverse('checkout_view'))
+
     else:
-        user_profile = request.user
-        form = UserProfileForm()
+        if request.method == 'POST':
+            rq = request.POST
 
-    if request.method == 'POST':
-        rq = request.POST
-        cart = request.session.get('cart', {})
-
-        # If user does not have an account create an account
-        if not request.user.is_authenticated:
-
+            # Check if the password matches and login
             if rq['password1'] == rq['password2']:
 
                 user = authenticate(username=rq['email'],
@@ -96,49 +112,58 @@ def membership_signup(request, membership_name):
                         email=rq['email'],
                         password=rq['password1'],
                     )
-
-                user = authenticate(username=rq['email'],
-                                    password=rq['password1'])
+                    user = authenticate(username=rq['email'],
+                                        password=rq['password1'])
 
                 login(request, user)
-                messages.info(
+                messages.success(
                     request, f"You are now logged in as {rq['full_name']}.")
                 user_profile = UserProfile.objects.get(user=request.user)
 
+                # Save the member profile details
+                form = UserProfileForm(request.POST, instance=user_profile)
+                if form.is_valid:
+                    form.save()
+
             else:
                 # Handle wrong passwords diffrently
-                return redirect(reverse('membership_signup', args=[membership.name]))
+                messages.info(
+                    request, f"The passwords don't match, please try again")
 
-        form_data = {
-            'full_name': rq['full_name'],
-            'email': rq['email'],
-            'phone': rq['phone'],
-            'membership': membership,
-            'payment_plan': rq['payment_plan'],
-        }
+            requested_membership = Membership.objects.get(
+                name=rq['membership'])
 
-        payment_plan = f"{rq['payment_plan'][0]}/{rq['payment_plan'][0]}"
-        membership_product = Product.objects.get(
-            name=f'{membership.name} membership {payment_plan}')
+            # Check so that the user doesn't have the same or a lower membership
+            if user_profile.membership:
+                if user_profile.membership.level > requested_membership.level:
+                    messages.warning(
+                        request, 'You cannot sign up for lower membership than you already have')
+                    return redirect(reverse('all_memberships'))
 
-        cart[membership_product.id] = 1
-        request.session['cart'] = cart
+                if user_profile.membership.level == requested_membership.level:
+                    messages.warning(
+                        request, f'You already have a {requested_membership.name} membership')
+                    return redirect(reverse('all_memberships'))
 
-        # # Update each value from the form_data to the userprofile
-        # for key, value in form_data.items():
-        #     setattr(user_profile, key, value)
-        # user_profile.save()
+            else:
+                # Go to membership checkout page
+                # Create membership checkout session storage with the membership request data
+                if rq['payment_plan'] == 'monthly':
+                    price = requested_membership.monthly_price
+                elif rq['payment_plan'] == 'yearly':
+                    price = requested_membership.monthly_price
 
-        # # Add user to gyms
-        # # If bronze or silver add to one choosen gym
-        # if 'gyms' in rq:
-        #     gym = gyms.get(name=rq['gyms'])
-        #     gym.members.add(user_profile)
+                membership_data = {
+                    'user_profile_id': user_profile.id,
+                    'membership': rq['membership'],
+                    'payment_plan': rq['payment_plan'],
+                    'gym': rq['gyms'] if 'gyms' in rq else None,
+                    'price': float(price),
+                    'quantity': 1,
+                }
 
-        # # else add to all gyms
-        # else:
-        #     for gym in gyms:
-        #         gym.members.add(user_profile)
+                request.session['membership_data'] = membership_data
+                return redirect(reverse('checkout_view'))
 
     context = {
         'membership': membership,
@@ -161,6 +186,8 @@ def membership_update(request):
     months_remaining = round((mshp_expires - last_mshp_chg).days / 30)
 
     if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        membership_data = request.session.get('membership_data', {})
         rq = request.POST
 
         if 'membership' in rq:
@@ -172,9 +199,12 @@ def membership_update(request):
                 # Refund for the months that are left of the memberships since they already paid for the full year
                 refund = ((prev_mshp.yearly_price) / 12) * months_remaining
 
+                request.session['membership_data']['refund'] = refund
+
                 cost_of_change += new_mshp.yearly_price - refund
                 print(
                     f'Refund ${refund} owed to member when switching from {prev_mshp} membership to a {new_mshp} membership\nTotal membership difference: ${round(cost_of_change, 2)}')
+            request.session['membership_data']['membership'] = new_mshp.name
 
         if 'payment_plan' in rq:
             prev_pp = member.payment_plan
@@ -186,14 +216,24 @@ def membership_update(request):
                     yearly_price_month_avg = membership.yearly_price / 12
                     price_diff = float(monthly_price) - yearly_price_month_avg
 
+                    request.session['membership_data']['payment_plan_change_cost'] = price_diff
+
                     cost_of_change += price_diff * months_remaining
                     print(
                         f'Extra ${round(price_diff * months_remaining, 2)} owed from member when switching from a yearly to a monthly membership')
+            request.session['membership_data']['payment_plan'] = new_pp
 
         print(
             f'Total cost for change of membership: ${round(cost_of_change, 2)}')
 
-        request.session['cost_of_change'] = cost_of_change
+        payment_plan = f"{rq['payment_plan'][0]}/{rq['payment_plan'][0]}"
+        membership_product = Product.objects.get(
+            name=f'{membership.name} membership {payment_plan}')
+        cart[membership_product.id] = 1
+
+        request.session['membership_data']['cost_of_change'] = cost_of_change
+        print(request.session['membership_data'])
+        request.session['cart'] = cart
 
     if member.payment_plan == 'monthly':
         membership_price = member.membership.monthly_price

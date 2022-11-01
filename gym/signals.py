@@ -22,4 +22,4 @@ def change_membership_product_price(sender, instance, **kwargs):
             membership_product.price = instance.yearly_price
             print('changed yearly price ')
 
-    membership_product.save()
+        membership_product.save()

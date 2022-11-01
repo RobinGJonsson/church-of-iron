@@ -74,9 +74,9 @@
                                                 {% endif %}
                                             </div>
                                         </div>
+                                        <input type="submit" class="small-link pointer text-info update-link" value="Update">
+                                        <a class="text-decor-none pointer text-danger small-link float-end remove-item" id="remove_{{ item.item_id }}" data-product_size="{{ item_size }}">Remove</a>
                                     </form>
-                                    <a class="text-decor-none pointer text-info update-link"><small>Update</small></a>
-                                    <a class="text-decor-none pointer text-danger float-end remove-item" id="remove_{{ item.item_id }}" data-product_size="{{ item_size }}"><small>Remove</small></a>
                                 </td>
                                 <td class="py-3">
                                     <p class="my-0">${{ item.product.price|calc_subtotal:item.quantity }}</p> 
@@ -86,7 +86,6 @@
                             <tr colspan="5" class="pt-5 text-end">
                                 <h6><strong>Cart Total: ${{ cart_total|floatformat:2 }}</strong></h6>
                                 <h6>Delivery: ${{ delivery_cost|floatformat:2 }}</h6>
-                                <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
                                 {% if spend_for_free_delivery %}
                                     <p class="mb-1 text-danger">
                                         You could get free delivery by spending just <strong>${{ spend_for_free_delivery }}</strong> more!
@@ -130,7 +129,7 @@
 
 {% block postloadjs %}
     {{ block.super }}
-    <script src="{% static 'js/store.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
 {% endblock postloadjs %}
 
  

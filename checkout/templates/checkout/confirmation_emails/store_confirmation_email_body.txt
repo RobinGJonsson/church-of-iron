@@ -1,0 +1,22 @@
+Hello {{ purchase.full_name }}!
+
+This is a confirmation of your order at Boutique Ado. Your order information is below:
+
+Order Number: {{ purchase.order_number }}
+Order Date: {{ purchase.date }}
+
+Order Total: ${{ purchase.order_total }}
+Delivery: ${{ purchase.delivery_cost }}
+Grand Total: ${{ purchase.grand_total }}
+
+Your order will be shipped to {{ purchase.address }} in {{ purchase.city }}.
+
+We've got your phone number on file as {{ purchase.phone }}.
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+Thank you for your order!
+
+Sincerely,
+
+Boutique Ado

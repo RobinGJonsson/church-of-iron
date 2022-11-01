@@ -1,81 +1,88 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block page_title %}Sign Up{% endblock page_title %}
+{% block page_title %}{{ membership.name }} Membership{% endblock page_title %}
 
 
 {% block page_header %}
-    <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
+    <div class="row px-0 mx-0">
+        <div class="col-5 bg-white position-relative">
+            <p class="offset-ts fs-5 fst-italic">
+                Sign up for a month to month membership or a yearly membership 
+                <br>
+                <br>
+                <strong class="fs-1">10% off on yearly payments</strong>
+            </p>
+        </div>
+        <div class="col-7 px-0 mx-0">
+            <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
+        </div>
+    </div>
     <div class="band"></div>
 {% endblock page_header %}
 
 
 {% block content %}
-<section class="text-center">
-    <h1 class="section header">{{ membership.name|upper }} MEMBERSHIP</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6 col-md-8 col-11 mx-auto">
-
-                {% if user.is_authenticated and user_profile.membership.name == membership.name %}
-                You already have a {{ member.membership.name }} membership
-                <br>
-                You can update or change your membership <a href="{% url 'all_memberships' %}">here</a>
-                {% elif user.is_authenticated and  membership.level < user_profile.membership.level%}
-                You have a {{ user_profile.membership.name }} membership
-                <br>
-                You can only apply for a higher level membership 
-                <br>
-                You can choose a higher level membership <a href="{% url 'all_memberships' %}">here</a>
-                {% else %}
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <div class="input-box">
-                        <fieldset>
-                            <legend>Member Information</legend>
-                            {{ form.full_name | as_crispy_field }}
-                            {{ form.email | as_crispy_field }}
-                            {{ form.phone | as_crispy_field }}
-
-                            {% if not user.is_authenticated %}
-                                <p>Already have an account?</p>
-                                <p>Sign In <a href="{% url 'account_login' %}">here</a> before signing up for a membership</p>
-                                <input class="input-item" type="password" placeholder="Password..." name='password1' required>
-                                <input class="input-item" type="password" placeholder="Password (again)..." name='password2' required>
-                            {% endif %}
-                        </fieldset>
-                    </div>
-                    <hr>
-                    <div class="row justify-content-evenly mx-0">
-                        <div class="col-6">
-                            <p><b>Price Monthly: ${{ membership.monthly_price }}</b></p>
-                        </div>
-                        <div class="col-6">
-                            <p><b>Price Yearly: ${{ membership.yearly_price }}</b></p>
-                        </div>
-                        <div class="col-5">
-                            <label for="monthly">Monthly</label>
-                            <input type="radio" name="payment_plan" id="monthly" value="monthly" checked>
-                        </div>
-                        <div class="col-5">
-                            <label for="yearly">Yearly</label>
-                            <input type="radio" name="payment_plan" id="yearly" value="yearly">
-                        </div>
-                        <!-- Ask for a gym if the membership level is less than gold -->
-                        {% if membership.level < 3 %}
-                            <label for="gyms">Select a Gym</label>
-                            <select class="input-item" name="gyms" id="gyms">
-                                {% for gym in gyms %}
-                                <option value="{{ gym }}">{{ gym }}</option>
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                        <input type="hidden" name="membership" value="{{membership.name}}">
-                        <input class="mt-4 btn btn-success btn-lg" type="submit" value="Checkout">
-                    </div>
-                </form>
-                {% endif %}
-            </div>
+<section>
+    <div class="row">
+        <div class="col-md-7 col-11 mx-auto text-center">
+            <h2 class="section-header">PERKS</h2>
+            <p>
+                As a memeber with a <strong>memebership</strong> of silver or gold you
+                also have access to <strong>exclusive offers</strong> in the store and at the gym. 
+                In the store you always have <strong>5%</strong> off in the online store. 
+                At our gyms you can choose to have 1 <strong>free protein shake</strong> per month 
+                or enjoy <strong>10%</strong> off on all protein shakes which you can buy in the reception.
+            </p>
         </div>
     </div>
 </section>
-{% endblock content %}
+<section class="bg-light">
+    <h1 class="section-header my-4">MEMBERSHIPS</h1>
+    <ul class="row mx-0 justify-content-evenly">
+        {% for membership in memberships %}
+            <li class="col-10 p-4 my-3 mx-auto bg-white">
+                <h3 class="fs-5"><strong>{{ membership.name }} Membership</strong></h3>
+                <hr>
+                <div class="row">
+                    <div class="col-8">
+                        <p class="text-bold text-green"><b>{{ membership.monthly_price }}/month | {{ membership.yearly_price }}/year</b></p>
+                    </div>
+                    <div class="col-4 px-0 text-end pt-1">
+                        <a class="text-decor-none text-black pointer show-membership" data-id="{{ membership.id }}"><b>Show More</b></a>
+                    </div>
+                    <div class="col-12 membership-details-{{ membership.id }} d-none">
+                        <p>{{ membership.description }}</p>
+                        {% if user.is_authenticated and user_profile.membership %}
+                            {% if user_profile.membership.level < membership.level %}
+                                <a href="{% url 'membership_signup' membership.name %}" class="btn btn-success">Sign up</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'membership_signup' membership.name %}" class="btn btn-success">Sign up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+<section>
+    <div class="col-8 mx-auto form-container">
+        <h4 class="membership-title"> {{ membership.name }} Membership</h4>
+        {% include 'includes/signup-form.html' %}
+    </div>
+</section>
+
+{% endblock content %} 
+
+{% block postloadjs %}
+{{ block.super }} 
+<script>
+    $('.show-membership').click(function (e) {
+        let membershipId = $(this).data("id");
+        let targetMemberhsip = `membership-details-${membershipId}`;
+        $(`.${targetMemberhsip}`).toggleClass("d-none");
+    })
+
+</script>
+{% endblock postloadjs %}
+

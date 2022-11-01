@@ -11,18 +11,17 @@ from profiles.models import UserProfile
 class Order(models.Model):
     order_number = models.CharField(
         max_length=32, null=False, editable=False, default=False)
-    #! Change user profile to work for non memebers
     user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone = models.CharField(max_length=20, null=False, blank=False)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
+    postcode = models.CharField(max_length=20, null=False, blank=False)
     city = models.CharField(max_length=40, null=False, blank=False)
     county = models.CharField(
         max_length=40, null=False, blank=False, default='')
-    address = models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50, null=False, blank=False)
     apartment_number = models.IntegerField(null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2,
@@ -31,9 +30,6 @@ class Order(models.Model):
                                       null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2,
                                       null=False, default=0)
-    original_cart = models.TextField(null=False, blank=False, default='')
-    stripe_pid = models.CharField(max_length=254, null=False, blank=False,
-                                  default='')
 
     def _generate_order_number(self):
         """
