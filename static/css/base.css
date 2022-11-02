@@ -88,6 +88,16 @@
     height: 50px;
     background-color: var(--green);
 }
+
+/* -----------------  Mail Chimp */
+
+#mc_embed_signup {
+    background: #fff;
+    clear: left;
+    font: 14px Helvetica, Arial, sans-serif;
+    width: 600px;
+}
+
 /* -----------------  Bootstrap */
 
 .row {
@@ -348,8 +358,9 @@ footer ul li a {
     box-sizing: border-box;
     height: 40px;
     padding: 10px 12px;
+    margin: 10px 0;
     border: 1px solid transparent;
-    border-radius: 0px;
+    border-radius: 5px;
     background-color: white;
     box-shadow: 0 1px 3px 0 #e6ebf1;
     -webkit-transition: box-shadow 150ms ease;
@@ -359,7 +370,7 @@ footer ul li a {
 .StripeElement--focus,
 .stripe-style-input:focus,
 .stripe-style-input:active {
-    box-shadow: 0 1px 3px 0 #cfd7df;
+    box-shadow: 2px 4px 3px 0 #cfd7df;
 }
 
 .StripeElement--webkit-autofill {

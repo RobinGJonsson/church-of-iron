@@ -73,6 +73,18 @@ def membership_signup(request, membership_name):
             requested_membership = Membership.objects.get(
                 name=rq['membership'])
 
+            # Check so that the user doesn't have the same or a lower membership
+            if user_profile.membership:
+                if user_profile.membership.level > requested_membership.level:
+                    messages.warning(
+                        request, 'You cannot sign up for lower membership than you already have')
+                    return redirect(reverse('all_memberships'))
+
+                if user_profile.membership.level == requested_membership.level:
+                    messages.warning(
+                        request, f'You already have a {requested_membership.name} membership')
+                    return redirect(reverse('all_memberships'))
+
             if rq['payment_plan'] == 'monthly':
                 price = requested_membership.monthly_price
             elif rq['payment_plan'] == 'yearly':
@@ -98,6 +110,12 @@ def membership_signup(request, membership_name):
     else:
         if request.method == 'POST':
             rq = request.POST
+
+            email_exist = UserProfile.objects.filter(email=rq['email'])
+            if email_exist:
+                messages.info(
+                    request, "This email is already taken and/or password isn't correct")
+                return redirect(reverse(membership_signup, args=[membership_name]))
 
             # Check if the password matches and login
             if rq['password1'] == rq['password2']:
@@ -128,7 +146,8 @@ def membership_signup(request, membership_name):
             else:
                 # Handle wrong passwords diffrently
                 messages.info(
-                    request, f"The passwords don't match, please try again")
+                    request, f"The passwords don't match, please try again!")
+                return redirect(reverse('membership_signup', args=[membership_name]))
 
             requested_membership = Membership.objects.get(
                 name=rq['membership'])
@@ -137,12 +156,12 @@ def membership_signup(request, membership_name):
             if user_profile.membership:
                 if user_profile.membership.level > requested_membership.level:
                     messages.warning(
-                        request, 'You cannot sign up for lower membership than you already have')
+                        request, 'You cannot sign up for lower membership than you already have!')
                     return redirect(reverse('all_memberships'))
 
                 if user_profile.membership.level == requested_membership.level:
                     messages.warning(
-                        request, f'You already have a {requested_membership.name} membership')
+                        request, f'You already have a {requested_membership.name} membership!')
                     return redirect(reverse('all_memberships'))
 
             else:

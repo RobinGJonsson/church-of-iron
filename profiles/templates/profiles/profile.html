@@ -22,7 +22,8 @@
                             <form action="{% url 'profile' %}" method="POST">
                                 {% csrf_token %}
                                 {{ form }}
-                                <input class="btn btn-success float-end" type="submit" value="Update Information">
+                                <div class="btn btn-success float-end update-btn">Update Profile</div>
+                                <input class="btn btn-success float-end submit-btn" type="submit" value="Save Changes">
                             </form>
                         </div>
                     </div>
@@ -81,3 +82,8 @@
 </section>
 {% endblock content %}
 
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock postloadjs %}

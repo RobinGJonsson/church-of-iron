@@ -101,10 +101,8 @@ def create_checkout_session(request):
             }
         )
 
-        # membership_data['pid'] = checkout_session.id
         # Send the data to the js file
         return redirect(checkout_session.url, code=303)
-        # return JsonResponse({'sessionId': checkout_session['id']})
     except Exception as e:
         print(e)
         return JsonResponse({'error': str(e)})
@@ -115,6 +113,10 @@ def checkout_view(request):
     # Get the cart content and the membership_data from the session
     cart = request.session.get('cart', {})
     membership_data = request.session.get('membership_data', {})
+
+    if not cart and not membership_data:
+        messages.info(request, "You don't have anything to checkout yet!")
+        return redirect(reverse('home'))
 
     payment_plan = None
     membership = None
