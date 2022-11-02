@@ -266,6 +266,15 @@ header {
     line-height: 10px;
 }
 
+/* -----------------  Buttons */
+
+.center-absolute {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* -----------------  Footer */
 
 footer ul li a {

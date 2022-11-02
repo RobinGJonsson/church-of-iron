@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load staff_permissions %}
 {% block page_title %}Gym {{ gym.name }}{% endblock page_title %}
 
 {% block extra_css %}
@@ -21,13 +20,6 @@
 {% block content %}
 <div class="contianer">
     <section>
-        {% if request.user|has_group:"Gym Manager" %}
-        <div class="row">
-            <div class="col-12">
-                <a href="{% url 'staff_mode' gym.name %}" class="btn">Enter Staff Mode</a>
-            </div>
-        </div>
-        {% endif %}
         <!-- Carousel of all the gyms images -->
         <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
         <div class="carousel-indicators">
@@ -38,7 +30,8 @@
         <div class="carousel-inner">
             {% for image in gym_images %}
             <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-            <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+                <img class="position-relative" src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+                <a class="btn btn-danger center-absolute overlay-50" href="#">Delete This Image</a>
             </div>
             {% endfor %}
         </div>
@@ -50,6 +43,9 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+        </div>
+        <div class="text-center mt-2">
+            <a class="btn btn-success mx-auto" href="">Add New Image</a>
         </div>
     </section>
     <section>
@@ -64,6 +60,7 @@
                         <div class="anemity-container">
                             <div><i class="{{amenity.icon}}"></i></div>
                             <div>{{ amenity.friendly_name }}</div>
+                            <span><a href="#"><i class="fs-3 text-danger fa-regular fa-circle-xmark"></i></a></span>
                         </div>
                     </li>
                     {% endfor %}
@@ -81,43 +78,60 @@
     </section>
     <!-- Contact info and open hours -->
     <section>
-        <div class="row contact-boxes me-0 text-center justify-content-evenly">
-            <div class="col-md-5 col-10 bg-light my-3 py-4">
-                <h3>Contact</h3>
-                <hr>
-                <ul>
-                    <li>
-                        <h5>Address</h5>
-                        <p>{{ gym.address }}</p>
-                    </li>                    
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <div class="row contact-boxes me-0 text-center justify-content-evenly">
+                <div class="col-md-5 col-10 bg-light my-3 py-4">
+                    <h3>Contact</h3>
                     <hr>
-                    <li>
-                        <h5>Phone</h5>
-                        <p>{{ gym.phone }}</p>
-                    </li>
+                    <ul>
+                        <li>
+                            <h5>Address</h5>
+                            <input type="text" name="address" value="{{ gym.address }}">
+                        </li>                    
+                        <hr>
+                        <li>
+                            <h5>Phone</h5>
+                            <input type="text" name="phone" value="{{ gym.phone }}">
+                        </li>
+                        <hr>
+                        <li>
+                            <h5>Email</h5>
+                            <input type="email" name="email" value="{{ gym.email }}">
+                        </li>                
+                    </ul>
+                </div>
+                <div class="col-md-5 col-10 bg-light my-3 py-4">
+                    <h3>Open Hours</h3>
                     <hr>
-                    <li>
-                        <h5>Email</h5>
-                        <p>{{ gym.email }}</p>
-                    </li>                
-                </ul>
+                    <ul>
+                        <li class="row">
+                            <legend>Weekday</legend>
+                            <fieldset>
+                            <label for="opening_hours_weekdays">Opening Hours</label>
+                            <input name="opening_hours_weekdays"  type="datetime" value="{{ gym.opening_hours_weekdays|time:'H:i' }}">
+                            
+                            <label for="closing_hours_weekdays">Closing Hours</label>
+                            <input name="closing_hours_weekdays" type="datetime" value="{{ gym.closing_hours_weekdays|time:'H:i' }}">
+                            </fieldset>
+
+                            <fieldset>
+                            <legend>Weekend</legend>
+                            <label for="opening_hours_weekends">Opening Hours</label>
+                            <input name="opening_hours_weekends"  type="datetime" value="{{ gym.opening_hours_weekends|time:'H:i' }}">
+                            
+                            <label for="closing_hours_weekends">Closing Hours</label>
+                            <input name="closing_hours_weekends" type="datetime" value="{{ gym.closing_hours_weekends|time:'H:i' }}">
+                            </fieldset>
+                        </li>                    
+                    </ul>
+                </div>
             </div>
-            <div class="col-md-5 col-10 bg-light my-3 py-4">
-                <h3>Open Hours</h3>
-                <hr>
-                <ul>
-                    <li class="row">
-                        <div class="col-6"><h5>Weekdays</h5></div>
-                        <div class="col-6"><h5>Weekends</h5></div>
-                    </li>
-                    <li class="row">
-                        <div class="col-6"> {{ gym.opening_hours_weekdays|time:'H:i' }} - {{ gym.closing_hours_weekdays|time:'H:i' }}</div>
-                        <div class="col-6"> {{ gym.opening_hours_weekends|time:'H:i' }} - {{ gym.closing_hours_weekends|time:'H:i' }}</div>
-                    </li>                    
-                </ul>
-                <hr>
+            <div class="text-center">
+                <input class="btn btn-success" type="submit" value="Save Changes">
             </div>
-        </div>
+        </form>
     </section>
 </div>
 {% endblock content %}

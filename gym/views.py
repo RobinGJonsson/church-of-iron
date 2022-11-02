@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from django.contrib import messages
@@ -266,3 +267,42 @@ def membership_update(request):
     }
 
     return render(request, 'gym/membership_update.html', context)
+
+
+def is_gym_manager(user):
+    return user.groups.filter(name='Gym Manager').exists()
+
+
+def is_store_manager():
+    return User.groups.filter(name='Store Manager').exists()
+
+
+@login_required
+@user_passes_test(is_gym_manager)
+def staff_mode(request, gym_name):
+    gym = Gym.objects.get(name=gym_name)
+    gym_images = GymImage.objects.filter(gym=gym)
+    GOOGLE_MAPS_SECRET_KEY = settings.GOOGLE_MAPS_SECRET_KEY
+
+    if request.method == "POST":
+        rp = request.POST
+        print(rp)
+        print(rp['address'])
+        gym.address = rp['address']
+        gym.email = rp['email']
+        gym.phone = rp['phone']
+        gym.opening_hours_weekdays = rp['opening_hours_weekdays']
+        gym.opening_hours_weekends = rp['opening_hours_weekends']
+        gym.closing_hours_weekdays = rp['closing_hours_weekdays']
+        gym.closing_hours_weekends = rp['closing_hours_weekends']
+
+        gym.save()
+        gym = Gym.objects.get(name=gym_name)
+
+    context = {
+        'gym': gym,
+        'gym_images': gym_images,
+        'GOOGLE_MAPS_SECRET_KEY': GOOGLE_MAPS_SECRET_KEY,
+    }
+
+    return render(request, 'gym/gym_staff.html', context)
