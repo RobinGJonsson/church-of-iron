@@ -35,13 +35,14 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    'https://robin-church-of-iron.herokuapp.com/'
 ]
 
 
 if DEBUG:
     DOMAIN_URL = 'http://127.0.0.1:8000/'
 else:
-    DOMAIN_URL = ''
+    DOMAIN_URL = 'https://robin-church-of-iron.herokuapp.com/'
 
 # Application definition
 
@@ -137,7 +138,7 @@ WSGI_APPLICATION = 'church_of_iron.wsgi.application'
 
 # if 'DATABASE_URL' in os.environ:
 # DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+#     'default': dj_database_url.parse(env('DATABASE_URL'))
 # }
 
 # else:
@@ -201,10 +202,19 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-
 #! Add endpoint in Stripe webhooks!
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 
 GOOGLE_MAPS_SECRET_KEY = env('GOOGLE_MAPS_SECRET_KEY')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if 'DEVELPOMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'churchofiron@example.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')

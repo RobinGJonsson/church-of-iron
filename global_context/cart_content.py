@@ -52,12 +52,14 @@ def cart_content(request):
 
     if membership_data:
         membership_cost = membership_data['price']
+        cart_count += 1
 
     grand_total = float(float(delivery_cost) +
                         float(cart_total) + membership_cost)
     order_total = float(cart_total) + membership_cost
 
     context = {
+        'membership_name': membership_data['membership'] if membership_data else '',
         'cart_items': cart_items,
         'cart_count': cart_count,
         'cart_total': cart_total,

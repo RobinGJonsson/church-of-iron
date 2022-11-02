@@ -23,7 +23,7 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=member)
         if form.is_valid:
             form.save()
-            messages.success(request, 'member Updated Successfully')
+            messages.success(request, 'Member Updated Successfully')
         else:
             messages.error(
                 request, 'Update failed. Please ensure the form is valid.')

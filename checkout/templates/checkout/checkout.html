@@ -14,93 +14,105 @@
         <div class="row">
             <div class="col">
                 <h2 class="section-header">Checkout</h2>
-                <hr>
             </div>
         </div>
-         <div class="row">
-             {% if cart_items %}
-             <div class="col-12 col-lg-6 order-lg-last mb-5">
-                 <p class="text-muted">Order Summary ({{ cart_count }})</p>
-                 <div class="row">
-                     <div class="col-7 offset-2">
-                         <p class="mb-1 mt-0 small text-muted">Item</p>
-                     </div>
-                     <div class="col-3 text-end">
-                         <p class="mb-1 mt-0 small text-muted">Subtotal</p>
-                     </div>
-                 </div>
-                <hr>
-                <h4>Cart Items</h4>
-                    {% for item in cart_items %}
-                    <div class="row">
-                        <div class="col-2 mb-1">
-                            {% if item.product.image %}
-                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
-                            {% endif %}
-                        </div>
-                        <div class="col-7">
-                            <p class="my-0"><strong>{{ item.product.name }}</strong></p>
-                            <p class="my-0 small">Size: {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
-                            <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
-                        </div>
-                        <div class="col-3 text-end">
-                            <p class="my-0 small text-muted">${{ item.product.price | calc_subtotal:item.quantity }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-                {% if membership %}
-                <hr>
-                <h4>Membership</h4>
+        <div class="row">
+            <!-- Order Content -->
+            <div class="col-12 col-lg-6 order-lg-last">
                 <div class="row">
                     <div class="col-12">
-                        <ul>
-                            <li>
-                                <p>Membership: <span class="float-end">{{ membership.name }}</span></p>
-                            </li>
-                            <li>
-                                <p>Your Gym:<span class="float-end">{{ gym }}</span></p>
-                            </li>
-                            <li>
-                                <p>Payment Plan:<span class="float-end">${{ payment_plan }}</span></p>
-                            </li>
-                            <li>
-                                <p>Starting Date:<span class="float-end">{{ starting_date }}</span></p>
-                            </li>
-                        </ul>
+                        <p class="text-muted">Order Summary ({{ cart_count }})</p>
+                        <div class="row">
+                            <div class="col-7 offset-2">
+                                <p class="mb-1 mt-0 small text-muted">Item</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <p class="mb-1 mt-0 small text-muted">Subtotal</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {% endif %}
-                <hr class="my-0">
-                <div class="row text-black text-end">
-                    <div class="col-7 offset-2">
-                        <p class="my-0">Order Total:</p>
-                        <p class="my-0">Delivery:</p>
-                        {% if refund %}
-                        <p class="my-0">Refund for membership change:</p>
-                        {% endif %}
-                        {% if payment_plan_change_cost %}
-                        <p class="my-0">Cost for membership change:</p>
-                        {% endif %}
-                        <p class="my-0">Grand Total:</p>
+                    <hr>
+                    <!-- Cart content -->
+                    {% if cart_items %}
+                    <div class="col -12">
+                        <h4>Cart Items</h4>
+                        {% for item in cart_items %}
+                        <div class="row">
+                            <div class="col-2 mb-1">
+                                {% if item.product.image %}
+                                <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-7">
+                                <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                                <p class="my-0 small">Size: {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
+                                <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <p class="my-0 small text-muted">${{ item.product.price | calc_subtotal:item.quantity }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-3">
-                        <p class="my-0">${{ order_total | floatformat:2 }}</p>
-                        <p class="my-0">${{ delivery_cost | floatformat:2 }}</p>
-                        {% if refund %}
-                        <p class="my-0">$-{{ refund | floatformat:2 }}</p>
-                        {% endif %}
-                        {% if payment_plan_change_cost %}
-                        <p class="my-0">${{ payment_plan_change_cost | floatformat:2 }}</p>
-                        {% endif %}
-                        <p class="my-0"><strong>${{ grand_total | floatformat:2 }}</strong></p>
+                    {% endif %}
+                    {% if membership %}
+                    <hr>
+                    <!-- Memebership Content -->
+                    <div class="col -12">
+                        <h4>Membership</h4>
+                        <div class="col-12">
+                            <ul>
+                                <li>
+                                    <p>Membership: <span class="float-end">{{ membership.name }}</span></p>
+                                </li>
+                                <li>
+                                    <p>Your Gym:<span class="float-end">{{ gym }}</span></p>
+                                </li>
+                                <li>
+                                    <p>Payment Plan:<span class="float-end">${{ payment_plan }}</span></p>
+                                </li>
+                                <li>
+                                    <p>Starting Date:<span class="float-end">{{ starting_date }}</span></p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+                    {% endif %}
+                    <!-- Order Total -->
+                    <hr>
+                    <div class="col-12">
+                        <div class="row text-black text-end">
+                            <div class="col-7 offset-2">
+                                <p class="my-0">Order Total:</p>
+                                <p class="my-0">Delivery:</p>
+                                {% if refund %}
+                                <p class="my-0">Refund for membership change:</p>
+                                {% endif %}
+                                {% if payment_plan_change_cost %}
+                                <p class="my-0">Cost for membership change:</p>
+                                {% endif %}
+                                <p class="my-0">Grand Total:</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="my-0">${{ order_total | floatformat:2 }}</p>
+                                <p class="my-0">${{ delivery_cost | floatformat:2 }}</p>
+                                {% if refund %}
+                                <p class="my-0">$-{{ refund | floatformat:2 }}</p>
+                                {% endif %}
+                                {% if payment_plan_change_cost %}
+                                <p class="my-0">${{ payment_plan_change_cost | floatformat:2 }}</p>
+                                {% endif %}
+                                <p class="my-0"><strong>${{ grand_total | floatformat:2 }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-5 mt-2">
                 </div>
             </div>
+            <!-- Form -->
             {% if form %}
             <div class="col-12 col-lg-6">
                 <p class="text-muted">Please fill out the form below to complete your order</p>
-                <!-- Send form data to checkout success  -->
                 <form action="{% url 'create_checkout_session' %}" method="POST" id="payment-form">
                     {% csrf_token %}
                     <fieldset class="rounded px-3 mb-5">
@@ -143,25 +155,25 @@
                         </p>
                     </div>
                 </form>
-            </div>
             {% else %}
-            <form action="{% url 'create_checkout_session' %}" method="GET" id="payment-form">
-                <div class="submit-btn text-end mt-5 mb-2">                    
-                    <button id="submit-btn" class="btn btn-success">
-                        <span class="font-weight-bold">Complete Order</span>
-                        <span class="icon">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </button>
-                    <p class="small text-danger my-0">
-                        <span class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </span>
-                        <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
-                    </p>
-                </div>
-            </form>
+                <form action="{% url 'create_checkout_session' %}" method="GET" id="payment-form">
+                    <div class="submit-btn text-end mt-5 mb-2">                    
+                        <button id="submit-btn" class="btn btn-success">
+                            <span class="font-weight-bold">Complete Order</span>
+                            <span class="icon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </button>
+                        <p class="small text-danger my-0">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
+                        </p>
+                    </div>
+                </form>
             {% endif %}
+            </div>
         </div>
         <div id="loading-overlay">
             <h1 class="text-light logo-font loading-spinner">
