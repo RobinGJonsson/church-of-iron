@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 
 
-from .models import Gym, GymImage, Membership
+from .models import Gym, GymImage, Membership, Amenity
 from profiles.models import UserProfile
 from profiles.forms import UserProfileForm
-from .forms import UpdateMembershipForm
+from .forms import UpdateMembershipForm, AddImageToGym
 from store.models import Product
 
 from datetime import datetime, timedelta
@@ -279,15 +279,16 @@ def is_store_manager():
 
 @login_required
 @user_passes_test(is_gym_manager)
-def staff_mode(request, gym_name):
+def gym_edit(request, gym_name):
     gym = Gym.objects.get(name=gym_name)
+    amenities = Amenity.objects.all()
     gym_images = GymImage.objects.filter(gym=gym)
+    image_form = AddImageToGym()
     GOOGLE_MAPS_SECRET_KEY = settings.GOOGLE_MAPS_SECRET_KEY
 
     if request.method == "POST":
         rp = request.POST
-        print(rp)
-        print(rp['address'])
+
         gym.address = rp['address']
         gym.email = rp['email']
         gym.phone = rp['phone']
@@ -301,8 +302,41 @@ def staff_mode(request, gym_name):
 
     context = {
         'gym': gym,
+        'image_form': image_form,
+        'amenities': amenities,
         'gym_images': gym_images,
         'GOOGLE_MAPS_SECRET_KEY': GOOGLE_MAPS_SECRET_KEY,
     }
 
     return render(request, 'gym/gym_staff.html', context)
+
+
+def delete_amenity(request, gym_name, amenity_id):
+    gym = Gym.objects.get(name=gym_name)
+    amenity = Amenity.objects.get(id=amenity_id)
+    gym.amenities.remove(amenity)
+    return redirect(reverse('staff_mode', args=[gym_name]))
+
+
+def add_amenity(request, gym_name, amenity_id):
+    gym = Gym.objects.get(name=gym_name)
+    amenity = Amenity.objects.get(id=amenity_id)
+    gym.amenities.add(amenity)
+    return redirect(reverse('staff_mode', args=[gym_name]))
+
+
+def delete_image(request, gym_name, image_id):
+    GymImage.objects.get(id=image_id).delete()
+    return redirect(reverse('staff_mode', args=[gym_name]))
+
+
+def add_image(request, gym_name):
+    if request.method == 'POST':
+        gym = Gym.objects.get(name=request.POST['gym'])
+        form = AddImageToGym(request.POST, request.FILES)
+
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.gym = gym
+            image.save()
+    return redirect(reverse('staff_mode', args=[gym_name]))

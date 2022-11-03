@@ -22,9 +22,9 @@
 <div class="contianer">
     <section>
         {% if request.user|has_group:"Gym Manager" %}
-        <div class="row">
-            <div class="col-12">
-                <a href="{% url 'staff_mode' gym.name %}" class="btn">Enter Staff Mode</a>
+        <div class="row p-4 bg-warning">
+            <div class="col-12 text-center">
+                <a href="{% url 'gym_edit' gym.name %}" class="btn btn-success">Edit Mode</a>
             </div>
         </div>
         {% endif %}
@@ -55,13 +55,13 @@
     <section>
         <div class="row mx-0">
             <div class="col-12">    
-                <h3 class="section-header">OUR ANEMITIES</h3>
+                <h3 class="section-header">OUR AMENITIES</h3>
             </div>
             <div class="container text-center w-75">
                 <ul class="row justify-content-center m-0">
                     {% for amenity in gym.amenities.all %}
-                    <li class="col-md-3">
-                        <div class="anemity-container">
+                    <li class="col-md-3 col-sm-6">
+                        <div class="amenity-container mx-auto">
                             <div><i class="{{amenity.icon}}"></i></div>
                             <div>{{ amenity.friendly_name }}</div>
                         </div>

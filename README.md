@@ -20,3 +20,4 @@
 
 -   Closing the toats was not working, by removing the JS in the postloadjs on base.html and adding a show class to the toast element made it show and hide as expercted
 -   Navbar on profile page acts as if the user is logged out: This was because in the profile view, the context contained a key called "user" which is a reseved keyword
+-   When trying to upload an image from a form, it always failed to vaildate, the reason for this was first of all you need "enctype="multipart/form-data" in the form and secondly you need "request.POST" AND "request.FILES" in the when saving the form data in the view
