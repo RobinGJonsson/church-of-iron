@@ -273,10 +273,6 @@ def is_gym_manager(user):
     return user.groups.filter(name='Gym Manager').exists()
 
 
-def is_store_manager():
-    return User.groups.filter(name='Store Manager').exists()
-
-
 @login_required
 @user_passes_test(is_gym_manager)
 def gym_edit(request, gym_name):

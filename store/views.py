@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.db.models.functions import Lower
-
+from django.contrib.auth.models import User
 from .models import Category, Product
+from .forms import ProductForm
 
 
 def store_view(request):
@@ -67,20 +68,31 @@ def product_detail(request, product_id):
     return render(request, 'store/product_detail.html', context)
 
 
+def is_store_manager(user):
+    return user.groups.filter(name='Store Manager').exists()
+
+
 @login_required
+@user_passes_test(is_store_manager)
 def edit_product(request, product_id):
     product = Product.objects.get(id=product_id)
+    form = ProductForm(instance=product)
 
     if request.method == 'POST':
         rp = request.POST
+        form = ProductForm(rp, request.FILES, instance=product)
 
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('product_detail', args=[product_id]))
     context = {
-        'product': product,
+        'form': form,
     }
     return render(request, 'store/edit_product.html', context)
 
 
 @login_required
+@user_passes_test(is_store_manager)
 def delete_product(request, product_id):
     """ Delete a product from the store """
     if not request.user.is_superuser:
@@ -89,4 +101,4 @@ def delete_product(request, product_id):
 
     Product.objects.get(id=product_id).delete()
     messages.success(request, 'Product deleted!')
-    return redirect(reverse('products'))
+    return redirect(reverse('store_view'))

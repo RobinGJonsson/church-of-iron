@@ -34,7 +34,7 @@
                     {% else %}
                         <small>No Rating</small>
                     {% endif %}
-                    {% if request.user.is_superuser %}
+                    {% if request.user|has_group:"Store Manager" %}
                         <small class="ms-3">
                             <a href="{% url 'edit_product' product.id %}">Edit</a> | 
                             <a class="text-danger" href="{% url 'delete_product' product.id %}">Delete</a>
