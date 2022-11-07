@@ -53,111 +53,112 @@
                     {% csrf_token %}
                     <input type="hidden" name="gym" value="{{ gym }}">
                     {{ image_form|crispy }}
+                    <input class="btn-orange mt-2" type="submit" value="Save">
                 </form>
             </div>
         </div>
     </section>
-    <section>
-        <div class="row mx-0">
-            <div class="col-12">    
-                <h3 class="section-header">OUR ANEMITIES</h3>
-            </div>
-            <div class="container text-center w-75">
-                <ul class="row m-0">
-                    {% for amenity in gym.amenities.all %}
+    <section class="row mx-0">
+        <div class="col-12">    
+            <h2 class="section-header">OUR AMENITIES</h2>
+        </div>
+        <div class="container text-center w-75">
+            <ul class="row m-0">
+                {% for amenity in gym.amenities.all %}
+                <li class="col-md-3 col-sm-6">
+                    <div class="amenity-container mx-auto">
+                        <div><i class="{{amenity.icon}}"></i></div>
+                        <p class="mb-0">{{ amenity.friendly_name }}</p>
+                        <span><a href="{% url 'delete_amenity' gym.name amenity.id %}"><i class="fs-3 text-danger fa-regular fa-circle-xmark"></i></a></span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="add-amenities-btn btn-orange">Add amenities</div>
+            <ul class="row m-0 add-amenities">
+                <h3>Choose amenities to add</h3>
+                {% for amenity in amenities %}
+                {% if amenity not in gym.amenities.all %}
                     <li class="col-md-3 col-sm-6">
                         <div class="amenity-container mx-auto">
                             <div><i class="{{amenity.icon}}"></i></div>
-                            <div>{{ amenity.friendly_name }}</div>
-                            <span><a href="{% url 'delete_amenity' gym.name amenity.id %}"><i class="fs-3 text-danger fa-regular fa-circle-xmark"></i></a></span>
+                            <p class="mb-0">{{ amenity.friendly_name }}</p>
+                            <span><a href="{% url 'add_amenity' gym.name amenity.id %}"><i class="fs-3 text-info fa-regular fa-plus"></i></a></span>
                         </div>
                     </li>
-                    {% endfor %}
-                </ul>
-                <div class="add-amenities-btn btn-orange">Add amenities</div>
-                <ul class="row m-0 add-amenities">
-                    <h3>Choose amenities to add</h3>
-                    {% for amenity in amenities %}
-                    {% if amenity not in gym.amenities.all %}
-                        <li class="col-md-3 col-sm-6">
-                            <div class="amenity-container mx-auto">
-                                <div><i class="{{amenity.icon}}"></i></div>
-                                <div>{{ amenity.friendly_name }}</div>
-                                <span><a href="{% url 'add_amenity' gym.name amenity.id %}"><i class="fs-3 text-info fa-regular fa-plus"></i></a></span>
-                            </div>
-                        </li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
+                {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     </section>
     <hr>
     <!-- Map -->
-    <section>
-        <div class="position-relative mx-auto" id="map">
-            <div class="map-cover overlay-50">
-                <button class="btn-orange" id="modal-btn">Show Map</button>
-            </div>
+    <section class="position-relative mx-auto" id="map">
+        <div class="map-cover overlay-50">
+            <button class="btn-orange" id="modal-btn">Show Map</button>
         </div>
     </section>
     <!-- Contact info and open hours -->
-    <section>
-        <form action="" method="POST">
-            {% csrf_token %}
+    <form action="" method="POST">
+        {% csrf_token %}
 
-            <div class="row contact-boxes me-0 text-center justify-content-evenly">
-                <div class="col-md-5 col-10 my-3 py-4">
-                    <h3>Contact</h3>
+        <div class="row contact-boxes me-0 text-center justify-content-evenly">
+            <address class="col-md-5 col-10 my-3 py-4">
+                <h3>Contact</h3>
+                <hr>
+                <ul>
+                    <li>
+                        <h4>Address</h4>
+                        <input type="text" name="address" value="{{ gym.address }}">
+                    </li>                    
                     <hr>
-                    <ul>
-                        <li>
-                            <h5>Address</h5>
-                            <input type="text" name="address" value="{{ gym.address }}">
-                        </li>                    
-                        <hr>
-                        <li>
-                            <h5>Phone</h5>
-                            <input type="text" name="phone" value="{{ gym.phone }}">
-                        </li>
-                        <hr>
-                        <li>
-                            <h5>Email</h5>
-                            <input type="email" name="email" value="{{ gym.email }}">
-                        </li>                
-                    </ul>
-                </div>
-                <div class="col-md-5 col-10 my-3 py-4">
-                    <h3>Open Hours</h3>
+                    <li>
+                        <h4>Phone</h4>
+                        <input type="text" name="phone" value="{{ gym.phone }}">
+                    </li>
                     <hr>
-                    <ul>
-                        <li class="row">
-                            <legend>Weekday</legend>
-                            <fieldset>
+                    <li>
+                        <h4>Email</h4>
+                        <input type="email" name="email" value="{{ gym.email }}">
+                    </li>                
+                </ul>
+            </address>
+            <div class="col-md-5 col-10 my-3 py-4">
+                <h3>Open Hours</h3>
+                <hr>
+                <ul>
+                    <li class="row">
+                        <legend>Weekday</legend>
+                        <fieldset>
+                        </p>
                             <label for="opening_hours_weekdays">Opening Hours</label>
                             <input name="opening_hours_weekdays"  type="datetime" value="{{ gym.opening_hours_weekdays|time:'H:i' }}">
-                            
+                        <p>
+                        <p>
                             <label for="closing_hours_weekdays">Closing Hours</label>
                             <input name="closing_hours_weekdays" type="datetime" value="{{ gym.closing_hours_weekdays|time:'H:i' }}">
-                            </fieldset>
+                        </p>
+                        </fieldset>
 
-                            <fieldset>
-                            <legend>Weekend</legend>
+                        <fieldset>
+                        <legend>Weekend</legend>
+                        <p>
                             <label for="opening_hours_weekends">Opening Hours</label>
                             <input name="opening_hours_weekends"  type="datetime" value="{{ gym.opening_hours_weekends|time:'H:i' }}">
-                            
+                        </p>
+                        <p>
                             <label for="closing_hours_weekends">Closing Hours</label>
                             <input name="closing_hours_weekends" type="datetime" value="{{ gym.closing_hours_weekends|time:'H:i' }}">
-                            </fieldset>
-                        </li>                    
-                    </ul>
-                </div>
+                        </p>
+                        </fieldset>
+                    </li>                    
+                </ul>
             </div>
-            <div class="text-center pb-3">
-                <input class="btn-orange" type="submit" value="Save Changes">
-            </div>
-        </form>
-    </section>
+        </div>
+        <div class="text-center pb-3">
+            <input class="btn-orange" type="submit" value="Save Changes">
+        </div>
+    </form>
 </div>
 {% endblock content %}
 

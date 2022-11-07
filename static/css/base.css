@@ -228,7 +228,7 @@
     border-bottom-color: #343a40 !important;
 }
 
-.bag-notification-wrapper {
+.cart-notification-wrapper {
     height: 100px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -332,7 +332,7 @@ hr {
     right: -5px;
     min-width: 18px;
     height: 18px;
-    background-color: rgb(255, 30, 0);
+    background-color: var(--orange);
     color: white;
     padding: 5px;
     text-align: center;
@@ -565,6 +565,10 @@ select option[value=""] {
 aside .box-content {
     justify-content: left;
     padding-left: 20px;
+}
+
+aside .box-content h4 {
+    font-size: 1rem;
 }
 
 header.box-content {

@@ -16,41 +16,37 @@
         <div class="col-7 px-0 mx-0">
             <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
         </div>
+        <div class="band"></div>
     </div>
-    <div class="band"></div>
 {% endblock page_header %}
 
 
 {% block content %}
-<section>
+<section class="row">
     <h2 class="section-header">PERKS</h2>
-    <div class="row">
-        <div class="col-md-7 col-11 mx-auto text-center">
-            <p>
-                As a memeber with a <strong>memebership</strong> of silver or gold you
-                also have access to <strong>exclusive offers</strong> in the store and at the gym. 
-                In the store you always have <strong>5%</strong> off in the online store. 
-                At our gyms you can choose to have 1 <strong>free protein shake</strong> per month 
-                or enjoy <strong>10%</strong> off on all protein shakes which you can buy in the reception.
-            </p>
-        </div>
-    </div>
+    <article class="col-md-7 col-11 mx-auto text-center">
+        <p>
+            As a memeber with a <strong>memebership</strong> of silver or gold you
+            also have access to <strong>exclusive offers</strong> in the store and at the gym. 
+            In the store you always have <strong>5%</strong> off in the online store. 
+            At our gyms you can choose to have 1 <strong>free protein shake</strong> per month 
+            or enjoy <strong>10%</strong> off on all protein shakes which you can buy in the reception.
+        </p>
+    </article>
 </section>
 <section>
-    <h1 class="section-header my-4">MEMBERSHIPS</h1>
+    <h2 class="section-header my-4">MEMBERSHIPS</h2>
     <ul class="row mb-0 mx-0 justify-box-content-evenly align-items-start">
         {% for membership in memberships %}
         <li class="col-md-5 p-4 my-3 mx-auto membership-card bg-light">
-            <h3 class="fs-5 text-{{membership.name|lower}} "><strong>{{ membership.name }} Membership</strong></h3>
+            <h3 class="fs-5 text-{{membership.name|lower}}"><strong>{{ membership.name }} Membership</strong></h3>
             <hr>
             <div class="row">
-                <div class="col-8">
-                    <p class="text-bold text-green"><b>${{ membership.monthly_price }}/month | ${{ membership.yearly_price }}/year</b></p>
-                </div>
+                <p class="text-bold col-8 text-green"><b>${{ membership.monthly_price }}/month | ${{ membership.yearly_price }}/year</b></p>
                 <div class="col-4 px-0 text-end pt-1">
                     <a class="text-decor-none text-black pointer show-membership" data-id="{{ membership.id }}"><b>Show More</b></a>
                 </div>
-                <div class="col-12 membership-details-{{ membership.id }} d-none">
+                <article class="col-12 membership-details-{{ membership.id }} d-none">
                     <p>{{ membership.description }}</p>
                     {% if user.is_authenticated and user_profile.membership %}
                         {% if user_profile.membership.level < membership.level %}
@@ -59,7 +55,7 @@
                     {% else %}
                         <a href="{% url 'membership_signup' membership.name %}" class="btn-orange">Sign up</a>
                     {% endif %}
-                </div>
+                </article>
             </div>
         </li>
         {% endfor %}
@@ -68,41 +64,36 @@
     <div class="row justify-content-center mt-5">
         <div class="col-lg-2 col-sm-3 p-0"></div>
         {% for membership in memberships %}
-        <div class="col-lg-2 col-sm-3 p-0 bg-lightgray">
-            <header class="box-content">
-                <h3 class="text-{{membership.name|lower}}">{{membership.name}}</h3>
-            </header>
-        </div>
+        <header class="box-content col-lg-2 col-sm-3 p-0 bg-lightgray">
+            <h3 class="text-{{membership.name|lower}}">{{membership.name}}</h3>
+        </header>
         {% endfor %}
     </div>
-    <div class="row justify-content-center pb-5">
+    <section class="row justify-content-center pb-5">
         <!-- table row description -->
         <aside class="col-lg-2 col-sm-3 row-description p-0 bg-lightgray">
-            <div class="box-content">Price</div>
-            <div class="box-content">Cancelation Term</div>
-            <div class="box-content">Gym Access</div>
-            <div class="box-content">Classes</div>
-            <div class="box-content">Activation Fee</div>
-            <div class="box-content">Notice Period</div>
+            <div class="box-content"><h4>Price</h4></div>
+            <div class="box-content"><h4>Cancelation Term</h4></div>
+            <div class="box-content"><h4>Gym Access</h4></div>
+            <div class="box-content"><h4>Classes</h4></div>
+            <div class="box-content"><h4>Activation Fee</h4></div>
+            <div class="box-content"><h4>Notice Period</h4></div>
             <div class="box-content bg-gray"></div>
         </aside>
         {% for membership in memberships %}
-        <section class="col-lg-2 col-sm-3 p-0 text-black bg-light">
-            <div class="box-content price"><strong>${{ membership.monthly_price }}/month</strong></div>
-            <div class="box-content">{{ membership.cancelation_terms }}</div>
-            <div class="box-content">{{ membership.gym_access }}</div>
-            <div class="box-content">{{ membership.classes }}</div>
-            <div class="box-content">${{ membership.activation_fee|floatformat:2 }}</div>
-            <div class="box-content">{{ membership.days_notice_period }} days</div>
-            <div class="box-content">
-                <a href="{% url 'membership_signup' membership.name %}" class="btn-orange">Signup Now</a>
-            </div>
-        </section>
+        <div class="col-lg-2 col-sm-3 p-0 text-black bg-light">
+            <div class="box-content price"><p><strong>${{ membership.monthly_price }}/month</strong></p></div>
+            <div class="box-content"><p>{{ membership.cancelation_terms }}</p></div>
+            <div class="box-content"><p>{{ membership.gym_access }}</p></div>
+            <div class="box-content"><p>{{ membership.classes }}</p></div>
+            <div class="box-content"><p>${{ membership.activation_fee|floatformat:2 }}</p></div>
+            <div class="box-content"><p>{{ membership.days_notice_period }} days</p></div>
+            <div class="box-content"><a href="{% url 'membership_signup' membership.name %}" class="btn-orange">Signup Now</a></div>
+        </div>
         {% endfor %}
-    </div>
+    </section>
 </section>
-    
-    {% endblock content %} 
+{% endblock content %} 
 
 {% block postloadjs %}
 {{ block.super }} 

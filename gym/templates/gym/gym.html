@@ -22,15 +22,15 @@
 
 {% block content %}
 <div class="contianer">
-    <section>
-        <!-- Show button if the the user is a gym manager -->
-        {% if request.user|has_group:"Gym Manager" %}
-        <div class="row p-4 bg-warning">
-            <div class="col-12 text-center">
-                <a href="{% url 'gym_edit' gym.name %}" class="btn-orange">Edit Page</a>
-            </div>
+    <!-- Show button if the the user is a gym manager -->
+    {% if request.user|has_group:"Gym Manager" %}
+    <div class="row p-4 bg-warning">
+        <div class="col-12 text-center">
+            <a href="{% url 'gym_edit' gym.name %}" class="btn-orange">Edit Page</a>
         </div>
-        {% endif %}
+    </div>
+    {% endif %}
+    <section>
         <!-- Carousel of all the gyms images -->
         <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
         <div class="carousel-indicators">
@@ -55,73 +55,87 @@
         </button>
         </div>
     </section>
-    <section>
-        <div class="row mx-0">
-            <div class="col-12">    
-                <h3 class="section-header">OUR AMENITIES</h3>
-            </div>
-            <div class="container text-center w-75">
-                <ul class="row justify-content-center m-0">
-                    {% for amenity in gym.amenities.all %}
-                    <li class="col-md-3 col-sm-6">
-                        <div class="amenity-container mx-auto">
-                            <div><i class="{{amenity.icon}}"></i></div>
-                            <div>{{ amenity.friendly_name }}</div>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+    <section class="row mx-0">
+        <header class="col-12">    
+            <h2 class="section-header">OUR AMENITIES</h2>
+        </header>
+        <div class="container text-center w-75">
+            <ul class="row justify-content-center m-0">
+                {% for amenity in gym.amenities.all %}
+                <li class="col-md-3 col-sm-6">
+                    <div class="amenity-container mx-auto">
+                        <div><i class="{{amenity.icon}}"></i></div>
+                        <p>{{ amenity.friendly_name }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </section>
     <!-- Map -->
-    <section>
-        <div class="position-relative mx-auto" id="map">
-            <div class="map-cover overlay-50">
-                <button class="btn-orange" id="modal-btn">Show Map</button>
-            </div>
+    <section class="position-relative mx-auto" id="map">
+        <div class="map-cover overlay-50">
+            <button class="btn-orange" id="modal-btn">Show Map</button>
         </div>
     </section>
     <!-- Contact info and open hours -->
     <hr>
-    <section>
-        <div class="row contact-boxes me-0 text-center justify-content-evenly">
-            <div class="col-md-5 col-10 my-3 py-4">
-                <h3>Contact</h3>
+    <section class="row contact-boxes me-0 text-center justify-content-evenly">
+        <address class="col-md-5 col-10 my-3 py-4">
+            <h3>Contact</h3>
+            <hr>
+            <ul>
+                <li>
+                    <h4>Address</h4>
+                    <p>{{ gym.address }}</p>
+                </li>                    
                 <hr>
-                <ul>
-                    <li>
-                        <h5>Address</h5>
-                        <p>{{ gym.address }}</p>
-                    </li>                    
-                    <hr>
-                    <li>
-                        <h5>Phone</h5>
-                        <p>{{ gym.phone }}</p>
-                    </li>
-                    <hr>
-                    <li>
-                        <h5>Email</h5>
-                        <p>{{ gym.email }}</p>
-                    </li>                
-                </ul>
-            </div>
-            <div class="col-md-5 col-10 my-3 py-4">
-                <h3>Open Hours</h3>
+                <li>
+                    <h4>Phone</h4>
+                    <p>
+                        <a class="text-light" href="tel:{{ gym.phone }}">{{ gym.phone }}</a>
+                    </p>
+                </li>
                 <hr>
-                <ul>
-                    <li class="row">
-                        <div class="col-6"><h5>Weekdays</h5></div>
-                        <div class="col-6"><h5>Weekends</h5></div>
-                    </li>
-                    <li class="row">
-                        <div class="col-6"> {{ gym.opening_hours_weekdays|time:'H:i' }} - {{ gym.closing_hours_weekdays|time:'H:i' }}</div>
-                        <div class="col-6"> {{ gym.opening_hours_weekends|time:'H:i' }} - {{ gym.closing_hours_weekends|time:'H:i' }}</div>
-                    </li>                    
-                </ul>
-                <hr>
-            </div>
-        </div>
+                <li>
+                    <h4>Email</h4>
+                    <p>
+                        <a class="text-white" href="mailto:{{ gym.email }}">{{ gym.email }}</a>
+                    </p>
+                </li>                
+            </ul>
+        </address>
+        <section class="col-md-5 col-10 my-3 py-4">
+            <h3>Open Hours</h3>
+            <hr>
+            <ul>
+                <li class="row">
+                    <h4 class="col-6">Weekdays</h4>
+                    <h4 class="col-6">Weekends</h4>
+                </li>
+                <li class="row">
+                    <p class="col-6">
+                        <time datetime="{{ gym.opening_hours_weekdays|time:'H:i' }}">
+                            {{ gym.opening_hours_weekdays|time:'H:i' }}
+                        </time>
+                         - 
+                        <time datetime="{{ gym.closing_hours_weekdays|time:'H:i' }}">
+                            {{ gym.closing_hours_weekdays|time:'H:i' }}
+                        </time>
+                    </p>
+                    <p class="col-6">
+                        <time datetime="{{ gym.opening_hours_weekends|time:'H:i' }}">
+                            {{ gym.opening_hours_weekends|time:'H:i' }}
+                        </time>
+                         - 
+                        <time datetime="{{ gym.closing_hours_weekends|time:'H:i' }}">
+                            {{ gym.closing_hours_weekends|time:'H:i' }}
+                        </time>
+                    </p>
+                </li>                    
+            </ul>
+            <hr>
+        </section>
     </section>
 </div>
 {% endblock content %}

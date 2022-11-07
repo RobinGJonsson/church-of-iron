@@ -3,7 +3,7 @@
     <div class="col-2">
         <a href="{% url 'home' %}" class="nav-logo text-white "><b>Church</b><small>of</small><b>Iron</b></a>
     </div>
-    <div class="col-7">
+    <section class="col-7">
         <nav class="navbar navbar-dark navbar-expand-lg">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -45,48 +45,46 @@
                 </div>
             </div>
         </nav>
-    </div>  
-    <div class="col-3">
-        <div class="col-12">
-            <ul class="d-flex text-brown justify-content-evenly">                        
-                {% if user.is_authenticated %}
-                <li class="list-inline-item dropdown">
-                    <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
-                        <div class="text-center text-brown">
-                            <div><i class="fas fa-user fa-lg"></i></div>
-                            <p class="my-0">My Account</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="user-options">
-                        <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
-                        <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
-                        <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
-                        <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+    </section>  
+    <section class="col-3">
+        <ul class="d-flex text-brown align-items-center justify-content-evenly">                        
+            {% if user.is_authenticated %}
+            <li class="list-inline-item dropdown">
+                <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
+                    <div class="text-center text-brown">
+                        <div><i class="fas fa-user fa-lg"></i></div>
+                        <p class="my-0">My Account</p>
                     </div>
-                </li>
-                {% else %}
-                <li class="list-inline-item">
-                    <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
-                </li>
-                {% endif %}
-                <li class="list-inline-item position-relative cart-dropdown">
-                    <span class="cart-count"> {{ cart_count }} </span>
-                    <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
-                        <div class="text-center text-brown">
-                            <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
-                            <p class="my-0">Cart</p>
-                        </div>
-                    </a>
-                    <div class="show-cart">
-                        {% include 'includes/cart-show.html' %}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="user-options">
+                    <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
+                    <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
+                    <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
+                    <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="list-inline-item">
+                <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
+            </li>
+            {% endif %}
+            <li class="list-inline-item position-relative cart-dropdown">
+                <span class="cart-count"> {{ cart_count }} </span>
+                <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
+                    <div class="text-center text-brown">
+                        <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
+                        <p class="my-0">Cart</p>
                     </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+                </a>
+                <div class="show-cart">
+                    {% include 'includes/cart-show.html' %}
+                </div>
+            </li>
+        </ul>
+    </section>
 </div>
 
 {% block postloadjs %}
@@ -95,7 +93,6 @@
     $(document).scroll(function() {
         let currentHightVal = $(this).scrollTop();
         let navbar = $(".navbar-container");
-
         
         // header.toggleClass('scroll-nav', st > 50);
 

@@ -6,11 +6,11 @@
 {% block page_header %}
 <div class="bg-gray">
     <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+    <div class="band"></div>
 </div>
 {% endblock page_header %}
 
 {% block content %}
-<div class="band"></div>
 <section>
     <h1 class="section-header fs-1 mt-4">OUR GYMS</h1>
     <div class="container-fluid">
@@ -18,7 +18,7 @@
             {% for gym in gyms %}
             <div class="col-md-10 mx-auto">
                 <h2 class="mb-3">{{ gym.name }}</h2>
-                <img src="{{ gym.main_image.url }}" alt="">
+                <img src="{{ gym.main_image.url }}" alt="Main gym image">
                 <!-- Amenities -->
                 <div class="container border border-secondary border-2 rounded-bottom">
                     <h3 class="text-decoration-underline">Amenities</h3>

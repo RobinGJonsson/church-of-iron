@@ -4,43 +4,47 @@
 
 
 {% block page_header %}
+<div class="bg-gray">
     <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover; background-position: center;"></div>
-    <div class="band"></div>
+</div>
 {% endblock page_header %}
 
 
 {% block content %}
-<section class="text-center">
-    <h1 class="section header">UPADTE MY {{ membership.name|upper }} MEMBERSHIP</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Display membership details -->
-            <div class="col-md-6 col-10 mx-auto">
-                <ul class="list-group">
-                    <form id="payment-form" action="" method="POST">
-                        {% csrf_token %}
-                        <!-- Update membership -->
-                        {{ form.membership | as_crispy_field}}
-                        {{ form.payment_plan | as_crispy_field}}
+<section class="container-fluid">
+    <div class="band"></div>
+    <h1 class="text-center section header mt-5">UPADTE MY {{ membership.name|upper }} MEMBERSHIP</h1>
+    <div class="row">
+        <!-- Display membership details -->
+        <div class="col-md-6 col-10 mx-auto">
+            <ul class="list-group">
+                <form id="payment-form" action="{% url 'create_checkout_session' %}" method="POST">
+                    {% csrf_token %}
+                    <!-- Update membership -->
+                    {{ form.membership | as_crispy_field}}
+                    {{ form.payment_plan | as_crispy_field}}
 
-                        {% if member.membership.level < 3 %}
-                            <!-- Change gym -->
-                            <li class="list-group-item"> <b>My Gym:</b> {{ member.gym.all | first }} </li>
-                        {% else %}
-                            <li class="list-group-item"> <b>My Gym:</b> Full Access To All Gyms </li>
-                        {% endif %}
-                        
-                        <!-- Update payment plan -->
-                        <li class="list-group-item"> <b>{{ member.payment_plan|title }} Payment:</b> ${{ membership_price }} </li>
-                        
-                        <!-- Relvant dates -->
-                        <li class="list-group-item"> <b>Member Since:</b> {{ member.member_since }} </li>
-                        <li class="list-group-item"> <b>Last Renewed:</b> {{ member.membership_renewed }} </li>
-                        <li class="list-group-item"> <b>Membership Expires:</b> {{ member.membership_expires_on }} </li>
-                        <input class="mt-4 btn-orange btn-lg" type="submit" value="Submit">
-                    </form>
-                </ul>
-            <div>
+                    {% if member.membership.level < 3 %}
+                        <!-- Change gym -->
+                        <li class="list-group-item"> <b>My Gym:</b> {{ member.gym.all | first }} </li>
+                    {% else %}
+                        <li class="list-group-item"> <b>My Gym:</b> Full Access To All Gyms </li>
+                    {% endif %}
+                    
+                    <!-- Update payment plan -->
+                    <li class="list-group-item"> <b>{{ member.payment_plan|title }} Payment:</b> ${{ membership_price }} </li>
+                    
+                    <!-- Relvant dates -->
+                    <li class="list-group-item"><b>Member Since: </b><time datetime="{{member.member_since}}">{{ member.member_since }}</time></li>
+                    <li class="list-group-item"><b>Last Renewed: </b><time datetime="{{member.member_since}}">{{ member.membership_renewed }}</time></li>
+                    <li class="list-group-item"><b>Membership Expires: </b><time datetime="{{member.member_since}}">{{ member.membership_expires_on }}</time></li>
+                     <div class="text-uppercase btn-orange my-4">
+                        <span><i class="fas fa-lock"></i></span>
+                        <input class="border-0 bg-orange text-white fs-5" type="submit" value="Secure Checkout">
+                    </div>
+
+                </form>
+            </ul>
         </div>
     </div>
 </section>

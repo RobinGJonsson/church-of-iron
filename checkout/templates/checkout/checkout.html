@@ -9,181 +9,179 @@
 {% endblock page_header %}
 
 {% block content %}
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2 class="section-header">Checkout</h2>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Order Content -->
-            <div class="col-12 col-lg-6 order-lg-last">
-                <div class="row">
-                    {% if cart_items %}
-                    <div class="col-12">
-                        <p class="text-black">Order Summary ({{ cart_count }})</p>
-                        <div class="row">
-                            <div class="col-7 offset-2">
-                                <p class="mb-1 mt-0 small text-black">Item</p>
-                            </div>
-                            <div class="col-3 text-end">
-                                <p class="mb-1 mt-0 small text-black">Subtotal</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- Cart content -->
-                    <div class="col -12">
-                        <h4>Cart Items</h4>
-                        {% for item in cart_items %}
-                        <div class="row">
-                            <div class="col-2 mb-1">
-                                {% if item.product.image %}
-                                <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
-                                {% endif %}
-                            </div>
-                            <div class="col-7">
-                                <p class="my-0"><strong>{{ item.product.name }}</strong></p>
-                                <p class="my-0 small">Size: {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
-                                <p class="my-0 small text-black">Qty: {{ item.quantity }}</p>
-                            </div>
-                            <div class="col-3 text-end">
-                                <p class="my-0 small text-black">${{ item.product.price | calc_subtotal:item.quantity }}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% if membership %}
-                    <hr>
-                    <!-- Memebership Content -->
-                    <div class="col -12">
-                        <h4>Membership</h4>
-                        <div class="col-12">
-                            <ul>
-                                <li>
-                                    <p>Membership: <span class="float-end">{{ membership.name }}</span></p>
-                                </li>
-                                <li>
-                                    <p>Your Gym:<span class="float-end">{{ gym }}</span></p>
-                                </li>
-                                <li>
-                                    <p>Payment Plan:<span class="float-end">${{ payment_plan }}</span></p>
-                                </li>
-                                <li>
-                                    <p>Starting Date:<span class="float-end">{{ starting_date }}</span></p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <!-- Order Total -->
-                    <hr>
-                    <div class="col-12">
-                        <div class="row text-black text-end">
-                            <div class="col-7 offset-2">
-                                <p class="my-0">Order Total:</p>
-                                <p class="my-0">Delivery:</p>
-                                {% if refund %}
-                                <p class="my-0">Refund for membership change:</p>
-                                {% endif %}
-                                {% if payment_plan_change_cost %}
-                                <p class="my-0">Cost for membership change:</p>
-                                {% endif %}
-                                <p class="my-0">Grand Total:</p>
-                            </div>
-                            <div class="col-3">
-                                <p class="my-0">${{ order_total | floatformat:2 }}</p>
-                                <p class="my-0">${{ delivery_cost | floatformat:2 }}</p>
-                                {% if refund %}
-                                <p class="my-0">$-{{ refund | floatformat:2 }}</p>
-                                {% endif %}
-                                {% if payment_plan_change_cost %}
-                                <p class="my-0">${{ payment_plan_change_cost | floatformat:2 }}</p>
-                                {% endif %}
-                                <p class="my-0"><strong>${{ grand_total | floatformat:2 }}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="mb-5 mt-2">
-                </div>
-            </div>
-            <!-- Form -->
-            {% if form %}
-            <div class="col-12 col-lg-6">
-                <p class="text-black">Please fill out the form below to complete your order</p>
-                <form action="{% url 'create_checkout_session' %}" method="POST" id="payment-form">
-                    {% csrf_token %}
-                    <fieldset class="rounded px-3 mb-5">
-                        <legend class="small text-black px-2 w-auto">Details</legend>
-                        {{ form.full_name | as_crispy_field }}
-                        {{ form.email | as_crispy_field }}
-                    </fieldset>
-                    <fieldset class="rounded px-3 mb-5">
-                        <legend class="small text-black px-2 w-auto">Delivery</legend>
-                        {{ form.phone | as_crispy_field }}
-                        {{ form.address | as_crispy_field }}
-                        {{ form.apartment_number | as_crispy_field }}
-                        {{ form.city | as_crispy_field }}
-                        {{ form.county | as_crispy_field }}
-                        {{ form.postcode | as_crispy_field }}
-                        <div class="float-end me-0">
-                            {% if user.is_authenticated %}
-                            <label for="id-save-info">Save this delivery information to my profile</label>
-                            <input class="ms-2 me-0" type="checkbox" name="save-info" checked>
-                            {% else %}
-                            <label for="id-save-info">
-                                <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
-                                <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
-                            </label>
-                            {% endif %}
-                        </div>
-                    </fieldset>
-                    <div class="submit-btn text-end mt-5 mb-2">                    
-                        <button id="submit-btn" class="btn-orange">
-                            <span class="font-weight-bold">Complete Order</span>
-                            <span class="icon">
-                                <i class="fas fa-lock"></i>
-                            </span>
-                        </button>
-                        <p class="small text-danger my-0">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
-                        </p>
-                    </div>
-                </form>
-            {% else %}
-                <form action="{% url 'create_checkout_session' %}" method="GET" id="payment-form">
-                    <div class="submit-btn text-end mt-5 mb-2">                    
-                        <button id="submit-btn" class="btn-orange">
-                            <span class="font-weight-bold">Complete Order</span>
-                            <span class="icon">
-                                <i class="fas fa-lock"></i>
-                            </span>
-                        </button>
-                        <p class="small text-danger my-0">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
-                        </p>
-                    </div>
-                </form>
-            {% endif %}
-            </div>
-        </div>
-        <div id="loading-overlay">
-            <h1 class="text-light logo-font loading-spinner">
-                <span class="icon">
-                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-                </span>
-            </h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="section-header">Checkout</h1>
         </div>
     </div>
-</section> 
+    <div class="row">
+        <!-- Order Content -->
+        <div class="col-12 col-lg-6 order-lg-last">
+            <div class="row">
+                {% if cart_items %}
+                <section class="col-12">
+                    <h2 class="text-black">Order Summary ({{ cart_count }})</h2>
+                    <div class="row">
+                        <div class="col-7 offset-2">
+                            <h3 class="mb-1 mt-0 small text-black">Item</h3>
+                        </div>
+                        <div class="col-3 text-end">
+                            <h3 class="mb-1 mt-0 small text-black">Subtotal</h3>
+                        </div>
+                    </div>
+                </section>
+                <hr>
+                <!-- Cart content -->
+                <section class="col -12">
+                    <h2>Cart Items</h2>
+                    {% for item in cart_items %}
+                    <div class="row">
+                        <div class="col-2 mb-1">
+                            {% if item.product.image %}
+                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-7">
+                            <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                            <p class="my-0 small">Size: {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
+                            <p class="my-0 small text-black">Qty: {{ item.quantity }}</p>
+                        </div>
+                        <div class="col-3 text-end">
+                            <p class="my-0 small text-black">${{ item.product.price | calc_subtotal:item.quantity }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
+                {% endif %}
+                {% if membership %}
+                <hr>
+                <!-- Memebership Content -->
+                <section class="col -12">
+                    <h2>Membership</h2>
+                    <div class="col-12">
+                        <ul>
+                            <li>
+                                <p>Membership: <span class="float-end">{{ membership.name }}</span></p>
+                            </li>
+                            <li>
+                                <p>Your Gym:<span class="float-end">{{ gym }}</span></p>
+                            </li>
+                            <li>
+                                <p>Payment Plan:<span class="float-end">${{ payment_plan }}</span></p>
+                            </li>
+                            <li>
+                                <p>Starting Date:<span class="float-end">{{ starting_date }}</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                {% endif %}
+                <!-- Order Total -->
+                <hr>
+                <section class="col-12">
+                    <div class="row text-black text-end">
+                        <div class="col-7 offset-2">
+                            <p class="my-0">Order Total:</p>
+                            <p class="my-0">Delivery:</p>
+                            {% if refund %}
+                            <p class="my-0">Refund for membership change:</p>
+                            {% endif %}
+                            {% if payment_plan_change_cost %}
+                            <p class="my-0">Cost for membership change:</p>
+                            {% endif %}
+                            <p class="my-0">Grand Total:</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="my-0"><strong>${{ order_total | floatformat:2 }}</strong></p>
+                            <p class="my-0"><strong>${{ delivery_cost | floatformat:2 }}</strong></p>
+                            {% if refund %}
+                            <p class="my-0"><strong>$-{{ refund | floatformat:2 }}</strong></p>
+                            {% endif %}
+                            {% if payment_plan_change_cost %}
+                            <p class="my-0">$<strong>{{ payment_plan_change_cost | floatformat:2 }}</strong></p>
+                            {% endif %}
+                            <p class="my-0"><strong>${{ grand_total | floatformat:2 }}</strong></p>
+                        </div>
+                    </div>
+                </section>
+                <hr class="mb-5 mt-2">
+            </div>
+        </div>
+        <!-- Form -->
+        {% if form %}
+        <div class="col-12 col-lg-6">
+            <p class="text-black">Please fill out the form below to complete your order</p>
+            <form action="{% url 'create_checkout_session' %}" method="POST" id="payment-form">
+                {% csrf_token %}
+                <fieldset class="rounded px-3 mb-5">
+                    <legend class="small text-black px-2 w-auto">Details</legend>
+                    {{ form.full_name | as_crispy_field }}
+                    {{ form.email | as_crispy_field }}
+                </fieldset>
+                <fieldset class="rounded px-3 mb-5">
+                    <legend class="small text-black px-2 w-auto">Delivery</legend>
+                    {{ form.phone | as_crispy_field }}
+                    {{ form.address | as_crispy_field }}
+                    {{ form.apartment_number | as_crispy_field }}
+                    {{ form.city | as_crispy_field }}
+                    {{ form.county | as_crispy_field }}
+                    {{ form.postcode | as_crispy_field }}
+                    <div class="float-end me-0">
+                        {% if user.is_authenticated %}
+                        <label for="id-save-info">Save this delivery information to my profile</label>
+                        <input class="ms-2 me-0" type="checkbox" name="save-info" checked>
+                        {% else %}
+                        <label for="id-save-info">
+                            <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
+                            <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+                        </label>
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="submit-btn text-end mt-5 mb-2">                    
+                    <button id="submit-btn" class="btn-orange">
+                        <span class="font-weight-bold">Complete Order</span>
+                        <span class="icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </button>
+                    <p class="small text-orange my-0">
+                        <span class="icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+                        <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
+                    </p>
+                </div>
+            </form>
+        {% else %}
+            <form action="{% url 'create_checkout_session' %}" method="GET" id="payment-form">
+                <div class="submit-btn text-end mt-5 mb-2">                    
+                    <button id="submit-btn" class="btn-orange">
+                        <span class="font-weight-bold">Complete Order</span>
+                        <span class="icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </button>
+                    <p class="small text-orange my-0">
+                        <span class="icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+                        <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
+                    </p>
+                </div>
+            </form>
+        {% endif %}
+        </div>
+    </div>
+    <div id="loading-overlay">
+        <h2 class="text-light logo-font loading-spinner">
+            <span class="icon">
+                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+            </span>
+        </h2>
+    </div>
+</div>
 {% endblock content %}
 
 {% block postloadjs %}

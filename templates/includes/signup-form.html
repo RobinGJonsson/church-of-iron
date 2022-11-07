@@ -13,7 +13,7 @@
         {% endif %}
     </fieldset>
     <hr>
-    <div class="row justify-content-evenly mx-0">
+    <div class="row justify-content-evenly text-center mx-0">
         <div class="col-6">
             <p><b>Price Monthly: ${{ membership.monthly_price }}</b></p>
         </div>
@@ -30,7 +30,7 @@
         </div>
         <!-- Ask for a gym if the membership level is less than gold -->
         {% if membership.level < 3 %}
-            <label for="gyms">Select a Gym</label>
+            <label class="text-start" for="gyms">Select a Gym</label>
             <select class="input-item" name="gyms" id="gyms">
                 {% for gym in gyms %}
                 <option value="{{ gym }}">{{ gym }}</option>

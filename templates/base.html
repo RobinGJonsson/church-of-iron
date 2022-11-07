@@ -70,7 +70,9 @@
             </div>
         {% endif %}
 
-        {% block page_header %}{% endblock page_header %}
+        <header>
+            {% block page_header %}{% endblock page_header %}
+        </header>
 
         <!-- Page content -->
         <main class="bg-gray text-light">
@@ -79,7 +81,6 @@
         
         <!-- Footer -->
         <footer class="bg-dark text-brown">
-            <!-- Main footer if large screen -->
             {% include 'includes/footer.html' %}
         </footer>
 

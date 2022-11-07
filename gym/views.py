@@ -313,7 +313,7 @@ def delete_amenity(request, gym_name, amenity_id):
     gym = Gym.objects.get(name=gym_name)
     amenity = Amenity.objects.get(id=amenity_id)
     gym.amenities.remove(amenity)
-    return redirect(reverse('staff_mode', args=[gym_name]))
+    return redirect(reverse('gym_edit', args=[gym_name]))
 
 
 @login_required
@@ -322,14 +322,14 @@ def add_amenity(request, gym_name, amenity_id):
     gym = Gym.objects.get(name=gym_name)
     amenity = Amenity.objects.get(id=amenity_id)
     gym.amenities.add(amenity)
-    return redirect(reverse('staff_mode', args=[gym_name]))
+    return redirect(reverse('gym_edit', args=[gym_name]))
 
 
 @login_required
 @user_passes_test(is_gym_manager)
 def delete_image(request, gym_name, image_id):
     GymImage.objects.get(id=image_id).delete()
-    return redirect(reverse('staff_mode', args=[gym_name]))
+    return redirect(reverse('gym_edit', args=[gym_name]))
 
 
 @login_required
@@ -343,4 +343,4 @@ def add_image(request, gym_name):
             image = form.save(commit=False)
             image.gym = gym
             image.save()
-    return redirect(reverse('staff_mode', args=[gym_name]))
+    return redirect(reverse('gym_edit', args=[gym_name]))
