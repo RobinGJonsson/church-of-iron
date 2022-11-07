@@ -304,9 +304,11 @@ def gym_edit(request, gym_name):
         'GOOGLE_MAPS_SECRET_KEY': GOOGLE_MAPS_SECRET_KEY,
     }
 
-    return render(request, 'gym/gym_staff.html', context)
+    return render(request, 'gym/gym_edit.html', context)
 
 
+@login_required
+@user_passes_test(is_gym_manager)
 def delete_amenity(request, gym_name, amenity_id):
     gym = Gym.objects.get(name=gym_name)
     amenity = Amenity.objects.get(id=amenity_id)
@@ -314,6 +316,8 @@ def delete_amenity(request, gym_name, amenity_id):
     return redirect(reverse('staff_mode', args=[gym_name]))
 
 
+@login_required
+@user_passes_test(is_gym_manager)
 def add_amenity(request, gym_name, amenity_id):
     gym = Gym.objects.get(name=gym_name)
     amenity = Amenity.objects.get(id=amenity_id)
@@ -321,11 +325,15 @@ def add_amenity(request, gym_name, amenity_id):
     return redirect(reverse('staff_mode', args=[gym_name]))
 
 
+@login_required
+@user_passes_test(is_gym_manager)
 def delete_image(request, gym_name, image_id):
     GymImage.objects.get(id=image_id).delete()
     return redirect(reverse('staff_mode', args=[gym_name]))
 
 
+@login_required
+@user_passes_test(is_gym_manager)
 def add_image(request, gym_name):
     if request.method == 'POST':
         gym = Gym.objects.get(name=request.POST['gym'])

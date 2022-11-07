@@ -4,7 +4,7 @@
 {% block page_title %}Checkout Success{% endblock page_title %}
 
 {% block page_header %}
-<div class="container empty-header"></div>
+<div class="empty-header bg-gray"></div>
 {% endblock page_header %}
 
 
@@ -14,20 +14,18 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <hr>
                 <h2 class="section-header">Order Confirmation</h2>
-                <hr>
-                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
++                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
             </div>
         </div>
-
+        <hr>
         {% if order %}
         <div class="row">
             <div class="col-12 col-lg-7">
                 <div class="order-confirmation-wrapper p-2 border">
                     <div class="row">
                         <div class="col">
-                            <small class="text-muted">Order Info:</small>
+                            <small class="text-black">Order Info:</small>
                         </div>
                     </div>
 
@@ -51,7 +49,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <small class="text-muted">Order Details:</small>
+                            <small class="text-black">Order Details:</small>
                         </div>
                     </div>
 
@@ -70,7 +68,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <small class="text-muted">Delivering To:</small>
+                            <small class="text-black">Delivering To:</small>
                         </div>
                     </div>
 
@@ -144,7 +142,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <small class="text-muted">Billing Info:</small>
+                            <small class="text-black">Billing Info:</small>
                         </div>
                     </div>
 
@@ -224,9 +222,9 @@
             </div>
         </div>
         {% endif %}
-        <div class="row">
-			<div class="col-12 col-lg-7 text-end">
-                <a href="{% url 'home' %}" class="btn btn-black rounded-0 my-2">
+        <div class="row pb-5">
+			<div class="col-12 col-lg-7 text-end mt-5">
+                <a href="{% url 'home' %}" class="btn-orange my-2">
                     <span class="icon me-2">
                         <i class="fas fa-angle-left"></i>
                     </span>

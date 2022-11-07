@@ -5,25 +5,23 @@
 {% block content %}
 <!-- Hero section -->
 <section class="hero-bg overlay-50">
-    <div class="row">
-        <div class="col-6 text-white offset-ts">
-            <h2>
-                Train in all of our gyms for only 
-                ${{ gold_membership.monthly_price }}/month
-            </h2>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate reprehenderit soluta a 
-                ipsa placeat voluptate rerum, illum delectus quos velit explicabo cum necessitatibus fugiat
-                    corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
-                    quibusdam nihil maiores labore deleniti, delectus ut natus excepturi blanditiis et!
-            </p>
-            <a href="{% url 'all_memberships' %}" class="btn btn-success">Join Now!</a>
-        </div>   
+    <div class=" w-75 start-50 offset-ts">
+        <h2>
+            Train in all of our gyms for only 
+            ${{ gold_membership.monthly_price }}/month
+        </h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate reprehenderit soluta a 
+            ipsa placeat voluptate rerum, illum delectus quos velit explicabo cum necessitatibus fugiat
+                corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
+                quibusdam nihil maiores labore deleniti, delectus ut natus excepturi blanditiis et!
+        </p>
+        <a href="{% url 'all_memberships' %}" class="btn-orange">Join Now!</a>
     </div>
 </section>
 <div class="container-fluid">
     <!-- Brief company description -->
-    <section class="my-5">
+    <section class="my-3">
         <div class="row mx-auto">
             <ul class="d-flex"> 
                 <li class="col-md-4 motivation-box">
@@ -31,7 +29,7 @@
                         <div class="box position-relative">
                             <h3 class="fs-6">Our Gyms</h3>
                             <p>Check them out</p>
-                            <span class="arrow-container bg-success">
+                            <span class="arrow-container btn-orange">
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
                             </span>
                         </div>
@@ -44,7 +42,7 @@
                             <p>
                                 Achive Greatness
                             </p>
-                            <span class="arrow-container bg-success">
+                            <span class="arrow-container btn-orange">
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
                             </span>
                         </div>
@@ -57,7 +55,7 @@
                             <p>
                                 $29.90/Month
                             </p>
-                            <span class="arrow-container bg-success">
+                            <span class="arrow-container btn-orange">
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
                             </span>
                         </div>
@@ -96,7 +94,7 @@
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                         Incidunt unde officia in ducimus doloribus culpa?
                     </p>
-                    <a href="#" class="btn btn-success">Learn More</a>
+                    <a href="#" class="btn-orange">Learn More</a>
                 </div>
                 <div class="col-4">
                     <img src="media/yoga.jpg" alt="#">
@@ -106,7 +104,7 @@
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                         Incidunt unde officia in ducimus doloribus culpa?
                     </p>
-                    <a href="#" class="btn btn-success">Learn More</a>
+                    <a href="#" class="btn-orange">Learn More</a>
                 </div>
                 <div class="col-4">
                     <img src="media/delivery_package.jpg" alt="A hand holding a tiny package">
@@ -116,7 +114,7 @@
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                         Incidunt unde officia in ducimus doloribus culpa?
                     </p>
-                    <a href="#" class="btn btn-success">Learn More</a>
+                    <a href="#" class="btn-orange">Learn More</a>
                 </div>
             </div>
         </div>
@@ -124,7 +122,7 @@
 
     <!-- Gyms and locations -->
     <hr>
-    <section class="my-5">
+    <section class="my-3">
         <div class="row justify-content-evenly">
             <div class="col-10 mx-auto my-4">
                 <h3 class="section-header">OUR GYMS</h3>
@@ -136,18 +134,17 @@
             </div> 
             {% for gym in gyms %}
             <div class="col-5">
-                <div>
-                    <img src="{{ gym.main_image.url }}" alt="">
-                    <h4>{{ gym.name }}</h4>
-                </div>
-                <span><a href="{% url 'gym_details' gym.name %}" class="btn btn-success">Read More</a></span>
+                <img src="{{ gym.main_image.url }}" alt="">
+                <div class="my-3"></div>
+                <h4 class="d-inline">{{ gym.name }}</h4>
+                <a href="{% url 'gym_details' gym.name %}" class="btn-orange float-end">Read More</a>
             </div>
             {% endfor %}
         </div>
     </section>
 
     <!-- Memberships -->
-    <section class="my-5">
+    <section class="my-5 text-black">
         <hr>
         <div class="row justify-content-evenly">
             <div class="col-12 text-center my-5">
@@ -159,25 +156,26 @@
                 <p>
                     As a member you have access to exclusive deals and offers
                 </p>
-                <a href="{% url 'all_memberships' %}" class="btn btn-success">Learn More</a>
+                <a href="{% url 'all_memberships' %}" class="btn-orange">Learn More</a>
 
             </div>
             {% for membership in memberships %}
-                <div class="col-3 bg-light py-3">
+                <div class="col-3 bg-light py-3 membership-card">
                     <h5 class="text-center text-{{ membership.name|lower }}">{{ membership.name }}</h5>                
                     <p>${{ membership.monthly_price}}/month  |  ${{ membership.yearly_price }}/year</p>
-                    <a href="#" class="btn btn-success">Learn More</a>
                 </div>
             {% endfor %}
         </div>
     </section>
 
     <!-- Newsletter -->
+
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 p-0 text-black position-relative">
+            <div class="diagonal-band"></div>
             
             <!-- Begin Mailchimp Signup Form -->
-            <div id="mc_embed_signup">
+            <div id="mc_embed_signup" class="newsletter">
                 <form action="https://herokuapp.us21.list-manage.com/subscribe/post?u=b3ca4413d42c13cf61a169820&amp;id=14680d3931&amp;f_id=0074c6e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                     <div id="mc_embed_signup_scroll">
                     <h2>Subscribe</h2>

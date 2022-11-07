@@ -9,6 +9,20 @@ class Membership(models.Model):
     description = models.TextField()
     monthly_price = models.DecimalField(max_digits=5, decimal_places=2)
 
+    cancelation_terms = models.CharField(
+        max_length=50, default='')  # Only a Char field for now
+
+    # Number of days of notice of cancelation
+    days_notice_period = models.IntegerField(
+        default=0, verbose_name="Notice Period (Days)")
+
+    # Only a Char field for now
+    gym_access = models.CharField(max_length=50, default='')
+
+    # Only a Char field for now
+    classes = models.CharField(max_length=50, default='')
+    activation_fee = models.FloatField(default=0)
+
     @property
     def yearly_price(self):
         return int(round(((float(self.monthly_price) * 12) * 0.9), 0))

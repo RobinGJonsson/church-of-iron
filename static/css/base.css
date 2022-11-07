@@ -1,38 +1,88 @@
 :root {
-    --green: #1fbf27;
-    --darkgreen: #567b4e;
-    --light: #def8d6;
-    --blue: #004b74;
-    --dark: #2f4858;
-    --white: #fff;
-}
-.text-green {
-    color: var(--green);
-}
-.text-darkgreen {
-    color: var(--darkgreen);
-}
-.text-blue {
-    color: var(--blue);
+    --orange: #ff4b00;
+    --dark: #1a1a1a;
+    --brown: #bda69e;
+    --gray: #595959;
 }
 
-.bg-green {
-    background-color: var(--green);
+.text-orange {
+    color: var(--orange);
 }
-.bg-darkgreen {
-    background-color: var(--darkgreen);
+
+.text-brown {
+    color: var(--brown);
 }
-.bg-blue {
-    background-color: var(--blue);
+
+.text-dark {
+    color: var(--dark);
 }
+
+.text-gray {
+    color: var(--gray);
+}
+
+.text-lightgray {
+    color: lightgray;
+}
+
+.bg-orange {
+    background-color: var(--orange);
+}
+
+.bg-brown {
+    background-color: var(--brown);
+}
+
 .bg-dark {
     background-color: var(--dark) !important;
 }
-.bg-light {
-    background-color: var(--light) !important;
+
+.bg-gray {
+    background-color: var(--gray) !important;
+}
+
+.bg-lightgray {
+    background-color: lightgray;
+}
+
+.btn-orange {
+    color: white;
+    background-color: var(--orange);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    border: 0;
+    box-shadow: 3px 4px 8px -4px black;
+    cursor: pointer;
+}
+
+.btn-dark {
+    color: var(--brown);
+    background-color: var(--dark);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    border: 0;
+    box-shadow: 3px 4px 8px -4px black;
+    cursor: pointer;
+}
+
+.btn-orange:hover,
+.btn-dark:hover {
+    color: inherit;
 }
 
 /* -----------------  General */
+
+.vh50 {
+    min-height: 50vh;
+}
+
+.bg-none {
+    background-color: transparent;
+}
 
 .text-decor-none {
     text-decoration: none;
@@ -73,6 +123,14 @@
 }
 
 /* -----------------  Backgrounds */
+
+.diagonal-band {
+    height: 500px;
+    width: 100%;
+    background-color: #000;
+    clip-path: polygon(0 43%, 100% 0, 100% 76%, 50% 100%, 0 100%);
+}
+
 .hero-bg {
     background: url("/media/hero-image.jpg") no-repeat center center;
     background-size: cover;
@@ -81,12 +139,15 @@
 
 .top-banner {
     height: 70vh;
+    clip-path: polygon(37% 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 .band {
     width: 100%;
-    height: 50px;
-    background-color: var(--green);
+    height: 1rem;
+    margin-bottom: 2rem;
+    background-color: orange;
+    box-shadow: 0px 21px 10px 20px orange;
 }
 
 /* -----------------  Mail Chimp */
@@ -174,9 +235,6 @@
 }
 
 /* -----------------  Elements */
-section {
-    padding: 2rem 0;
-}
 
 ul {
     list-style: none;
@@ -204,6 +262,10 @@ h6 {
     font-family: "Orbitron", sans-serif;
 }
 
+h3 {
+    margin-top: 1rem;
+}
+
 hr {
     border-width: 3px;
     opacity: 0.2;
@@ -217,13 +279,21 @@ hr {
 
 .offset-ts {
     position: absolute;
-    top: 35%;
-    left: 10%;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.shadow-none {
+    box-shadow: none;
 }
 
 /* -----------------  Headers */
-header {
-    box-shadow: 0 -16px 20px 5px gray;
+
+.scroll-nav {
+    opacity: 0.92;
+    box-shadow: 0 3px 20px 0px orange;
 }
 
 .nav-logo {
@@ -238,8 +308,12 @@ header {
 }
 
 .section-header {
+    background-color: var(--dark);
+    color: var(--brown);
     font-size: 2rem;
+    box-shadow: 0px 0px 15px 10px var(--dark);
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -319,6 +393,14 @@ footer ul li a {
 }
 
 /* -----------------  Home Page */
+
+.newsletter {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    border-radius: 10px;
+    box-shadow: -4px -3px 17px -5px orange;
+}
 
 .motivation-box {
     padding: 10px;
@@ -460,4 +542,44 @@ select option[value=""] {
 
 .cart-dropdown:hover .show-cart {
     display: block;
+}
+
+/* -----------------  Membership */
+
+.box-content {
+    display: flex;
+    font-weight: 600;
+    color: var(--dark);
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 15px rgb(0 0 0 / 25%);
+    clip-path: inset(0px -15px 0px 0px);
+}
+
+.box-content.price {
+    font-size: 1.5rem;
+}
+
+aside .box-content {
+    justify-content: left;
+    padding-left: 20px;
+}
+
+header.box-content {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--gray);
+}
+
+.row-description {
+    padding: 0;
+}
+
+.membership-card {
+    background-color: lightgrey;
+    color: black;
+    border-radius: 10px;
+    box-shadow: -5px 0px 22px -3px orange;
 }

@@ -87,6 +87,7 @@ def edit_product(request, product_id):
             return redirect(reverse('product_detail', args=[product_id]))
     context = {
         'form': form,
+        'product': product
     }
     return render(request, 'store/edit_product.html', context)
 

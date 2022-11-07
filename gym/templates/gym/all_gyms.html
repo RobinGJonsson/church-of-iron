@@ -4,14 +4,16 @@
 
 
 {% block page_header %}
-<div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+<div class="bg-gray">
+    <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+</div>
 {% endblock page_header %}
 
 {% block content %}
+<div class="band"></div>
 <section>
-    <div class="container">
-        <h1 class="section-header fs-1 mt-4">OUR GYMS</h1>
-        <hr>
+    <h1 class="section-header fs-1 mt-4">OUR GYMS</h1>
+    <div class="container-fluid">
         <div class="row">
             {% for gym in gyms %}
             <div class="col-md-10 mx-auto">
@@ -26,7 +28,7 @@
                             <li class="col-4 my-2">{{ amenity.friendly_name }} <i class="{{amenity.icon}}"></i></li>
                             {% endfor %}
                         </ul>
-                        <a href="{% url 'gym_details' gym.name %}" class="btn btn-success btn-lg">To Gym</a>
+                        <a href="{% url 'gym_details' gym.name %}" class="btn-orange">To Gym</a>
                     </div>
                 </div>
             </div>

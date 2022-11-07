@@ -13,8 +13,10 @@
 {% endblock extra_css %}
 
 {% block page_header %}
-    <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
-    <div class="band"></div>
+    <div class="bg-gray">
+        <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
+        <div class="band"></div>
+    </div>
 {% endblock page_header %}
 
 {% block content %}
@@ -45,7 +47,7 @@
         </button>
         </div>
         <div class="text-center mt-2">
-            <div class="btn btn-success mx-auto add-image">Add New Image</div>
+            <div class="btn-orange mx-auto add-image">Add New Image</div>
             <div class="image-form-container col-md-5 col-10 mx-auto" hide>
                 <form class="image-form" action="{% url 'add_image' gym.name %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -72,27 +74,30 @@
                     </li>
                     {% endfor %}
                 </ul>
-                <div class="add-amenities-btn btn btn-success">Add amenities</div>
+                <div class="add-amenities-btn btn-orange">Add amenities</div>
                 <ul class="row m-0 add-amenities">
                     <h3>Choose amenities to add</h3>
                     {% for amenity in amenities %}
-                    <li class="col-md-3 col-sm-6">
-                        <div class="amenity-container mx-auto">
-                            <div><i class="{{amenity.icon}}"></i></div>
-                            <div>{{ amenity.friendly_name }}</div>
-                            <span><a href="{% url 'add_amenity' gym.name amenity.id %}"><i class="fs-3 text-info fa-regular fa-plus"></i></a></span>
-                        </div>
-                    </li>
+                    {% if amenity not in gym.amenities.all %}
+                        <li class="col-md-3 col-sm-6">
+                            <div class="amenity-container mx-auto">
+                                <div><i class="{{amenity.icon}}"></i></div>
+                                <div>{{ amenity.friendly_name }}</div>
+                                <span><a href="{% url 'add_amenity' gym.name amenity.id %}"><i class="fs-3 text-info fa-regular fa-plus"></i></a></span>
+                            </div>
+                        </li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </section>
+    <hr>
     <!-- Map -->
     <section>
         <div class="position-relative mx-auto" id="map">
             <div class="map-cover overlay-50">
-                <button class="btn btn-success" id="modal-btn">Show Map</button>
+                <button class="btn-orange" id="modal-btn">Show Map</button>
             </div>
         </div>
     </section>
@@ -102,7 +107,7 @@
             {% csrf_token %}
 
             <div class="row contact-boxes me-0 text-center justify-content-evenly">
-                <div class="col-md-5 col-10 bg-light my-3 py-4">
+                <div class="col-md-5 col-10 my-3 py-4">
                     <h3>Contact</h3>
                     <hr>
                     <ul>
@@ -122,7 +127,7 @@
                         </li>                
                     </ul>
                 </div>
-                <div class="col-md-5 col-10 bg-light my-3 py-4">
+                <div class="col-md-5 col-10 my-3 py-4">
                     <h3>Open Hours</h3>
                     <hr>
                     <ul>
@@ -148,8 +153,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="text-center">
-                <input class="btn btn-success" type="submit" value="Save Changes">
+            <div class="text-center pb-3">
+                <input class="btn-orange" type="submit" value="Save Changes">
             </div>
         </form>
     </section>

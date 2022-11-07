@@ -1,30 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load staff_permissions %}
 {% block page_title %}Store{% endblock page_title %}
 
 
 {% block page_header %}
-    <div class="top-banner" style="background-image: url('/media/dumbell-rack.jpg'); background-size: cover; background-position: center;"></div>
-    <div class="band"></div>
+    <div class="bg-gray">
+        <div class="top-banner" style="background-image: url('/media/dumbell-rack.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="band"></div>
+    </div>
 {% endblock page_header %}
 
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
+            <div class="col-12 col-md-6 col-lg-4 offset-lg-1">
                 <div class="image-container my-5">
                     {% if product.image %}
-                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <img class="card-img-top img-fluid rounded-1" src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% endif %}
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-5">
                 <div class="mb-5 mt-md-5">
+                    {% if request.user|has_group:"Store Manager" %}
+                    <a class="btn btn-info w-25" href="{% url 'edit_product' product.id %}">Edit</a>
+                    <a class="btn btn-danger w-25" href="{% url 'delete_product' product.id %}">Delete</a>
+                    {% endif %}
                     <p class="mb-0">{{ product.name }}</p>
                     <p class="mb-0 text-start">${{ product.price }}</p>
                     {% if product.category %}
                     <p class="small mt-1 mb-0">
-                        <a class="text-muted" href="{% url 'store_view' %}?category={{ product.category.name }}">
+                        <a class="text-light" href="{% url 'store_view' %}?category={{ product.category.name }}">
                             <i class="fas fa-tag me-1"></i>{{ product.category.friendly_name }}
                         </a>
                     </p>
@@ -33,12 +40,6 @@
                         <small><i class="fas fa-star me-1"></i>{{ product.rating }} / 5</small>
                     {% else %}
                         <small>No Rating</small>
-                    {% endif %}
-                    {% if request.user|has_group:"Store Manager" %}
-                        <small class="ms-3">
-                            <a href="{% url 'edit_product' product.id %}">Edit</a> | 
-                            <a class="text-danger" href="{% url 'delete_product' product.id %}">Delete</a>
-                        </small>
                     {% endif %}
                     <p class="mt-3">{{ product.description }}</p>
                     <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST">
@@ -62,7 +63,7 @@
                                 <div class="form-group w-50">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <button class="decrement-qty btn btn-black rounded-0" 
+                                            <button class="decrement-qty shadow-none btn-dark rounded-0" 
                                                 data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
                                                 <span>
                                                     <i class="fas fa-minus"></i>
@@ -74,7 +75,7 @@
                                             data-item_id="{{ product.id }}"
                                             id="id_qty_{{ product.id }}">
                                         <div class="input-group-append">
-                                            <button class="increment-qty btn btn-black rounded-0"
+                                            <button class="increment-qty shadow-none btn-orange rounded-0"
                                                 data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
                                                 <span class="icon">
                                                     <i class="fas fa-plus"></i>
@@ -85,14 +86,14 @@
                                 </div>
                             </div>
 
-                            <div class="col{% if size %}-12 mt-2{% endif %}">
-                                <a href="{% url 'store_view' %}" class="btn btn-outline-black rounded-0 mt-5">
+                            <div class="col-12 mt-4">
+                                <a href="{% url 'store_view' %}" class="btn-dark shadow-none rounded-0">
                                     <span class="icon">
                                         <i class="fas fa-chevron-left"></i>
                                     </span>
                                     <span class="text-uppercase">Keep Shopping</span>
                                 </a>
-                                <input type="submit" class="btn btn-black rounded-0 text-uppercase mt-5" value="Add to Cart">
+                                <input type="submit" class="btn-orange rounded-0 shadow-none" value="Add to Cart">
                             </div>
                             <input type="hidden" name="redirect_url" value="{{ request.path }}">
                             {% endwith %}

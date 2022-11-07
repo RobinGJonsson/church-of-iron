@@ -48,7 +48,7 @@
         <title>Church of Iron | {% block page_title %}{% endblock page_title %}</title>
     </head>
     <body>
-        <header class="container-fluid fixed-top bg-white">
+        <header class="container-fluid  navbar-container fixed-top bg-dark">
             {% include 'includes/navbar.html' %}
         </header>
         
@@ -73,12 +73,12 @@
         {% block page_header %}{% endblock page_header %}
 
         <!-- Page content -->
-        <main>
+        <main class="bg-gray text-light">
             {% block content %}{% endblock content %}
         </main>
         
         <!-- Footer -->
-        <footer class="bg-black text-white">
+        <footer class="bg-dark text-brown">
             <!-- Main footer if large screen -->
             {% include 'includes/footer.html' %}
         </footer>

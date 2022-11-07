@@ -14,17 +14,20 @@
 {% endblock extra_css %}
 
 {% block page_header %}
-    <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
-    <div class="band"></div>
+    <div class="bg-gray">
+        <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
+        <div class="band"></div>
+    </div>
 {% endblock page_header %}
 
 {% block content %}
 <div class="contianer">
     <section>
+        <!-- Show button if the the user is a gym manager -->
         {% if request.user|has_group:"Gym Manager" %}
         <div class="row p-4 bg-warning">
             <div class="col-12 text-center">
-                <a href="{% url 'gym_edit' gym.name %}" class="btn btn-success">Edit Mode</a>
+                <a href="{% url 'gym_edit' gym.name %}" class="btn-orange">Edit Page</a>
             </div>
         </div>
         {% endif %}
@@ -75,14 +78,15 @@
     <section>
         <div class="position-relative mx-auto" id="map">
             <div class="map-cover overlay-50">
-                <button class="btn btn-success" id="modal-btn">Show Map</button>
+                <button class="btn-orange" id="modal-btn">Show Map</button>
             </div>
         </div>
     </section>
     <!-- Contact info and open hours -->
+    <hr>
     <section>
         <div class="row contact-boxes me-0 text-center justify-content-evenly">
-            <div class="col-md-5 col-10 bg-light my-3 py-4">
+            <div class="col-md-5 col-10 my-3 py-4">
                 <h3>Contact</h3>
                 <hr>
                 <ul>
@@ -102,7 +106,7 @@
                     </li>                
                 </ul>
             </div>
-            <div class="col-md-5 col-10 bg-light my-3 py-4">
+            <div class="col-md-5 col-10 my-3 py-4">
                 <h3>Open Hours</h3>
                 <hr>
                 <ul>

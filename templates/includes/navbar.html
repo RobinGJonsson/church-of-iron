@@ -1,10 +1,10 @@
 <!-- Navigation elements -->
 <div class="row pt-3">
     <div class="col-2">
-        <a href="{% url 'home' %}" class="nav-logo"><b>Church</b><small>of</small><b>Iron</b></a>
+        <a href="{% url 'home' %}" class="nav-logo text-white "><b>Church</b><small>of</small><b>Iron</b></a>
     </div>
     <div class="col-7">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-dark navbar-expand-lg">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,11 +48,11 @@
     </div>  
     <div class="col-3">
         <div class="col-12">
-            <ul class="d-flex justify-content-evenly">                        
+            <ul class="d-flex text-brown justify-content-evenly">                        
                 {% if user.is_authenticated %}
                 <li class="list-inline-item dropdown">
                     <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
-                        <div class="text-center">
+                        <div class="text-center text-brown">
                             <div><i class="fas fa-user fa-lg"></i></div>
                             <p class="my-0">My Account</p>
                         </div>
@@ -69,13 +69,13 @@
                     <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
                 </li>
                 <li class="list-inline-item">
-                    <a href="{% url 'account_signup' %}" class="nav-link px-4 btn btn-success text-light">Join</a>
+                    <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
                 </li>
                 {% endif %}
                 <li class="list-inline-item position-relative cart-dropdown">
                     <span class="cart-count"> {{ cart_count }} </span>
                     <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
-                        <div class="text-center">
+                        <div class="text-center text-brown">
                             <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
                             <p class="my-0">Cart</p>
                         </div>
@@ -88,3 +88,31 @@
         </div>
     </div>
 </div>
+
+{% block postloadjs %}
+<script>
+    let lastHightVal = 0;
+    $(document).scroll(function() {
+        let currentHightVal = $(this).scrollTop();
+        let navbar = $(".navbar-container");
+
+        
+        // header.toggleClass('scroll-nav', st > 50);
+
+        //If scrolling up hide navbar upwards 
+        if (currentHightVal < 3) {
+            navbar.removeClass('scroll-nav')
+
+        } else if (currentHightVal > lastHightVal && currentHightVal > 100) {
+            navbar.fadeOut(200);
+
+        } else if (currentHightVal < lastHightVal) {
+            navbar.fadeIn(200);
+            navbar.addClass('scroll-nav')
+        };
+ 
+        lastHightVal = currentHightVal;
+        });
+</script>
+{% endblock postloadjs %}
+

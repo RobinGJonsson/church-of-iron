@@ -1,7 +1,8 @@
+{% if cart or membership %}
 <div class="message-container">
     <div class="toast bg-white custom-toast rounded-0 border-top-0 fade show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="arrow-up arrow-success"></div>
-        <div class="w-100 toast-capper bg-success"></div>
+        <div class="w-100 toast-capper btn-success"></div>
         {% if grand_total and not on_profile_page %}
             <p class="logo-font bg-white text-black py-1">Your Cart ({{ cart_count }})</p>
             <div class="bag-notification-wrapper">
@@ -37,7 +38,7 @@
                             Spend <strong>${{ spend_for_free_delivery }}</strong> more to get free next day delivery!
                         </p>
                     {% endif %}
-                    <a href="{% url 'checkout_view' %}" class="btn d-block rounded-0 text-white bg-black">
+                    <a href="{% url 'checkout_view' %}" class="btn d-block rounded-0 text-black bg-orange">
                         <span class="text-uppercase">Go To Secure Checkout</span>
                         <span class="icon">
                             <i class="fas fa-lock"></i>
@@ -48,3 +49,4 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
