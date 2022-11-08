@@ -15,6 +15,7 @@
 -   ColorSpace
 -   Google Maps API
 -   iloveimg: for resizing images
+-   https://www.privacypolicygenerator.info/
 
 ##Bugs
 

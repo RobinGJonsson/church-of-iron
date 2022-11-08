@@ -25,6 +25,18 @@
     color: lightgray;
 }
 
+.text-gold {
+    color: gold;
+}
+
+.text-silver {
+    color: silver;
+}
+
+.text-bronze {
+    color: rgb(203, 125, 0);
+}
+
 .bg-orange {
     background-color: var(--orange);
 }
@@ -44,6 +56,8 @@
 .bg-lightgray {
     background-color: lightgray;
 }
+
+/* -----------------  Buttons */
 
 .btn-orange {
     color: white;
@@ -86,18 +100,6 @@
 
 .text-decor-none {
     text-decoration: none;
-}
-
-.text-gold {
-    color: gold;
-}
-
-.text-silver {
-    color: silver;
-}
-
-.text-bronze {
-    color: rgb(203, 125, 0);
 }
 
 .text-bold {
@@ -273,6 +275,11 @@ hr {
 
 /* -----------------  Shortcuts */
 
+ul.list-style-dots {
+    padding-left: 50px;
+    list-style: initial;
+}
+
 .overlay-50 {
     box-shadow: inset 0 0 0 1000px rgb(0 0 0 / 50%);
 }
@@ -287,6 +294,13 @@ hr {
 
 .shadow-none {
     box-shadow: none;
+}
+
+.center-absolute {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* -----------------  Headers */
@@ -345,6 +359,7 @@ hr {
 }
 
 /* -----------------  Modal */
+
 .modal {
     width: 100%;
     height: 100%;
@@ -365,15 +380,6 @@ hr {
 
 .modal-body {
     background-color: white;
-}
-
-/* -----------------  Buttons */
-
-.center-absolute {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* -----------------  Footer */

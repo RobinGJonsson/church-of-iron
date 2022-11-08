@@ -97,12 +97,6 @@
 
 {% block postloadjs %}
 {{ block.super }} 
-<script>
-    $('.show-membership').click(function (e) {
-        let membershipId = $(this).data("id");
-        let targetMemberhsip = `membership-details-${membershipId}`;
-        $(`.${targetMemberhsip}`).toggleClass("d-none");
-    })
-</script>
+<script src="{% static 'js/gym.js' %}"></script>
 {% endblock postloadjs %}
 

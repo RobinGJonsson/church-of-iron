@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block page_title %}Error 500{% endblock page_title %}
+
+{% block content %}
+
+<section class="container">
+    <h1>Internal server error</h1>
+    <hr>
+    <div class="mx-auto">
+        <h2>Woops! Something went wrong :( </h2>
+        <p>
+            Don't worry about it, it's me, not you <br>
+            We will try to fix this error as soon as possible <br>
+            If the error persists feel free to contact us! <br>
+            In the mean time you can go back to the home page <a href="{% url 'home' %}">here</a>
+        </p>
+    </div>
+    <hr>
+</section>
+
+{% endblock content %}
