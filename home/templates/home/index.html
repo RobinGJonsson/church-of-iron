@@ -10,7 +10,7 @@
             Train in all of our <strong>gyms</strong> for only 
             ${{ gold_membership.monthly_price }}/month
         </h2>
-        <p>
+        <p class="text-sm">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate reprehenderit soluta a 
             ipsa placeat voluptate rerum, illum delectus quos velit explicabo cum necessitatibus fugiat
                 corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
@@ -24,8 +24,8 @@
 {% block content %}
 <section class="container-fluid py-3">
     <!-- Brief company description -->
-    <ul class="row mx-auto"> 
-        <li class="col-md-4 motivation-box">
+    <ul class="row justify-content-center"> 
+        <li class="col-md-4 col-sm-11 motivation-box mb-3">
             <a href="{% url 'all_gyms' %}" class="text-decor-none">
                 <div class="box position-relative">
                     <h3 class="fs-6">Our Gyms</h3>
@@ -36,7 +36,7 @@
                 </div>
             </a>
         </li>
-        <li class="col-md-4 motivation-box">
+        <li class="col-md-4 col-sm-11 motivation-box mb-3">
             <a href="{% url 'all_memberships' %}" class="text-decor-none">
                 <div class="box position-relative">
                     <h3 class="fs-6">Become a Member</h3>
@@ -47,7 +47,7 @@
                 </div>
             </a>
         </li>
-        <li class="col-md-4 motivation-box">
+        <li class="col-md-4 col-sm-11 motivation-box mb-3">
             <a href="{% url 'all_memberships' %}" class="text-decor-none">
                 <div class="box position-relative">
                     <h3 class="fs-6">Start training from</h3>
@@ -60,9 +60,9 @@
         </li>
     </ul>
     <div class="row mt-5">
-        <article class="col-12 px-5">
+        <article class="col-12 px-md-5">
             <h2 class="section-header">GYM AND TRAINING 24/7</h2>
-            <p class="text-center fs-5">
+            <p class="text-center fs-6">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                 Doloremque, exercitationem perspiciatis. Fugit, exercitationem a, 
                 repellendus et obcaecati iste natus reiciendis nostrum eum cum ad aliquam. 
@@ -79,7 +79,7 @@
 <section class="my-5 container">
     <div class="row">
         <h2 class="section-header">DEALS</h2>
-        <article class="col-4">
+        <article class="col-md-4 mb-5">
             <img src="media/protein_shake.jpg" alt="Protein shake">
             <h3>Monthly Offer</h3>
             <p>
@@ -89,7 +89,7 @@
             </p>
             <a href="#" class="btn-orange">Learn More</a>
         </article>
-        <article class="col-4">
+        <article class="col-md-4 mb-5">
             <img src="media/yoga.jpg" alt="Picture of a yoga mat">
             <h3>Limited offer</h3>
             <p>
@@ -99,7 +99,7 @@
             </p>
             <a href="#" class="btn-orange">Learn More</a>
         </article>
-        <article class="col-4">
+        <article class="col-md-4 mb-5">
             <img src="media/delivery_package.jpg" alt="A hand holding a tiny package">
             <h3>Free Delivery</h3>
             <p>
@@ -125,12 +125,14 @@
             </p>
         </article> 
         {% for gym in gyms %}
-        <div class="col-5">
+        <div class="col-lg-5 col-10 mb-3">
             <img src="{{ gym.main_image.url }}" alt="Gym main image">
-            <div class="my-3"></div>
-            <h3 class="d-inline">{{ gym.name }}</h3>
-            <a href="{% url 'gym_details' gym.name %}" class="btn-orange float-end">Read More</a>
+            <div class="my-3 d-flex justify-content-around">
+                <h3>{{ gym.name }}</h3>
+                <a href="{% url 'gym_details' gym.name %}" class="btn-orange d-flex align-items-center">Read More</a>
+            </div>
         </div>
+        <hr class="d-lg-none">
         {% endfor %}
     </div>
 </section>
@@ -138,8 +140,8 @@
 <!-- Memberships -->
 <section class="my-5 text-black">
     <hr>
-    <div class="row justify-content-evenly">
-        <header class="col-12 text-center my-5">
+    <div class="row justify-content-evenly text-light">
+        <header class="col-12 text-center my-3">
             <h2 class="section-header">Membership</h2>
             <p class="fs-5">Sign up for a gym membership to any of our gyms starting at $29.90 per month</p>
         </header>
@@ -149,7 +151,7 @@
             <a href="{% url 'all_memberships' %}" class="btn-orange">Learn More</a>
         </div>
         {% for membership in memberships %}
-        <div class="col-3 bg-light text-center py-3 membership-card">
+        <div class="col-md-3 col-9 mb-4 bg-light text-center py-3 membership-card">
             <h3 class="text-center text-{{ membership.name|lower }}">{{ membership.name }}</h3>                
             <p><strong>${{ membership.monthly_price}}/month  |  ${{ membership.yearly_price }}/year</strong></p>
         </div>
@@ -163,7 +165,7 @@
         <div class="diagonal-band"></div>
         
         <!-- Begin Mailchimp Signup Form -->
-        <div id="mc_embed_signup" class="newsletter">
+        <div id="mc_embed_signup" class="newsletter mw-100">
             <form action="https://herokuapp.us21.list-manage.com/subscribe/post?u=b3ca4413d42c13cf61a169820&amp;id=14680d3931&amp;f_id=0074c6e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                 <div id="mc_embed_signup_scroll">
                 <h2>Subscribe</h2>
@@ -180,7 +182,7 @@
                 <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b3ca4413d42c13cf61a169820_14680d3931" tabindex="-1" value=""></div>
                     <div class="optionalParent">
                         <div class="clear foot">
-                            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="w-50 btn-orange">
                             <p class="brandingLogo"><a href="http://eepurl.com/icIPQH" title="Mailchimp - email marketing made easy and fun"><img src="https://eep.io/mc-cdn-images/template_images/branding_logo_text_dark_dtp.svg"></a></p>
                         </div>
                     </div>

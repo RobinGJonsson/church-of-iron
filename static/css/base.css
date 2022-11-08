@@ -286,7 +286,7 @@ ul.list-style-dots {
 
 .offset-ts {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 75%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -596,4 +596,16 @@ header.box-content {
     color: black;
     border-radius: 10px;
     box-shadow: -5px 0px 22px -3px orange;
+}
+
+@media (max-width: 640px) {
+    .newsletter {
+        left: 0;
+    }
+}
+
+@media (max-width: 300px) {
+    .text-sm {
+        font-size: 0.8rem;
+    }
 }
