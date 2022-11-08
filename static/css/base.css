@@ -297,6 +297,10 @@ hr {
 }
 
 .nav-logo {
+    height: 40px;
+}
+
+.nav-brand {
     font-weight: 500;
     font-size: 2rem;
     text-decoration: none;

@@ -45,7 +45,12 @@
 
         {% block extra_js %}{% endblock %}
 
-        <title>Church of Iron | {% block page_title %}{% endblock page_title %}</title>
+        <title>{% block page_title %}{% endblock page_title %} | Church of Iron</title>
+        <meta keywords="church of iron, gym, fitness, workout">
+        <meta description="Fully equiped modern gyms with multiple fitness classes, 
+        machines and free weigths. Based in the south of Sweden and rapidly growning, 
+        Join now from {{ chepest_price }}/month and grow with us!">
+        <link rel="icon" type="image/x-icon" href="media\church-of-iron-logo.png">
     </head>
     <body>
         <header class="container-fluid  navbar-container fixed-top bg-dark">

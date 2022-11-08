@@ -86,8 +86,8 @@
                             </tr>
                             {% endfor %}
                             <tr colspan="5" class="pt-5 text-end">
-                                <h6><strong>Cart Total: ${{ cart_total|floatformat:2 }}</strong></h6>
-                                <h6>Delivery: <strong>${{ delivery_cost|floatformat:2 }}</strong></h6>
+                                <h6>Cart Total: ${{ cart_total|floatformat:2 }}</h6>
+                                <h6>Delivery: ${{ delivery_cost|floatformat:2 }}/h6>
                                 {% if spend_for_free_delivery %}
                                     <p class="mb-1 text-danger">
                                         You could get free delivery by spending just <strong>${{ spend_for_free_delivery }}</strong> more!

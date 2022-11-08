@@ -1,15 +1,22 @@
+{% load static %}
+
 <!-- Navigation elements -->
 <div class="row pt-3">
-    <div class="col-2">
-        <a href="{% url 'home' %}" class="nav-logo text-white "><b>Church</b><small>of</small><b>Iron</b></a>
+    <div class="col-lg-3 col-8 d-flex justify-content-start align-items-center mb-2 order-lg-first">
+        <a href="{% url 'home' %}" class="d-flex align-items-end float-end nav-brand text-white ">
+            <img class="nav-logo" src="{% static 'images/nav-logo.png' %}" alt="Church of iron Logo">
+            <p class="mb-0 align-items-center nav-brand">
+                <b>Church</b><small>of</small><b>Iron</b>
+            </p>
+        </a>
     </div>
-    <section class="col-7">
+    <div class="col-lg-9 col-4">
         <nav class="navbar navbar-dark navbar-expand-lg">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
-                <div class="col-12">
+                <div class="col-8">
                     <ul class="navbar-nav justify-content-evenly">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
@@ -43,48 +50,48 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-4">
+                    <ul class="navbar-nav align-items-center justify-content-evenly">                        
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
+                                <div class="text-center text-brown">
+                                    <div><i class="fas fa-user fa-lg"></i></div>
+                                    <p class="my-0">My Account</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="user-options">
+                                <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
+                                <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
+                                <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
+                                <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item position-relative cart-dropdown">
+                            <span class="cart-count"> {{ cart_count }} </span>
+                            <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
+                                <div class="text-center text-brown">
+                                    <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
+                                    <p class="my-0">Cart</p>
+                                </div>
+                            </a>
+                            <div class="show-cart">
+                                {% include 'includes/cart-show.html' %}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-    </section>  
-    <section class="col-3">
-        <ul class="d-flex text-brown align-items-center justify-content-evenly">                        
-            {% if user.is_authenticated %}
-            <li class="list-inline-item dropdown">
-                <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
-                    <div class="text-center text-brown">
-                        <div><i class="fas fa-user fa-lg"></i></div>
-                        <p class="my-0">My Account</p>
-                    </div>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="user-options">
-                    <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
-                    <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
-                    <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
-                    <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
-                </div>
-            </li>
-            {% else %}
-            <li class="list-inline-item">
-                <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
-            </li>
-            <li class="list-inline-item">
-                <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
-            </li>
-            {% endif %}
-            <li class="list-inline-item position-relative cart-dropdown">
-                <span class="cart-count"> {{ cart_count }} </span>
-                <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
-                    <div class="text-center text-brown">
-                        <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
-                        <p class="my-0">Cart</p>
-                    </div>
-                </a>
-                <div class="show-cart">
-                    {% include 'includes/cart-show.html' %}
-                </div>
-            </li>
-        </ul>
-    </section>
+    </div>
 </div>
 
 {% block postloadjs %}
