@@ -402,6 +402,19 @@ footer ul li a {
     box-shadow: 3px 3px 8px -4px;
 }
 
+#map {
+    width: 75vw;
+    height: 50vw;
+}
+
+.amenity-container-content {
+    width: max-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* -----------------  Home Page */
 
 .newsletter {
@@ -443,13 +456,13 @@ footer ul li a {
 /* -----------------  Gym Page */
 
 .amenity-container {
-    width: 150px;
-    height: 150px;
+    width: 125px;
+    height: 125px;
     border: solid 4px rgb(80, 80, 80);
     border-radius: 50%;
     color: #000;
     background-color: #fff;
-    margin: 20px 10px;
+    margin-top: 10px;
     padding-top: 35px;
 }
 
@@ -598,12 +611,37 @@ header.box-content {
     box-shadow: -5px 0px 22px -3px orange;
 }
 
+@media (max-width: 725px) {
+    .amenity-container {
+        height: 100px;
+        width: 100px;
+    }
+
+    .amenity-container-content p {
+        font-size: 0.8rem;
+    }
+    .amenity-container-content i {
+        font-size: 1.75rem;
+    }
+}
+
 @media (max-width: 640px) {
     .newsletter {
         left: 0;
     }
+
+    #map {
+        width: 95vw;
+        height: 70vw;
+    }
 }
 
+@media (max-width: 360px) {
+    .amenity-container {
+        height: 80px;
+        width: 80px;
+    }
+}
 @media (max-width: 300px) {
     .text-sm {
         font-size: 0.8rem;

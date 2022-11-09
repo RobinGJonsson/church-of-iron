@@ -3,16 +3,6 @@
 {% load staff_permissions %}
 {% block page_title %}Gym {{ gym.name }}{% endblock page_title %}
 
-{% block extra_css %}
-    <!-- Map styling -->
-    <style>
-        #map {
-            width: 75%;
-            height: 500px;
-        }
-    </style>
-{% endblock extra_css %}
-
 {% block page_header %}
     <div class="bg-gray">
         <div class="top-banner" style="background-image: url({{ gym.main_image.url }}); background-size: cover; background-position: center;"></div>
@@ -32,46 +22,57 @@
     {% endif %}
     <section>
         <!-- Carousel of all the gyms images -->
-        <div id="carouselExampleIndicators" class="carousel slide w-75 mx-auto" data-bs-ride="true">
-        <div class="carousel-indicators">
-            {% for image in gym_images %}
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide {{forloop.counter0}}"></button>
-            {% endfor %}
-        </div>
-        <div class="carousel-inner">
-            {% for image in gym_images %}
-            <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-            <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-12">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    {% for image in gym_images %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide {{forloop.counter0}}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for image in gym_images %}
+                    <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                    <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.alt }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                </div>
             </div>
-            {% endfor %}
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
         </div>
     </section>
     <section class="row mx-0">
         <header class="col-12">    
             <h2 class="section-header">OUR AMENITIES</h2>
         </header>
-        <div class="container text-center w-75">
-            <ul class="row justify-content-center m-0">
-                {% for amenity in gym.amenities.all %}
-                <li class="col-md-3 col-sm-6">
-                    <div class="amenity-container mx-auto">
-                        <div><i class="{{amenity.icon}}"></i></div>
-                        <p>{{ amenity.friendly_name }}</p>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-sm-10 offset-sm-1">
+                    <ul class="row justify-content-center m-0">
+                        {% for amenity in gym.amenities.all %}
+                        <li class="col-lg-2 col-sm-3 col-4 p-0">
+                            <div class="amenity-container position-relative mx-auto">
+                                <div class="amenity-container-content">
+                                    <i class="{{amenity.icon}}"></i>
+                                    <p>{{ amenity.friendly_name }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
+    <hr>
     <!-- Map -->
     <section class="position-relative mx-auto" id="map">
         <div class="map-cover overlay-50">
@@ -108,30 +109,34 @@
         <section class="col-md-5 col-10 my-3 py-4">
             <h3>Open Hours</h3>
             <hr>
-            <ul>
-                <li class="row">
-                    <h4 class="col-6">Weekdays</h4>
-                    <h4 class="col-6">Weekends</h4>
-                </li>
-                <li class="row">
-                    <p class="col-6">
-                        <time datetime="{{ gym.opening_hours_weekdays|time:'H:i' }}">
-                            {{ gym.opening_hours_weekdays|time:'H:i' }}
-                        </time>
-                         - 
-                        <time datetime="{{ gym.closing_hours_weekdays|time:'H:i' }}">
-                            {{ gym.closing_hours_weekdays|time:'H:i' }}
-                        </time>
-                    </p>
-                    <p class="col-6">
-                        <time datetime="{{ gym.opening_hours_weekends|time:'H:i' }}">
-                            {{ gym.opening_hours_weekends|time:'H:i' }}
-                        </time>
-                         - 
-                        <time datetime="{{ gym.closing_hours_weekends|time:'H:i' }}">
-                            {{ gym.closing_hours_weekends|time:'H:i' }}
-                        </time>
-                    </p>
+            <ul class="row">
+                <li class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6 p-0">
+                            <h4>Weekends</h4>
+                            <p>
+                                <time datetime="{{ gym.opening_hours_weekdays|time:'H:i' }}">
+                                    {{ gym.opening_hours_weekdays|time:'H:i' }}
+                                </time>
+                                 - 
+                                <time datetime="{{ gym.closing_hours_weekdays|time:'H:i' }}">
+                                    {{ gym.closing_hours_weekdays|time:'H:i' }}
+                                </time>
+                            </p>
+                        </div>
+                        <div class="col-sm-6 p-0">
+                            <h4>Weekdays</h4>
+                            <p>
+                                <time datetime="{{ gym.opening_hours_weekends|time:'H:i' }}">
+                                    {{ gym.opening_hours_weekends|time:'H:i' }}
+                                </time>
+                                 - 
+                                <time datetime="{{ gym.closing_hours_weekends|time:'H:i' }}">
+                                    {{ gym.closing_hours_weekends|time:'H:i' }}
+                                </time>
+                            </p>
+                        </div>
+                    </div>
                 </li>                    
             </ul>
             <hr>
