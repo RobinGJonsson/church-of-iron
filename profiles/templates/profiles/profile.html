@@ -15,9 +15,9 @@
     <div class="container pt-5">
         <h1 class="section-header fs-1">My Profile</h1>
         <hr>
-        <div class="row">
+        <div class="row justify-content-center">
             <!-- User info -->
-            <div class="col-md-6 col-10">
+            <div class="col-md-6 col-10 mt-4">
                 <h2 class="ps-3">My Details</h2>
                 <div class="container">
                     <div class="row">
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <!-- User membership -->
-            <div class="col-md-6 col-10">
+            <div class="col-md-6 col-10 mt-4">
                 <h2>{{ member.membership.name }} Membership</h2>
                 <ul class="list-group">
                     {% if member.membership %}
@@ -54,12 +54,15 @@
                         {% else %}
                             <li class="list-group-item"><b>You currently don't have an active membership</b></li>
                             <p>You can sign up for a membership <a href="{% url 'all_memberships' %}">here</a></p>
-                        {% endif %}
+                    {% endif %}
                         <p>You can update your membership <a href="{% url 'membership_update' %}">here</a></p>
-                    </ul>
+                </ul>
             </div>
-            <!-- User order history -->
-            <div class="col-md-6 col-10">
+        </div>
+        <!-- User order history -->
+        <hr>
+        <div class="row justify-content-md-start justify-content-center">
+            <div class="col-10 p-4">
                 <h2>My Orderhistory</h2>
                 <table class="table text-lightgray">
                     <thead>
