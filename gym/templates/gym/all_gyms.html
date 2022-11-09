@@ -16,20 +16,18 @@
     <div class="container-fluid">
         <div class="row">
             {% for gym in gyms %}
-            <div class="col-md-10 mx-auto">
-                <h2 class="mb-3">{{ gym.name }}</h2>
+            <div class="col-md-8 mx-auto">
+                <h2 class="ps-4 mb-3">{{ gym.name }}</h2>
                 <img src="{{ gym.main_image.url }}" alt="Main gym image">
                 <!-- Amenities -->
-                <div class="container border border-secondary border-2 rounded-bottom">
-                    <h3 class="text-decoration-underline">Amenities</h3>
-                    <div class="container">
-                        <ul class="row text-center">
-                            {% for amenity in gym.amenities.all %}
-                            <li class="col-4 my-2">{{ amenity.friendly_name }} <i class="{{amenity.icon}}"></i></li>
-                            {% endfor %}
-                        </ul>
-                        <a href="{% url 'gym_details' gym.name %}" class="btn-orange">To Gym</a>
-                    </div>
+                <div class="border border-secondary border-2 rounded-bottom">
+                    <h3 class="ps-4 text-decoration-underline">Amenities</h3>
+                    <ul class="row text-center">
+                        {% for amenity in gym.amenities.all %}
+                        <li class="col-sm-4 col-6 my-2 amenity-list-container">{{ amenity.friendly_name }} <i class="{{amenity.icon}}"></i></li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'gym_details' gym.name %}" class="ms-5 btn-orange">To Gym</a>
                 </div>
             </div>
             <hr class="my-4">

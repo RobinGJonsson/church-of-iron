@@ -608,4 +608,8 @@ header.box-content {
     .text-sm {
         font-size: 0.8rem;
     }
+
+    li.amenity-list-container {
+        font-size: 0.8rem;
+    }
 }
