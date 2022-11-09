@@ -22,6 +22,7 @@
 
 
 {% block content %}
+
 <section class="row">
     <h2 class="section-header">PERKS</h2>
     <article class="col-md-7 col-11 mx-auto text-center">
@@ -34,7 +35,7 @@
         </p>
     </article>
 </section>
-<section>
+<section class="d-none d-sm-block">
     <h2 class="section-header my-4">MEMBERSHIPS</h2>
     <ul class="row mb-0 mx-0 justify-box-content-evenly align-items-start">
         {% for membership in memberships %}
@@ -42,9 +43,11 @@
             <h3 class="fs-5 text-{{membership.name|lower}}"><strong>{{ membership.name }} Membership</strong></h3>
             <hr>
             <div class="row">
-                <p class="text-bold col-8 text-green"><b>${{ membership.monthly_price }}/month | ${{ membership.yearly_price }}/year</b></p>
+                <div class="col-8">
+                    <p class="text-bold text-success"><b>${{ membership.monthly_price }}/month | ${{ membership.yearly_price }}/year</b></p>
+                </div>
                 <div class="col-4 px-0 text-end pt-1">
-                    <a class="text-decor-none text-black pointer show-membership" data-id="{{ membership.id }}"><b>Show More</b></a>
+                    <a class="text-decore-none text-black pointer show-membership" data-id="{{ membership.id }}"><b>Show More</b></a>
                 </div>
                 <article class="col-12 membership-details-{{ membership.id }} d-none">
                     <p>{{ membership.description }}</p>
@@ -71,7 +74,7 @@
     </div>
     <section class="row justify-content-center pb-5">
         <!-- table row description -->
-        <aside class="col-lg-2 col-sm-3 row-description p-0 bg-lightgray">
+        <aside class="col-lg-2 col-sm-3 text-dark row-description p-0 bg-lightgray">
             <div class="box-content"><h4>Price</h4></div>
             <div class="box-content"><h4>Cancelation Term</h4></div>
             <div class="box-content"><h4>Gym Access</h4></div>
@@ -92,6 +95,38 @@
         </div>
         {% endfor %}
     </section>
+</section>
+<section class="d-sm-none d-block">
+    {% for membership in memberships %}
+    <!--Dropdown-->
+    <div class="dropdown mt-3">
+        <button class="w-100 btn bg-lightgray text-{{membership.name|lower}} box-content mx-auto header-font dropdown-toggle" type="button" id="dropdownMenuButton{{ forloop.counter }}" data-bs-toggle="dropdown" aria-expanded="false">
+            {{membership.name}} Membership
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton{{ forloop.counter }}">
+            <div class="row">
+                <aside class="col-6 bg-lightgray">
+                    <div class="box-content"><h4>Price</h4></div>
+                    <div class="box-content"><h4>Cancelation Term</h4></div>
+                    <div class="box-content"><h4>Gym Access</h4></div>
+                    <div class="box-content"><h4>Classes</h4></div>
+                    <div class="box-content"><h4>Activation Fee</h4></div>
+                    <div class="box-content"><h4>Notice Period</h4></div>
+                </aside>
+                <div class="col-6">
+                    <div class="box-content price"><p><strong>${{ membership.monthly_price }}/month</strong></p></div>
+                    <div class="box-content"><p>{{ membership.cancelation_terms }}</p></div>
+                    <div class="box-content"><p>{{ membership.gym_access }}</p></div>
+                    <div class="box-content"><p>{{ membership.classes }}</p></div>
+                    <div class="box-content"><p>${{ membership.activation_fee|floatformat:2 }}</p></div>
+                    <div class="box-content"><p>{{ membership.days_notice_period }} days</p></div>
+                    <div class="box-content"><a href="{% url 'membership_signup' membership.name %}" class="btn-orange">Signup Now</a></div>
+                </div>
+            </div>
+        </ul>
+    </div>
+    <!-- 2 Columns full width -->
+    {% endfor %}
 </section>
 {% endblock content %} 
 

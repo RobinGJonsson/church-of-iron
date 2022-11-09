@@ -30,7 +30,7 @@
 }
 
 .text-silver {
-    color: silver;
+    color: #666666;
 }
 
 .text-bronze {
@@ -98,7 +98,7 @@
     background-color: transparent;
 }
 
-.text-decor-none {
+.text-decore-none {
     text-decoration: none;
 }
 
@@ -273,6 +273,10 @@ hr {
     opacity: 0.2;
 }
 
+.header-font {
+    font-family: "Orbitron", sans-serif;
+}
+
 /* -----------------  Shortcuts */
 
 ul.list-style-dots {
@@ -334,10 +338,10 @@ ul.list-style-dots {
     margin-bottom: 2rem;
 }
 
-.dropdown:hover .dropdown-menu {
+/* .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
-}
+} */
 
 .empty-header {
     width: 100%;
@@ -572,7 +576,6 @@ select option[value=""] {
 .box-content {
     display: flex;
     font-weight: 600;
-    color: var(--dark);
     height: 100px;
     align-items: center;
     justify-content: center;
@@ -605,10 +608,36 @@ header.box-content {
 }
 
 .membership-card {
+    position: relative;
+    overflow: hidden;
     background-color: lightgrey;
     color: black;
     border-radius: 10px;
     box-shadow: -5px 0px 22px -3px orange;
+}
+
+.membership-card::before {
+    content: "";
+    position: absolute;
+    background-color: var(--gray);
+    opacity: 0.1;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    top: 0;
+    left: -100px;
+}
+
+.membership-card::after {
+    content: "";
+    position: absolute;
+    height: 550px;
+    width: 550px;
+    opacity: 0.1;
+    border-radius: 50%;
+    background-color: var(--orange);
+    top: 20px;
+    left: 100px;
 }
 
 @media (max-width: 725px) {
