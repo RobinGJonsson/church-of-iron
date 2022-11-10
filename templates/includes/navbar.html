@@ -24,16 +24,22 @@
                         <li class="nav-item dropdown">
                             <div class="nav-link" type="button" id="gym-options" data-bs-toggle="dropdown" aria-expanded="false">Gym</div>
                             <ul class="dropdown-menu" aria-labelledby="gym-options">
+                                <li>
+                                    <a href="{% url 'all_gyms' %}" class="dropdown-item">All Gyms</a>
+                                </li>      
                                 {% for gym in gyms %}
-                                    <li>
-                                        <a href="{% url 'gym_details' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
-                                    </li>                                    
+                                <li>
+                                    <a href="{% url 'gym_details' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
+                                </li>                                    
                                 {% endfor %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <div class="nav-link" type="button" id="store-options" data-bs-toggle="dropdown" aria-expanded="false">Store</div>
                             <ul class="dropdown-menu" aria-labelledby="store-options">
+                                <li>
+                                    <a href="{% url 'store_view' %}" class="dropdown-item">All Products</a>
+                                </li>
                                 {% for category in categories %}                                    
                                 <li>
                                     <a href="{% url 'store_view' %}?category={{ category.name }}" class="dropdown-item"> {{ category.friendly_name|title }} </a>
