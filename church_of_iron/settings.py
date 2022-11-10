@@ -138,6 +138,7 @@ WSGI_APPLICATION = 'church_of_iron.wsgi.application'
 
 if 'DATABASE_URL' in os.environ:
     print('DATABASE_URL in os.environ')
+    print(env('DATABASE_URL'))
     DATABASES = {
         # 'default': dj_database_url.parse(env('DATABASE_URL'))
         'default': dj_database_url.parse(env('DATABASE_URL'))
