@@ -2,7 +2,7 @@
 
 <!-- Navigation elements -->
 <div class="row pt-3">
-    <div class="col-lg-3 col-8 d-flex justify-content-start align-items-center mb-2 order-lg-first">
+    <div class="col-lg-3 col-5  order-last d-flex justify-content-start align-items-center mb-2 order-lg-first">
         <a href="{% url 'home' %}" class="d-flex align-items-end float-end nav-brand text-white ">
             <img class="nav-logo" src="{% static 'images/nav-logo.png' %}" alt="Church of iron Logo">
             <p class="mb-0 d-none d-sm-block align-items-center nav-brand">
@@ -10,9 +10,9 @@
             </p>
         </a>
     </div>
-    <div class="col-lg-9 col-4">
+    <div class="col-lg-9 col">
         <nav class="navbar navbar-dark navbar-expand-lg">
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
@@ -22,48 +22,42 @@
                             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{% url 'all_gyms' %}" aria-haspopup="true" aria-expanded="false">Gym</a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    {% for gym in gyms %}
-                                        <li>
-                                            <a href="{% url 'gym_details' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
-                                        </li>                                    
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            <div class="nav-link" type="button" id="gym-options" data-bs-toggle="dropdown" aria-expanded="false">Gym</div>
+                            <ul class="dropdown-menu" aria-labelledby="gym-options">
+                                {% for gym in gyms %}
+                                    <li>
+                                        <a href="{% url 'gym_details' gym.name %}" class="dropdown-item">{{ gym.name }}</a>
+                                    </li>                                    
+                                {% endfor %}
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{% url 'store_view' %}" aria-haspopup="true" aria-expanded="false">Store</a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    {% for category in categories %}                                    
-                                    <li>
-                                        <a href="{% url 'store_view' %}?category={{ category.name }}" class="dropdown-item"> {{ category.friendly_name|title }} </a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            <div class="nav-link" type="button" id="store-options" data-bs-toggle="dropdown" aria-expanded="false">Store</div>
+                            <ul class="dropdown-menu" aria-labelledby="store-options">
+                                {% for category in categories %}                                    
+                                <li>
+                                    <a href="{% url 'store_view' %}?category={{ category.name }}" class="dropdown-item"> {{ category.friendly_name|title }} </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{% url 'all_memberships' %}">Memberships</a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-4">
-                    <ul class="navbar-nav align-items-center justify-content-evenly">                        
+                <div class="col">
+                    <ul class="navbar-nav align-items-center justify-content-evenly">                   
                         {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="text-black nav-link" href="{% url 'profile' %}" aria-haspopup="true" aria-expanded="false">
-                                <div class="text-center text-brown">
-                                    <div><i class="fas fa-user fa-lg"></i></div>
+                        <li class="nav-item dropdown me-lg-0 me-auto">
+                            <div class="text-center text-brown" type="button" id="user-options" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="col d-lg-block d-flex">
+                                    <div class="order-last ms-lg-0 ms-2"><i class="fas fa-user fa-lg"></i></div>
                                     <p class="my-0">My Account</p>
                                 </div>
-                            </a>
+                            </div>
                             <div class="dropdown-menu" aria-labelledby="user-options">
                                 <a href="{% url 'profile' %}" class="dropdown-item">My Info</a>
-                                <a href="{% url 'profile' %}" class="dropdown-item">Membership</a>
-                                <a href="{% url 'profile' %}" class="dropdown-item">Order History</a>
                                 <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
                             </div>
                         </li>
@@ -75,11 +69,14 @@
                             <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
                         </li>
                         {% endif %}
-                        <li class="nav-item position-relative cart-dropdown">
-                            <span class="cart-count"> {{ cart_count }} </span>
-                            <a class="text-black nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
-                                <div class="text-center text-brown">
-                                    <div><i class="fa-solid fa-lg fa-basket-shopping"></i></div>
+                        <li class="nav-item cart-dropdown me-lg-0 me-auto">
+                            <a class="text-center text-brown nav-link" href="{% url 'cart_view' %}" aria-haspopup="true" aria-expanded="false">
+                                <div class="col d-flex d-lg-block">
+                                    <div class="order-last position-relative ms-lg-0 ms-2">
+                                        <span class="cart-count">{{ cart_count }}</span>
+                                        <i class="fa-solid fa-lg fa-basket-shopping"></i>
+                                    </div>
+
                                     <p class="my-0">Cart</p>
                                 </div>
                             </a>

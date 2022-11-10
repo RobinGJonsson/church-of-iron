@@ -350,7 +350,7 @@ ul.list-style-dots {
 
 .cart-count {
     position: absolute;
-    bottom: 40%;
+    bottom: -3px;
     right: -5px;
     min-width: 18px;
     height: 18px;
@@ -662,6 +662,12 @@ header.box-content {
     #map {
         width: 95vw;
         height: 70vw;
+    }
+
+    .nav-logo {
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
 }
 
