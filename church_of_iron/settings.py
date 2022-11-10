@@ -35,7 +35,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'https://robin-church-of-iron.herokuapp.com/'
+    'robin-church-of-iron.herokuapp.com'
 ]
 
 
@@ -136,18 +136,21 @@ WSGI_APPLICATION = 'church_of_iron.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# if 'DATABASE_URL' in os.environ:
-# DATABASES = {
-#     'default': dj_database_url.parse(env('DATABASE_URL'))
-# }
-
-# else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    print('DATABASE_URL in os.environ')
+    DATABASES = {
+        # 'default': dj_database_url.parse(env('DATABASE_URL'))
+        'default': dj_database_url.parse(os.environ('DATABASE_URL'))
     }
-}
+
+else:
+    print('DATABASE_URL NOT in os.environ')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
