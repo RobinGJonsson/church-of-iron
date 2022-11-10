@@ -11,8 +11,6 @@ def navbar_context(request):
 
     chepest_price = memberships.get(name="Bronze").monthly_price
 
-    GOOGLE_MAPS_SECRET_KEY = settings.GOOGLE_MAPS_SECRET_KEY
-
     context = {
         'gyms': gyms,
         'memberships': memberships,

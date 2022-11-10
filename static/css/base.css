@@ -696,3 +696,20 @@ input[type="number"] {
 .update-form {
     max-width: fit-content;
 }
+
+.order-confirmation-wrapper h3 {
+    font-size: 0.8rem;
+}
+
+.order-confirmation-wrapper h2 {
+    font-size: 1.25rem;
+    padding-top: 1rem;
+}
+
+.quantity-input {
+    width: 200px;
+}
+
+.small {
+    font-size: 0.8rem;
+}

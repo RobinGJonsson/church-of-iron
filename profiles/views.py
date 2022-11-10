@@ -35,6 +35,7 @@ def profile(request):
         'member': member,
         'membership_price': membership_price,
         'order_history': order_history,
+        'on_profile_page': True,
     }
 
     return render(request, 'profiles/profile.html', context)

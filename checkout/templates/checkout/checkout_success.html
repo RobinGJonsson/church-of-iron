@@ -11,32 +11,32 @@
     <div class="row border-secondary border-bottom">
         <div class="col">
             <h1 class="section-header">Order Confirmation</h1>
-            <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
+            <p>Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
         </div>
     </div>
-    <hr>
     {% if order %}
-    <section class="row">
-        <div class="col-12 col-lg-7">
-            <div class="order-confirmation-wrapper p-2 border">
+    <hr>
+    <section class="row text-black">
+        <div class="col-12 col-lg-7 p-0">
+            <div class="order-confirmation-wrapper bg-light p-2 border">
                 <div class="row">
                     <div class="col">
-                        <h2><small class="text-black">Order Info:</small></h2>
+                        <h2>Order Info: </h2>
                     </div>
                 </div>
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Order Number</h3>
+                        <h3 class="mb-0 font-weight-bold">Order Number</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
-                        <p class="mb-0">{{ order.order_number }}</p>
+                        <p class="mb-0 small">{{ order.order_number }}</p>
                     </div>
                 </div>
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Order Date</h3>
+                        <h3 class="mb-0 font-weight-bold">Order Date</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.created_on }}</p>
@@ -45,32 +45,35 @@
 
                 <div class="row">
                     <div class="col">
-                        <h2><small class="text-black">Order Details:</small></h2>
+                        <h2>Order Details: </h2>
                     </div>
                 </div>
 
-                {% for item in order.lineitems.all %}
+                {% for item in order.order_items.all %}
                 <div class="row border-secondary border-bottom">
-                    <div class="col-12 col-md-4">
-                        <p class="small mb-0 text-black font-weight-bold">
+                    <div class="col">
+                        <p class="small mb-0 font-weight-bold">
                             {{ item.product.name }}{% if item.product_size %} - Size {{ item.product_size|upper }}{% endif %}
                         </p>
                     </div>
-                    <div class="col-12 col-md-8 text-md-end">
-                        <p class="small mb-0">{{ item.quantity }} @ ${{ item.product.price }} each</p>
+                    <div class="col text-sm-end">
+                        <div class="row">
+                            <p class="col small mb-0">Qty: {{ item.quantity }}</p>
+                            <p class="col small mb-0">${{ item.product.price }}/each</p>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
 
                 <div class="row">
                     <div class="col">
-                        <h2><small class="text-black">Delivering To:</small></h2>
+                        <h2>Delivering To: </h2>
                     </div>
                 </div>
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Full Name</h3>
+                        <h3 class="mb-0 font-weight-bold">Full Name</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.full_name }}</p>
@@ -79,7 +82,7 @@
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Address</h3>
+                        <h3 class="mb-0 font-weight-bold">Address</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.address }}</p>
@@ -89,7 +92,7 @@
                 {% if order.apartment_number %}
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Apartment Number</h3>
+                        <h3 class="mb-0 font-weight-bold">Apartment Number</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.apartment_number }}</p>
@@ -100,7 +103,7 @@
                 {% if order.county %}
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">County</h3>
+                        <h3 class="mb-0 font-weight-bold">County</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.county }}</p>
@@ -110,7 +113,7 @@
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">City</h3>
+                        <h3 class="mb-0 font-weight-bold">City</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.city }}</p>
@@ -120,7 +123,7 @@
                 {% if order.postcode %}
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Postal Code</h3>
+                        <h3 class="mb-0 font-weight-bold">Postal Code</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.postcode }}</p>
@@ -130,7 +133,7 @@
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Phone Number</h3>
+                        <h3 class="mb-0 font-weight-bold">Phone Number</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ order.phone }}</p>
@@ -139,13 +142,13 @@
 
                 <div class="row">
                     <div class="col">
-                        <h2><small class="text-black">Billing Info:</small></h2>
+                        <h2>Billing Info: </h2>
                     </div>
                 </div>
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Order Total</h3>
+                        <h3 class="mb-0 font-weight-bold">Order Total</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">${{ order.order_total|floatformat:2 }}</p>
@@ -154,7 +157,7 @@
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Delivery Total</h3>
+                        <h3 class="mb-0 font-weight-bold">Delivery Total</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">${{ order.delivery_cost|floatformat:2 }}</p>
@@ -163,7 +166,7 @@
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <p class="mb-0 text-black font-weight-bold">Grand Total</p>
+                        <p class="mb-0 font-weight-bold">Grand Total</p>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">${{ order.grand_total|floatformat:2 }}</p>
@@ -171,21 +174,22 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     {% endif %}
     {% if membership %}
-    <section class="row">
-        <div class="col-12 col-lg-7">
-            <div class="order-confirmation-wrapper p-2 border">
+    <hr>
+    <section class="row text-black">
+        <div class="col-12 col-lg-7 p-0">
+            <div class="order-confirmation-wrapper bg-light p-2 border">
                 <div class="row">
                     <div class="col">
-                        <h2 class="mb-0 text-black font-weight-bold">{{ membership.name }} membership</h2>
+                        <h2 class="mb-0 font-weight-bold">{{ membership.name }} membership</h2>
                     </div>
                 </div>
 
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">My Gyms:</h3>
+                        <h3 class="mb-0 font-weight-bold">My Gyms:</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ gym }}</p>
@@ -193,7 +197,7 @@
                 </div>
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Payment:</h3>
+                        <h3 class="mb-0 font-weight-bold">Payment:</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">${{ payment_plan }}</p>
@@ -201,7 +205,7 @@
                 </div>
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Starting:</h3>
+                        <h3 class="mb-0 font-weight-bold">Starting:</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ user_profile.membership_renewed }}</p>
@@ -209,7 +213,7 @@
                 </div>
                 <div class="row border-secondary border-bottom">
                     <div class="col-12 col-md-4">
-                        <h3 class="mb-0 text-black font-weight-bold">Ends:</h3>
+                        <h3 class="mb-0 font-weight-bold">Ends:</h3>
                     </div>
                     <div class="col-12 col-md-8 text-md-end">
                         <p class="mb-0">{{ user_profile.membership_expires_on }}</p>

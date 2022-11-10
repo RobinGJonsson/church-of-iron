@@ -17,23 +17,21 @@
         <hr>
         <div class="row justify-content-center">
             <!-- User info -->
-            <div class="col-md-6 col-10 mt-4">
+            <div class="col-md-6 p-0 mt-4">
                 <h2 class="ps-3">My Details</h2>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="{% url 'profile' %}" method="POST">
-                                {% csrf_token %}
-                                {{ form }}
-                                <div class="btn-orange float-end update-btn">Update Profile</div>
-                                <input class="btn-orange float-end submit-btn" type="submit" value="Save Changes">
-                            </form>
-                        </div>
+                <div class="row">
+                    <div class="col-12">
+                        <form action="{% url 'profile' %}" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <div class="btn-orange float-end update-btn">Update Profile</div>
+                            <input class="btn-orange float-end submit-btn" type="submit" value="Save Changes">
+                        </form>
                     </div>
                 </div>
             </div>
             <!-- User membership -->
-            <div class="col-md-6 col-10 mt-4">
+            <div class="col-md-6 p-0 mt-4">
                 <h2>{{ member.membership.name }} Membership</h2>
                 <ul class="list-group">
                     {% if member.membership %}
@@ -61,14 +59,14 @@
         </div>
         <!-- User order history -->
         <hr>
-        <div class="row justify-content-md-start justify-content-center">
-            <div class="col-10 p-4">
+        <div class="row pb-4 justify-content-md-start justify-content-center">
+            <div class="col-12 p-4 d-sm-block d-none">
                 <h2>My Orderhistory</h2>
-                <table class="table text-lightgray">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Order Number</th>
-                            <th>Date</th>
+                            <th>Order Made</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -82,6 +80,26 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            
+            <div class="col p-0 d-sm-none d-block">
+                <h2>My Orderhistory</h2>
+                {% for order in order_history %}
+                <div class="row pt-3 bg-light text-black mt-3">
+                    <div class="col-12">
+                        <h6>Order Number:</h6>
+                        <p class="border-bottom small">{{ order.order_number }}</p>
+                    </div>
+                    <div class="col-12">
+                        <h6>Order Made:</h6>
+                        <p class="border-bottom">{{ order.created_on }}</p>
+                    </div>
+                    <div class="col-12">
+                        <h6>Total:</h6>
+                        <p class="border-bottom">{{ order.order_total }}</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
