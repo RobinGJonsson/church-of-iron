@@ -17,61 +17,63 @@
     </div>
     <div class="row">
         <!-- Order Content -->
-        <div class="col-12 col-lg-6 order-lg-last">
+        <div class="px-0 col-12 col-lg-6 order-lg-last">
             <div class="row">
                 {% if cart_items %}
-                <section class="col-12">
-                    <h2 class="text-black">Order Summary ({{ cart_count }})</h2>
-                    <div class="row">
-                        <div class="col-7 offset-2">
-                            <h3 class="mb-1 mt-0 small text-black">Item</h3>
-                        </div>
-                        <div class="col-3 text-end">
-                            <h3 class="mb-1 mt-0 small text-black">Subtotal</h3>
-                        </div>
-                    </div>
-                </section>
-                <hr>
                 <!-- Cart content -->
-                <section class="col -12">
-                    <h2>Cart Items</h2>
-                    {% for item in cart_items %}
+                <section class="col-12 p-0">
                     <div class="row">
-                        <div class="col-2 mb-1">
-                            {% if item.product.image %}
-                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
-                            {% endif %}
+                        <h2 class="col-6">Cart Items</h2>
+                        <p class="col-6 text-end">Order Summary ({{ cart_count }})</p>
+                    </div>
+                    <hr>
+                    {% for item in cart_items %}
+                    <div class="row bg-light text-dark"> 
+                        <div class="col-4 pt-4 pe-0">
+                            <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="item.product.name">
                         </div>
-                        <div class="col-7">
-                            <p class="my-0"><strong>{{ item.product.name }}</strong></p>
-                            <p class="my-0 small">Size: {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
-                            <p class="my-0 small text-black">Qty: {{ item.quantity }}</p>
-                        </div>
-                        <div class="col-3 text-end">
-                            <p class="my-0 small text-black">${{ item.product.price | calc_subtotal:item.quantity }}</p>
+
+                        <div class="col-8 pt-4 ps-0">
+                            <div class="row">
+                                <p class="col-12"><strong>${{ item.product.price }}</strong></p> 
+                            </div>
+                            <div class="row">
+                                <p class="col-12">
+                                    {{ item.product.name }}
+                                </p>
+                            </div> 
+                            <div class="row">
+                                <p class="col-6"><strong>Size: </strong>{% if item.product.has_size %}{{ item.size|upper }}{% else %}N/A{% endif %}</p> 
+                                <p class="col-6"><strong>Qty: </strong>{{ item.quantity }}</p> 
+                            </div>
+                            <div class="row text-end">
+                                <p class="col-12">
+                                    Subtotal: <strong>${{ item.product.price|calc_subtotal:item.quantity }}</strong>
+                                </p>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
                 </section>
                 {% endif %}
                 {% if membership %}
-                <hr>
+                <hr class="my-3">
                 <!-- Memebership Content -->
-                <section class="col -12">
+                <section class="col -12 p-0">
                     <h2>Membership</h2>
-                    <div class="col-12">
+                    <div class="col-12 p-3 bg-light text-black">
                         <ul>
                             <li>
-                                <p>Membership: <span class="float-end">{{ membership.name }}</span></p>
+                                <p>Membership: <span class="float-end text-bold">{{ membership.name }}</span></p>
                             </li>
                             <li>
-                                <p>Your Gym:<span class="float-end">{{ gym }}</span></p>
+                                <p>Your Gym:<span class="float-end text-bold">{{ gym }}</span></p>
                             </li>
                             <li>
-                                <p>Payment Plan:<span class="float-end">${{ payment_plan }}</span></p>
+                                <p>Payment Plan:<span class="float-end text-bold">${{ payment_plan }}</span></p>
                             </li>
                             <li>
-                                <p>Starting Date:<span class="float-end">{{ starting_date }}</span></p>
+                                <p>Starting Date:<span class="float-end text-bold">{{ starting_date }}</span></p>
                             </li>
                         </ul>
                     </div>
@@ -80,7 +82,7 @@
                 <!-- Order Total -->
                 <hr>
                 <section class="col-12">
-                    <div class="row text-black text-end">
+                    <div class="row text-end">
                         <div class="col-7 offset-2">
                             <p class="my-0">Order Total:</p>
                             <p class="my-0">Delivery:</p>
@@ -111,16 +113,16 @@
         <!-- Form -->
         {% if form %}
         <div class="col-12 col-lg-6">
-            <p class="text-black">Please fill out the form below to complete your order</p>
+            <p class="px-3">Please fill out the form below to complete your order</p>
             <form action="{% url 'create_checkout_session' %}" method="POST" id="payment-form">
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
-                    <legend class="small text-black px-2 w-auto">Details</legend>
+                    <legend class="small px-2 w-auto">Details</legend>
                     {{ form.full_name | as_crispy_field }}
                     {{ form.email | as_crispy_field }}
                 </fieldset>
                 <fieldset class="rounded px-3 mb-5">
-                    <legend class="small text-black px-2 w-auto">Delivery</legend>
+                    <legend class="small px-2 w-auto">Delivery</legend>
                     {{ form.phone | as_crispy_field }}
                     {{ form.address | as_crispy_field }}
                     {{ form.apartment_number | as_crispy_field }}
@@ -138,21 +140,21 @@
                         </label>
                         {% endif %}
                     </div>
+                    <div class="submit-btn text-end mt-5 mb-2">                    
+                        <button id="submit-btn" class="btn-orange">
+                            <span class="font-weight-bold">Complete Order</span>
+                            <span class="icon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </button>
+                        <p class="small text-orange my-0">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
+                        </p>
+                    </div>
                 </fieldset>
-                <div class="submit-btn text-end mt-5 mb-2">                    
-                    <button id="submit-btn" class="btn-orange">
-                        <span class="font-weight-bold">Complete Order</span>
-                        <span class="icon">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </button>
-                    <p class="small text-orange my-0">
-                        <span class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </span>
-                        <span>Your card will be charged <strong>${{ grand_total | floatformat:2 }}</strong></span>
-                    </p>
-                </div>
             </form>
         {% else %}
             <form action="{% url 'create_checkout_session' %}" method="GET" id="payment-form">
