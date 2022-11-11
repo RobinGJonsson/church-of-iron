@@ -1,7 +1,4 @@
 
-plan/plan.txt
-plan/site-content.txt
-plan/user-stories.txt
 *.sqlite
 *.pyc
 __pycache__

@@ -53,7 +53,7 @@
                             <li class="list-group-item"><b>You currently don't have an active membership</b></li>
                             <p>You can sign up for a membership <a href="{% url 'all_memberships' %}">here</a></p>
                     {% endif %}
-                        <p>You can update your membership <a href="{% url 'membership_update' %}">here</a></p>
+                        {% comment %} <p>You can update your membership <a href="{% url 'membership_update' %}">here</a></p> {% endcomment %}
                 </ul>
             </div>
         </div>

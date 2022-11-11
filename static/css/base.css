@@ -614,6 +614,7 @@ header.box-content {
     color: black;
     border-radius: 10px;
     box-shadow: -5px 0px 22px -3px orange;
+    z-index: 0;
 }
 
 .membership-card::before {
@@ -626,6 +627,7 @@ header.box-content {
     border-radius: 50%;
     top: 0;
     left: -100px;
+    z-index: -1;
 }
 
 .membership-card::after {
@@ -638,6 +640,7 @@ header.box-content {
     background-color: var(--orange);
     top: 20px;
     left: 100px;
+    z-index: -1;
 }
 
 @media (max-width: 725px) {

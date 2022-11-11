@@ -11,10 +11,9 @@
             ${{ gold_membership.monthly_price }}/month
         </h2>
         <p class="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate reprehenderit soluta a 
-            ipsa placeat voluptate rerum, illum delectus quos velit explicabo cum necessitatibus fugiat
-                corrupti ratione saepe iure, in dolore minus minima nihil nobis. Dolorem quis in nihil! Omnis 
-                quibusdam nihil maiores labore deleniti, delectus ut natus excepturi blanditiis et!
+            Everyone has the right to a really good gym - no matter who you are, where you live or
+             why you exercise. In our gyms, we therefore offer the latest 
+             in exercise and health - at a reasonable price. Welcome to the club.
         </p>
         <a href="{% url 'all_memberships' %}" class="btn-orange">Join Now!</a>
     </article>
@@ -63,12 +62,13 @@
         <article class="col-12 px-md-5">
             <h2 class="section-header">GYM AND TRAINING 24/7</h2>
             <p class="text-center fs-6">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Doloremque, exercitationem perspiciatis. Fugit, exercitationem a, 
-                repellendus et obcaecati iste natus reiciendis nostrum eum cum ad aliquam. 
-                Reprehenderit, perspiciatis est illo assumenda voluptatem 
-                ducimus hic fuga eos temporibus eum recusandae inventore quisquam deserunt? 
-                Ipsam quam assumenda iste sunt, aperiam ipsa similique doloribus!
+                Training with us should be simple, easy and, above all, fun. 
+                We make sure to keep our gyms open 24/7 so that the gym can be accesible
+                for anyone of our members at any time, we know that not everyone follows the same 
+                schedule and we want our gyms to reflect that.
+                And by the way - If you feel unsure about how working out at the gym works or just need to refresh 
+                your knowledge, you can book in for a free Gymintro.
+                
             </p>
         </article>
     </div>
@@ -82,32 +82,32 @@
         <article class="col-md-4 mb-5">
             <img src="media/protein_shake.jpg" alt="Protein shake">
             <h3>Monthly Offer</h3>
-            <p>
-                20% off on all protein shakes 
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Incidunt unde officia in ducimus doloribus culpa?
+            <h6>20% off on all protein shakes</h6>
+            <p> 
+                Take advantage of the offer at our clubs. Valid while stocks last. 
+                Local deviations may occur. Can not be combined with other offers.
             </p>
-            <a href="#" class="btn-orange">Learn More</a>
+            {% comment %} <a href="#" class="btn-orange">Learn More</a> {% endcomment %}
         </article>
         <article class="col-md-4 mb-5">
             <img src="media/yoga.jpg" alt="Picture of a yoga mat">
             <h3>Limited offer</h3>
+            <h6>Free yoga-mat</h6>
             <p>
-                Free yoga-mat
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Incidunt unde officia in ducimus doloribus culpa?
+                
+                Sign up now for a membership an drecive a free yoga mat with your membership.
+                This offer is valid for as long as the inventory allows so hurry up!
             </p>
-            <a href="#" class="btn-orange">Learn More</a>
+            {% comment %} <a href="#" class="btn-orange">Learn More</a> {% endcomment %}
         </article>
         <article class="col-md-4 mb-5">
             <img src="media/delivery_package.jpg" alt="A hand holding a tiny package">
             <h3>Free Delivery</h3>
+            <h6>On purchases over $50</h6>
             <p>
-                On purchases over $50
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Incidunt unde officia in ducimus doloribus culpa?
+                You will be discounted the full delivery of your purchase in our store if you spend over 50$               
             </p>
-            <a href="#" class="btn-orange">Learn More</a>
+            {% comment %} <a href="#" class="btn-orange">Learn More</a> {% endcomment %}
         </article>
     </div>
 </section>

@@ -136,23 +136,22 @@ WSGI_APPLICATION = 'church_of_iron.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if 'DATABASE_URL' in os.environ:
-    print('DATABASE_URL in os.environ')
-    print(env('DATABASE_URL'))
-    DATABASES = {
-        # 'default': dj_database_url.parse(env('DATABASE_URL'))
-        'default': dj_database_url.parse(env('DATABASE_URL'))
-    }
+# if 'DATABASE_URL' in os.environ:
+#     print('DATABASE_URL in os.environ')
+#     print(env('DATABASE_URL'))
+#     DATABASES = {
+#         'default': dj_database_url.parse(env('DATABASE_URL'))
+#     }
+#     print(DATABASES)
 
-else:
-    print('DATABASE_URL NOT in os.environ')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# else:
+#     print('DATABASE_URL NOT in os.environ')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -200,14 +199,12 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe
-#!Make editable as admin
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-#! Add endpoint in Stripe webhooks!
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
+STRIPE_WH_SECRET = env('STRIPE_WH_SECRET')
 
 GOOGLE_MAPS_SECRET_KEY = env('GOOGLE_MAPS_SECRET_KEY')
 
