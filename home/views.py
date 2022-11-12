@@ -7,7 +7,7 @@ def index(request):
 
     gyms = Gym.objects.all()
     memberships = Membership.objects.all()
-    gold_membership = get_object_or_404(Membership, name='Gold')
+    gold_membership = ''
 
     context = {
         'gyms': gyms,

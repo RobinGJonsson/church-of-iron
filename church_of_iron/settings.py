@@ -29,20 +29,12 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # SECRET_KEY = 'django-insecure-z#m7dhl1x!i7qlhyfcgrqx9*jrp!byw0d2+u=@pb_jpr9bj5-='
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'robin-church-of-iron.herokuapp.com'
 ]
 
-
-if DEBUG:
-    DOMAIN_URL = 'http://127.0.0.1:8000/'
-else:
-    DOMAIN_URL = 'https://robin-church-of-iron.herokuapp.com/'
 
 # Application definition
 
@@ -140,19 +132,27 @@ WSGI_APPLICATION = 'church_of_iron.wsgi.application'
 if 'DATABASE_URL' in os.environ:
     print('DATABASE_URL in os.environ')
     print(env('DATABASE_URL'))
+
     DATABASES = {
         'default': dj_database_url.parse(env('DATABASE_URL'))
     }
     print(DATABASES)
 
+    DEBUG = False
+    DOMAIN_URL = 'https://robin-church-of-iron.herokuapp.com/'
+
+
 else:
-    print('DATABASE_URL NOT in os.environ')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+    DEBUG = True
+    DOMAIN_URL = 'http://127.0.0.1:8000/'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -195,7 +195,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 if 'USE_AWS' in os.environ:
-    print('\nIN AWS\n')
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94608000',
+    }
+
     # Bucket Config
     AWS_STORAGE_BUCKET_NAME = 'church-of-iron'
     AWS_S3_REGION_NAME = 'eu-north-1'

@@ -9,13 +9,13 @@ def navbar_context(request):
     memberships = Membership.objects.all()
     categories = Category.objects.all()
 
-    chepest_price = memberships.get(name="Bronze").monthly_price
+    cheapest_price = 'memberships.get(name="Bronze").monthly_price'
 
     context = {
         'gyms': gyms,
         'memberships': memberships,
         'categories': categories,
-        'chepest_price': chepest_price,
+        'cheapest_price': cheapest_price,
     }
 
     return context
