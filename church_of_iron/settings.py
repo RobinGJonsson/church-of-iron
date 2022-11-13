@@ -26,7 +26,6 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECRET_KEY = 'django-insecure-z#m7dhl1x!i7qlhyfcgrqx9*jrp!byw0d2+u=@pb_jpr9bj5-='
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = [
@@ -152,11 +151,6 @@ else:
 
     DEBUG = True
     DOMAIN_URL = 'http://127.0.0.1:8000/'
-
-
-# DATABASES = {
-#     'default': dj_database_url.parse("postgres://gceetaemklasdz:cc0c780e651f6ce145f273a3b5d2a84feb22338d3ae86156f378511cdc1de2ff@ec2-54-228-32-29.eu-west-1.compute.amazonaws.com:5432/d7j0kmg45pf1cr")
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

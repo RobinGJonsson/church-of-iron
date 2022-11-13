@@ -1,20 +1,17 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.shortcuts import (render,
+                              redirect, reverse)
 from django.contrib import messages
 from django.conf import settings
-from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.contrib.sessions.models import Session
 
 from .forms import OrderForm
 from profiles.forms import UserProfileForm
-from .models import Order, OrderItem
+from .models import OrderItem
 from gym.models import Gym
 from profiles.models import UserProfile
 from store.models import Product
 from gym.models import Membership
-from global_context.cart_content import cart_content
 
 from datetime import datetime
 import stripe
@@ -31,7 +28,8 @@ def stripe_config(request):
 
 @ csrf_exempt
 def create_checkout_session(request):
-    # If it's a post get the shipping data and save it to the session to use in the checkout success
+    # If it's a post get the shipping data and save it
+    # to the session to use in the checkout success
     shipping_data = {}
     if request.method == 'POST':
         rq = request.POST
@@ -67,7 +65,9 @@ def create_checkout_session(request):
             stripe_product = stripe.Product.create(
                 name=f"{membership_data['membership']} membership")
             stripe_price = stripe.Price.create(
-                product=stripe_product, unit_amount=price, currency=settings.STRIPE_CURRENCY)
+                product=stripe_product,
+                unit_amount=price,
+                currency=settings.STRIPE_CURRENCY)
 
             line_items.append({
                 'price': stripe_price,
@@ -80,7 +80,9 @@ def create_checkout_session(request):
 
             stripe_product = stripe.Product.create(name=product.name)
             stripe_price = stripe.Price.create(
-                product=stripe_product, unit_amount=price, currency=settings.STRIPE_CURRENCY)
+                product=stripe_product,
+                unit_amount=price,
+                currency=settings.STRIPE_CURRENCY)
 
             line_items.append({
                 'price': stripe_price,
@@ -156,7 +158,8 @@ def checkout_view(request):
 
 
 def checkout_success(request):
-    """ View save the order and to display the order summary when it has been paid for """
+    """ View save the order and to display
+    the order summary when it has been paid for """
 
     order = None
     gym = None
@@ -190,7 +193,8 @@ def checkout_success(request):
 
                 if product.has_size:
                     item_by_size = quantity['item_by_size']
-                    # If the product has size loop through the sizes and get the qunatity of each size
+                    # If the product has size loop through the sizes
+                    # and get the qunatity of each size
                     for size, size_quantity in item_by_size.items():
                         order_item = OrderItem.objects.create(
                             order=order,

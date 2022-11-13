@@ -281,6 +281,10 @@ hr {
 
 /* -----------------  Shortcuts */
 
+.small {
+    font-size: 0.8rem;
+}
+
 ul.list-style-dots {
     padding-left: 50px;
     list-style: initial;
@@ -719,8 +723,4 @@ input[type="number"] {
 
 .quantity-input {
     width: 200px;
-}
-
-.small {
-    font-size: 0.8rem;
 }

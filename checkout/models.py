@@ -77,7 +77,8 @@ class OrderItem(models.Model):
                                     blank=True)  # XS, S, M, L, XL
     quantity = models.IntegerField(null=False, blank=False, default=0)
     item_subtotal = models.DecimalField(
-        max_digits=5, decimal_places=2, null=False, blank=False, editable=False, default=0)
+        max_digits=5, decimal_places=2, null=False, blank=False,
+        editable=False, default=0)
 
     def save(self, *args, **kwargs):
         """

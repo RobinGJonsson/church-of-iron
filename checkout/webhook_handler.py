@@ -30,12 +30,13 @@ class StripeWH_Handler:
             subject = render_to_string(
                 'checkout/confirmation_emails/membership_confirmation_email_subject.txt',
                 {'purchase': purchase})
-            body = render_to_string('checkout/confirmation_emails/membership_confirmation_email_body.txt',
-                                    {'purchase': purchase,
-                                     'price': price,
-                                     'contact_email': settings.DEFAULT_FROM_EMAIL,
-                                     'gym': gym,
-                                     'user_profile': user_profile})
+            body = render_to_string(
+                'checkout/confirmation_emails/membership_confirmation_email_body.txt',
+                {'purchase': purchase,
+                 'price': price,
+                 'contact_email': settings.DEFAULT_FROM_EMAIL,
+                 'gym': gym,
+                 'user_profile': user_profile})
 
         else:
             customer_email = purchase.email
@@ -122,14 +123,6 @@ class StripeWH_Handler:
                         members=user_profile
                     )
 
-                    # if pid != membership_data['pid']:
-                    #     attempt += 1
-                    #     time.sleep(1)
-                    #     print('pid does not match: ',
-                    #           pid, membership_data['pid'])
-                    #     continue
-
-                    # If the membership is less than gold the member should only be assigned to one gym
                     if membership.value < 3:
                         if len(gym) != 1:
                             attempt += 1
@@ -138,7 +131,8 @@ class StripeWH_Handler:
                                 f'{membership.name} membership Gym is not correctly assigned: Gyms: {gym}')
                             continue
 
-                    # If the membership is gold or higher the user should be assigned to all gym
+                    # If the membership is gold or higher the user
+                    # should be assigned to all gym
                     elif membership.value >= 3:
                         if len(gym) <= 1:
                             attempt += 1

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, redirect, reverse, HttpResponse
+from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,8 +11,6 @@ from profiles.models import UserProfile
 from profiles.forms import UserProfileForm
 from .forms import UpdateMembershipForm, AddImageToGym
 from store.models import Product
-
-from datetime import datetime, timedelta
 
 
 def all_gyms(request):
@@ -74,7 +72,8 @@ def membership_signup(request, membership_name):
             requested_membership = Membership.objects.get(
                 name=rq['membership'])
 
-            # Check so that the user doesn't have the same or a lower membership
+            # Check so that the user doesn't have the same or
+            # a lower membership
             if user_profile.membership:
                 if user_profile.membership.level > requested_membership.level:
                     messages.warning(
@@ -90,7 +89,9 @@ def membership_signup(request, membership_name):
                 price = requested_membership.monthly_price
             elif rq['payment_plan'] == 'yearly':
                 price = requested_membership.yearly_price
-            # Create membership checkout session storage with the membership request data
+
+            # Create membership checkout session storage
+            # with the membership request data
             membership_data = {
                 'membership': rq['membership'],
                 'payment_plan': rq['payment_plan'],
@@ -116,7 +117,8 @@ def membership_signup(request, membership_name):
             if email_exist:
                 messages.info(
                     request, "This email is already taken and/or password isn't correct")
-                return redirect(reverse(membership_signup, args=[membership_name]))
+                return redirect(reverse(membership_signup, args=[
+                    membership_name]))
 
             # Check if the password matches and login
             if rq['password1'] == rq['password2']:
@@ -148,12 +150,14 @@ def membership_signup(request, membership_name):
                 # Handle wrong passwords diffrently
                 messages.info(
                     request, f"The passwords don't match, please try again!")
-                return redirect(reverse('membership_signup', args=[membership_name]))
+                return redirect(reverse('membership_signup', args=[
+                    membership_name]))
 
             requested_membership = Membership.objects.get(
                 name=rq['membership'])
 
-            # Check so that the user doesn't have the same or a lower membership
+            # Check so that the user doesn't have the same
+            # or a lower membership
             if user_profile.membership:
                 if user_profile.membership.level > requested_membership.level:
                     messages.warning(
@@ -167,7 +171,8 @@ def membership_signup(request, membership_name):
 
             else:
                 # Go to membership checkout page
-                # Create membership checkout session storage with the membership request data
+                # Create membership checkout session storage with the
+                # membership request data
                 if rq['payment_plan'] == 'monthly':
                     price = requested_membership.monthly_price
                 elif rq['payment_plan'] == 'yearly':
@@ -216,7 +221,8 @@ def membership_update(request):
             current_payment_plan = member.payment_plan
 
             if current_payment_plan == 'yearly':
-                # Refund for the months that are left of the memberships since they already paid for the full year
+                # Refund for the months that are left of the memberships since
+                # they already paid for the full year
                 refund = ((prev_mshp.yearly_price) / 12) * months_remaining
 
                 request.session['membership_data']['refund'] = refund
@@ -236,7 +242,9 @@ def membership_update(request):
                     yearly_price_month_avg = membership.yearly_price / 12
                     price_diff = float(monthly_price) - yearly_price_month_avg
 
-                    request.session['membership_data']['payment_plan_change_cost'] = price_diff
+                    request.session[
+                        'membership_data'][
+                            'payment_plan_change_cost'] = price_diff
 
                     cost_of_change += price_diff * months_remaining
                     print(

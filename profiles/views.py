@@ -7,7 +7,7 @@ from .models import UserProfile
 from checkout.models import Order
 
 
-# @login_required
+@login_required
 def profile(request):
 
     member = UserProfile.objects.get(user=request.user)
