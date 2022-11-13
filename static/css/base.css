@@ -69,6 +69,7 @@
     border: 0;
     box-shadow: 3px 4px 8px -4px black;
     cursor: pointer;
+    min-width: 85px;
 }
 
 .btn-dark {
@@ -81,6 +82,7 @@
     border: 0;
     box-shadow: 3px 4px 8px -4px black;
     cursor: pointer;
+    min-width: 85px;
 }
 
 .btn-orange:hover,
@@ -90,8 +92,8 @@
 
 /* -----------------  General */
 
-.vh50 {
-    min-height: 50vh;
+.vh60 {
+    min-height: 60vh;
 }
 
 .bg-none {

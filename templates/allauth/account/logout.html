@@ -5,7 +5,7 @@
 {% block page_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block inner_content %}
-<hr>
+<div class="empty-header"></div>
 <h2>{% trans "Sign Out" %}</h2>
 <hr>
 
@@ -16,7 +16,10 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  <button class="btn-orange" type="submit">{% trans 'Sign Out' %}</button>
+  <div class="d-flex justify-content-around">
+    <button class="btn-orange" type="submit">{% trans 'No' %}</button>
+    <button class="btn-orange " type="submit">{% trans 'Sign Out' %}</button>
+  </div>
 </form>
 
 

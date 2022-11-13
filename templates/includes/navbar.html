@@ -68,11 +68,12 @@
                             </div>
                         </li>
                         {% else %}
-                        <li class="nav-item">
-                            <a href="{% url 'account_login' %}" class="nav-link"><i class="fa-solid fa-lock"></i> Login</a>
+                        <li class="nav-item me-lg-0 me-auto">
+                            <a href="{% url 'account_login' %}" class="nav-link d-flex"><i class="fa-solid fa-lock d-none d-lg-block pe-2"></i>Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{% url 'account_signup' %}" class="nav-link px-4 btn-orange">Join</a>
+                        <li class="nav-item me-lg-0 me-auto">
+                            <a href="{% url 'account_signup' %}" class="nav-link btn-orange d-none d-lg-block">Join</a>
+                            <a href="{% url 'account_signup' %}" class="nav-link d-block d-lg-none">Join</a>
                         </li>
                         {% endif %}
                         <li class="nav-item cart-dropdown me-lg-0 me-auto">
