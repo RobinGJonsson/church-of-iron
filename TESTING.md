@@ -84,11 +84,11 @@ The site has been tested on `Google Chrome Lighthouse`
 
 -   #### Home - desktop
 
-    ![Home]()
+    ![Home](docs/lighthouse-home-desktop.png)
 
 -   #### Home - mobile
 
-    ![Home-mobile]()
+    ![Home-mobile](docs/lighthouse-home-mobile.png)
 
 [Back to top](#testing)
 

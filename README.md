@@ -14,8 +14,6 @@ The following card number can be used to checkout an order:
 
 Deployed live site: [Church of Iron](https://robin-church-of-iron.herokuapp.com/)
 
-![Screen views]()
-
 # Table of Content
 
 - [Church of Iron](#church-of-iron)

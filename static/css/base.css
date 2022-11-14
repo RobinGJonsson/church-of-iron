@@ -332,7 +332,6 @@ ul.list-style-dots {
     box-shadow: 0 3px 20px 0px orange;
 }
 
-
 .nav-logo {
     height: 40px;
     width: 64px;
@@ -688,7 +687,7 @@ header.box-content {
         width: 95vw;
         height: 70vw;
     }
-
+}
 
 @media (max-width: 360px) {
     .amenity-container {
