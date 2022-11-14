@@ -60,7 +60,7 @@ Deployed live site: [Church of Iron](https://robin-church-of-iron.herokuapp.com/
 ### Color Scheme
 
 I used Mycolor.space as inspiration for the site's colors.
-![Color theme](docs\color-scheme.png)
+![Color theme](docs/color-scheme.png)
 
 [Back to top](#church-of-iron)
 
@@ -97,7 +97,7 @@ The Church of Iron application is a B2C business model that it does the business
 
     I created the `Church of Iron Facebook page`. However as it's not a real business page, I made a screenshot of the Facebook page and deleted it afterwards in order to avoid any problems under Facebook's rules. The Facebook link in the footer opens the link to Facebook but not the actual `Church of Iron Facebook page`. Here is the one but deleted page.
 
-    ![Church of Iron Facebook page](docs\screencapture-facebook-profile.png)
+    ![Church of Iron Facebook page](docs/screencapture-facebook-profile.png)
 
 [Back to top](#church-of-iron)
 
@@ -109,7 +109,7 @@ The Church of Iron application is a B2C business model that it does the business
 
     Church of Iron sends out regular newsletters and user can subscribe using email address. This is a great way for store owner to reach out existing and potential customers with any updates or promotions.
 
-    ![Newsletter](docs\mailchimp.png)
+    ![Newsletter](docs/mailchimp.png)
 
 # Exisiting Features
 
@@ -123,11 +123,11 @@ The site's landing page describes the bussiness, show current deals, gyms, membe
 
 -   #### Home page desktop
 
-    ![Home page desktop](docs\home-page.png)
+    ![Home page desktop](docs/home-page.png)
 
 -   #### Home page mobile
 
-    ![Home page mobile](docs\home-mobile.png)
+    ![Home page mobile](docs/home-mobile.png)
 
 [Back to top](#church-of-iron)
 
@@ -142,12 +142,12 @@ The store page contains all the products, the different categories are currently
 Product details page contains image, name, brand tag, star ratings, size, quantity form, description, back and add to cart buttons, wishlist icon link and product reviews.
 
 -   Admin view of the page.
-    ![Product details](docs\products-details.png)
+    ![Product details](docs/products-details.png)
 
 ## Product edit page
 
 -   Store manager view of the page with edit and delete links
-    ![Product edit page](docs\edit-product.png)
+    ![Product edit page](docs/edit-product.png)
 
 [Back to top](#church-of-iron)
 
@@ -157,17 +157,17 @@ The user is able to add products to the cart, update the product quantity and re
 
 -   Add product to the shopping cart
 
-    ![Add to cart](docs\added-to-cart.png)
+    ![Add to cart](docs/added-to-cart.png)
 
 [Back to top](#church-of-iron)
 
 -   Cart overview desktop
 
-    ![Cart](docs\cart.png)
+    ![Cart](docs/cart.png)
 
 -   Cart overview mobile
 
-    ![Shopping cart mobile](docs\cart-mobile.png)
+    ![Shopping cart mobile](docs/cart-mobile.png)
 
 [Back to top](#church-of-iron)
 
@@ -177,23 +177,23 @@ The checkout page contains a delivery details form for the user to fill out for 
 
 -   Checkout page desktop
 
-    ![Checkout](docs\checkout.png)
+    ![Checkout](docs/checkout.png)
 
 -   Checkout page mobile
 
-    ![Checkout mobile](docs\checkouot-mobile.png)
+    ![Checkout mobile](docs/checkouot-mobile.png)
 
 -   Stripe payment page
 
-    ![Stripe](docs\stripe-payment-page.png)
+    ![Stripe](docs/stripe-payment-page.png)
 
 -   Checkout success page / order confirmation
 
-    ![Checkout](docs\checkout-success.png)
+    ![Checkout](docs/checkout-success.png)
 
 -   Checkout success page / order confirmation mobile
 
-    ![Checkout](docs\checkout-success-mobile.png)
+    ![Checkout](docs/checkout-success-mobile.png)
 
 [Back to top](#church-of-iron)
 
@@ -201,11 +201,11 @@ The checkout page contains a delivery details form for the user to fill out for 
 
 The User signs up for an account by filling in the personal details the sign up form. Then Church of Iron sends an email to the user with a link asking the user to verify the email address. The user's account is completed once the user click the confirm button and the user is redirected to the home page.
 
--   ![Profile](docs\profile-page.png)
+-   ![Profile](docs/profile-page.png)
 
 -   #### Account sign up
 
-    ![Sign up](docs\signup.png)
+    ![Sign up](docs/signup.png)
 
 [Back to top](#church-of-iron)
 
@@ -214,29 +214,29 @@ The User signs up for an account by filling in the personal details the sign up 
 This page explains the perks of being a member and also displays all the different meberships with all their information in columns.
 
 -   Membership Page
-    ![Membership page](docs\memberships.png)
+    ![Membership page](docs/memberships.png)
 
 -   Membership Mobile
-    ![Membership page](docs\memberships-mobile.png)
+    ![Membership page](docs/memberships-mobile.png)
 
 -   Membership signup
--   ![Membership signup](docs\membership-signup.png)
+-   ![Membership signup](docs/membership-signup.png)
 
 ## Gym Pages
 
 The All gyms page displays all the available gyms and their amenities. The user can click on a a gym to go to the gym's page to read more about it. On the gym's page there is a carosel with images of thr gym, a map of the gym's address, its amenities, open hours, and contact details. A logged in gym manager can see a edit gym button at the top of the gym page that take the user to the edit gym page.
 
 -   All gyms page
-    ![All gyms](docs\all-gyms.png)
+    ![All gyms](docs/all-gyms.png)
 
 -   Individual gym page
-    ![Individual gym](docs\individual-gym.png)
+    ![Individual gym](docs/individual-gym.png)
 
 -   Individual gym mobile
-    ![Individual gym](docs\gym-mobile.png)
+    ![Individual gym](docs/gym-mobile.png)
 
 -   Gym edit page
-    ![Gym edit](docs\gym-edit.png)
+    ![Gym edit](docs/gym-edit.png)
 
 [Back to top](#church-of-iron)
 
@@ -244,7 +244,7 @@ The All gyms page displays all the available gyms and their amenities. The user 
 
 Church of Iron has a detailed privacy policy to let user know the policies.
 
-![Policy](docs\privacy-policy.png)
+![Policy](docs/privacy-policy.png)
 
 [Back to top](#church-of-iron)
 
@@ -252,13 +252,13 @@ Church of Iron has a detailed privacy policy to let user know the policies.
 
 The user is redirected to the `404 page` when accessing to any non-existing page. There is a message to user with a `Return to Home` button.
 
-![404](docs\404.png)
+![404](docs/404.png)
 
 ## Server error 500 page
 
 The user is redirected to the `Server error 500 page` when there is a server error. There is a message to user with a `Return to Home` button.
 
-![500](docs\500.png)
+![500](docs/500.png)
 
 ## Django admin panel
 
@@ -266,30 +266,30 @@ Admin / store owner is able to manage the site's data in the admin panel. The ad
 
 -   Admin view of account panel
 
-    ![Admin](docs\admin-front.png)
+    ![Admin](docs/admin-front.png)
 
 [Back to top](#church-of-iron)
 
 -   Admin view of the list of products data
 
-    ![Products data](docs\products-data.png)
+    ![Products data](docs/products-data.png)
 
 [Back to top](#church-of-iron)
 
 -   Admin view of the list of membership data
 
-    ![Memberships data](docs\membership-data.png)
+    ![Memberships data](docs/membership-data.png)
 
 [Back to top](#church-of-iron)
 
 -   Admin view of the order data
 
-    ![Order data](docs\order-data.png)
+    ![Order data](docs/order-data.png)
 
 [Back to top](#church-of-iron)
 
 -   Admin view of the gyms data
-    ![Gyms data](docs\gym-data.png)
+    ![Gyms data](docs/gym-data.png)
 
 [Back to top](#church-of-iron)
 
@@ -363,19 +363,19 @@ The project has been deployed to **Heroku**. Created **Procfile** and set up env
 1. Freeze your requirements.txt
 2. Create Procfile
 
-    ![Profile](docs\procfile.png)
+    ![Profile](docs/procfile.png)
 
 3. Attach Heroku Postgres
 
     Navigate to the `Resources` tab to attach Heroku Postgres datablse.
 
-    ![Heroku Postgres](docs\heroku-1.png)
+    ![Heroku Postgres](docs/heroku-1.png)
 
 4. Set up Config Vars in Heroku
 
     Navigate to the `Settings` tab to set up the Config Vars.
 
-    ![Configvars](docs\heroku-2.png)
+    ![Configvars](docs/heroku-2.png)
 
 -   ### Steps to deploy Church of Iron app to Heroku
 
@@ -391,7 +391,7 @@ The project has been deployed to **Heroku**. Created **Procfile** and set up env
 
     10. Heroku deployment screenshot.
 
-        ![Heroku deployment](docs\heroku-deployment.png)
+        ![Heroku deployment](docs/heroku-deployment.png)
 
 [Back to top](#church-of-iron)
 
@@ -420,7 +420,7 @@ Steps to clone the project from GitHub as following:
 
 -   Select a repository to complete the clone process.
 
-    ![Clone project](docs\github-1.png)
+    ![Clone project](docs/github-1.png)
 
 [Back to top](#church-of-iron)
 
@@ -431,7 +431,7 @@ To fork Church of Iron's repository:
 -   Go to repository `church-of-iron` in my Github account;
 -   Click the tab `"Fork"` on the top right of Githtb page;
 
-    ![Fork](docs\github-2.png)
+    ![Fork](docs/github-2.png)
 
 -   Then the repository's copy would be in your Github.
 

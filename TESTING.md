@@ -31,31 +31,39 @@ I have conducted both manual and partly automated testing for Church of Iron app
 
 -   #### Home page
 
-    ![W3C HTML]()
+    ![Home](docs/html-validator-home.png)
 
 [Back to top](#testing)
 
--   #### Cart page
+-   #### Memberships page
 
-    ![Cart]()
+    ![Home](docs/html-validator-memberships.png)
 
--   #### Checkout page
+[Back to top](#testing)
 
-    ![Checkout]()
+-   #### Gym page
+
+    ![All Gyms](docs/html-validator-all-gyns.png)
+
+-   #### Individual Gym page
+
+    ![Individual Gym](docs/html-validator-individual-gym.png)
 
 [Back to top](#testing)
 
 -   #### Profile page
 
-    ![Profile]()
+    ![Profile](docs/html-validator-profile.png)
 
--   #### Sign in page
+[Back to top](#testing)
 
-    ![Sign in]()
+-   #### Store page
+
+    ![Store](docs/html-validator-store.png)
 
 ### W3C CSS validation report
 
-![W3C CSS](docs\css-validator.png)
+![W3C CSS](docs/css-validator.png)
 The CSS validator faild because of bootstrap, everything else passed fine
 
 [Back to top](#testing)
@@ -195,9 +203,3 @@ The site has been tested on `Google Chrome Lighthouse`
 | Trying to sign up for a equal or lower membership than the user has redirects the user and displays a notification                                              |   Pass    |
 | If the user tries to register an email that exists but not with the correct password                                                                            |   Pass    |
 | If a non autherized user tries to delete a product form the site by entering the delete url they are notified and redirected                                    |   Pass    |
-|                                                                                                                                                                 |   Pass    |
-|                                                                                                                                                                 |   Pass    |
-
-### Bugs
-
-### Resolved Bugs
