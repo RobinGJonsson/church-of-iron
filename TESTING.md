@@ -56,20 +56,23 @@ I have conducted both manual and partly automated testing for Church of Iron app
 ### W3C CSS validation report
 
 ![W3C CSS](docs\css-validator.png)
+The CSS validator faild because of bootstrap, everything else passed fine
 
 [Back to top](#testing)
 
 ### Python code validation
 
-    ![Pep8online](docs\pep8.png)
+PEP8 was checked with the `Prettier` extension, only some lines too long error remain
 
 ## Responsiveness Testing
+
+Responsiveness was tested manually in the DOM because no responsiveness tool I could find worked with the site's URL.
 
 [Back to top](#testing)
 
 ## Lighthouse Testing
 
-Church of Iron site has been tested on `Google Chrome Lighthouse` function on incognito window for the desktop and mobile screens.
+The site has been tested on `Google Chrome Lighthouse`
 
 -   #### Home - desktop
 

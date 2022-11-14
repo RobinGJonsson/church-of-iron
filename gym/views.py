@@ -48,7 +48,6 @@ def all_memberships(request):
     else:
         user_profile = request.user
 
-    print(user_profile)
     context = {
         'memberships': memberships,
         'user_profile': user_profile,
@@ -228,8 +227,6 @@ def membership_update(request):
                 request.session['membership_data']['refund'] = refund
 
                 cost_of_change += new_mshp.yearly_price - refund
-                print(
-                    f'Refund ${refund} owed to member when switching from {prev_mshp} membership to a {new_mshp} membership\nTotal membership difference: ${round(cost_of_change, 2)}')
             request.session['membership_data']['membership'] = new_mshp.name
 
         if 'payment_plan' in rq:
@@ -247,12 +244,7 @@ def membership_update(request):
                             'payment_plan_change_cost'] = price_diff
 
                     cost_of_change += price_diff * months_remaining
-                    print(
-                        f'Extra ${round(price_diff * months_remaining, 2)} owed from member when switching from a yearly to a monthly membership')
             request.session['membership_data']['payment_plan'] = new_pp
-
-        print(
-            f'Total cost for change of membership: ${round(cost_of_change, 2)}')
 
         payment_plan = f"{rq['payment_plan'][0]}/{rq['payment_plan'][0]}"
         membership_product = Product.objects.get(
@@ -260,7 +252,6 @@ def membership_update(request):
         cart[membership_product.id] = 1
 
         request.session['membership_data']['cost_of_change'] = cost_of_change
-        print(request.session['membership_data'])
         request.session['cart'] = cart
 
     if member.payment_plan == 'monthly':

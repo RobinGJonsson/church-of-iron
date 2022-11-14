@@ -35,7 +35,6 @@ class UserProfile(models.Model):
     def membership_expires_on(self):
         """Returns the membership expiration date"""
 
-        print(self.payment_plan)
         if self.payment_plan == 'monthly':
             time_to_expiration = timedelta(days=30)
         elif self.payment_plan == 'yearly':

@@ -183,9 +183,7 @@ def checkout_success(request):
             order = order_form.save(commit=False)
             if request.user.is_authenticated:
                 order.user_profile = user_profile
-                print(user_profile)
             order.save()
-            print(order.user_profile)
 
             # Connect order items to the order
             for id, quantity in cart.items():

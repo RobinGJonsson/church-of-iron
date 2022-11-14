@@ -127,8 +127,6 @@ class StripeWH_Handler:
                         if len(gym) != 1:
                             attempt += 1
                             time.sleep(1)
-                            print(
-                                f'{membership.name} membership Gym is not correctly assigned: Gyms: {gym}')
                             continue
 
                     # If the membership is gold or higher the user
@@ -137,8 +135,6 @@ class StripeWH_Handler:
                         if len(gym) <= 1:
                             attempt += 1
                             time.sleep(1)
-                            print(
-                                f'{membership.name} membership Gym is not correctly assigned: Gyms: {gym}')
                             continue
 
                     membership_signup_successfull = True
