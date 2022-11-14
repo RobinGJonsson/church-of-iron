@@ -8,7 +8,7 @@ def navbar_context(request):
     memberships = Membership.objects.all()
     categories = Category.objects.all()
 
-    cheapest_price = 'memberships.get(name="Bronze").monthly_price'
+    cheapest_price = memberships.get(name="Bronze").monthly_price
 
     context = {
         'gyms': gyms,

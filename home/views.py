@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from gym.models import Gym, Membership
 
 
@@ -7,7 +7,7 @@ def index(request):
 
     gyms = Gym.objects.all()
     memberships = Membership.objects.all()
-    gold_membership = "memberships.get(name='Gold')"
+    gold_membership = memberships.get(name='Gold')
 
     context = {
         'gyms': gyms,
