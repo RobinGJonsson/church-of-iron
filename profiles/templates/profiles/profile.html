@@ -5,7 +5,7 @@
 
 {% block page_header %}
 <div class="bg-gray">
-    <div class="top-banner" style="background-image: url('/media/hero-image.jpg'); background-size: cover;"></div>
+    <div class="top-banner gyms-banner"></div>
 </div>
 {% endblock page_header %}
 
@@ -58,6 +58,7 @@
             </div>
         </div>
         <!-- User order history -->
+        {% if order_history %}
         <hr>
         <div class="row pb-4 justify-content-md-start justify-content-center">
             <div class="col-12 p-4 d-sm-block d-none">
@@ -102,6 +103,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 {% endblock content %}
