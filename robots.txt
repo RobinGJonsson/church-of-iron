@@ -1,6 +1,5 @@
-User-agent: *
-Disallow: /accounts/
-Disallow: /profiles/
-Disallow: /cart/
-Disallow: /checkout/
-Sitemap: https://robin-church-of-iron.herokuapp.com/sitemap.xml
+user-agent: *
+disallow: /profiles/
+disallow: /cart/
+disallow: /checkout/
+sitemap: https://robin-church-of-iron.herokuapp.com/sitemap.xml
