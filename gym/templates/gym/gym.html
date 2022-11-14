@@ -20,7 +20,7 @@
         </div>
     </div>
     {% endif %}
-    <section>
+    <div>
         <!-- Carousel of all the gyms images -->
         <div class="row justify-content-center">
             <div class="col-lg-10 col-12">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <section class="row mx-0">
         <header class="col-12">    
             <h2 class="section-header">OUR AMENITIES</h2>
@@ -74,44 +74,40 @@
     </section>
     <hr>
     <!-- Map -->
-    <section class="position-relative mx-auto" id="map">
+    <div class="position-relative mx-auto" id="map">
         <div class="map-cover overlay-50">
             <button class="btn-orange" id="modal-btn">Show Map</button>
         </div>
-    </section>
+    </div>
     <!-- Contact info and open hours -->
     <hr>
-    <section class="row contact-boxes me-0 text-center justify-content-evenly">
-        <address class="col-md-5 col-10 my-3 py-4">
-            <h3>Contact</h3>
-            <hr>
+    <div class="row contact-boxes me-0 text-center justify-content-evenly">
+        <section class="col-md-5 col-10 my-3 py-4">
+            <h3 class="border-bottom pb-3 mb-3">Contact</h3>
             <ul>
-                <li>
+                <li class="border-bottom pb-3 mb-3 ">
                     <h4>Address</h4>
-                    <p>{{ gym.address }}</p>
+                    <address>{{ gym.address }}</address>
                 </li>                    
-                <hr>
-                <li>
+                <li class="border-bottom pb-3 mb-3 ">
                     <h4>Phone</h4>
-                    <p>
+                    <address>
                         <a class="text-light" href="tel:{{ gym.phone }}">{{ gym.phone }}</a>
-                    </p>
+                    </address>
                 </li>
-                <hr>
                 <li>
                     <h4>Email</h4>
-                    <p>
+                    <address>
                         <a class="text-white" href="mailto:{{ gym.email }}">{{ gym.email }}</a>
-                    </p>
+                    </address>
                 </li>                
             </ul>
-        </address>
+        </section>
         <section class="col-md-5 col-10 my-3 py-4">
-            <h3>Open Hours</h3>
-            <hr>
+            <h3 class="border-bottom pb-3 mb-3 ">Open Hours</h3>
             <ul class="row">
                 <li class="col-12">
-                    <div class="row">
+                    <div class="row border-bottom pb-3 mb-3 ">
                         <div class="col-sm-6 p-0">
                             <h4>Weekends</h4>
                             <p>
@@ -139,9 +135,8 @@
                     </div>
                 </li>                    
             </ul>
-            <hr>
         </section>
-    </section>
+    </div>
 </div>
 {% endblock content %}
 

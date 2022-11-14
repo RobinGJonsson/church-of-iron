@@ -113,31 +113,27 @@
         {% csrf_token %}
 
         <div class="row contact-boxes me-0 text-center justify-content-evenly">
-            <address class="col-md-5 col-10 my-3 py-4">
-                <h3>Contact</h3>
-                <hr>
+            <div class="col-md-5 col-10 my-3 py-4">
+                <h3 class="border-bottom pb-3 mb-3">Contact</h3>
                 <ul>
-                    <li>
+                    <li class="border-bottom pb-3 mb-3">
                         <h4>Address</h4>
                         <input class="w-75" type="text" name="address" value="{{ gym.address }}">
                     </li>                    
-                    <hr>
-                    <li>
+                    <li class="border-bottom pb-3 mb-3">
                         <h4>Phone</h4>
                         <input class="w-75" type="text" name="phone" value="{{ gym.phone }}">
                     </li>
-                    <hr>
-                    <li>
+                    <li class="border-bottom pb-3 mb-3">
                         <h4>Email</h4>
                         <input class="w-75" type="email" name="email" value="{{ gym.email }}">
                     </li>                
                 </ul>
-            </address>
+            </div>
             <div class="col-md-5 col-10 my-3 py-4">
-                <h3>Open Hours</h3>
-                <hr>
+                <h3 class="border-bottom pb-3 mb-3">Open Hours</h3>
                 <ul>
-                    <li class="row">
+                    <li class="row border-bottom pb-3 mb-3">
                         <legend>Weekday</legend>
                         <fieldset>
                         </p>
