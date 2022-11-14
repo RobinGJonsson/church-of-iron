@@ -161,109 +161,110 @@ def checkout_success(request):
     """ View save the order and to display
     the order summary when it has been paid for """
     print('checkout success ')
+    try:
+        order = None
+        gym = None
+        user_profile = None
+        membership = None
+        payment_plan = None
 
-    order = None
-    gym = None
-    user_profile = None
-    membership = None
-    payment_plan = None
+        cart = request.session.get('cart', {})
+        shipping_data = request.session.get('shipping_data', {})
+        membership_data = request.session.get('membership_data', {})
+        save_info = request.session.get('save_info', {})
 
-    cart = request.session.get('cart', {})
-    shipping_data = request.session.get('shipping_data', {})
-    membership_data = request.session.get('membership_data', {})
-    save_info = request.session.get('save_info', {})
+        if request.user.is_authenticated:
+            user_profile = UserProfile.objects.get(user=request.user)
 
-    if request.user.is_authenticated:
-        user_profile = UserProfile.objects.get(user=request.user)
+        # Save the order
+        if cart:
+            # Create the order
+            order_form = OrderForm(shipping_data)
+            if order_form.is_valid():
+                order = order_form.save(commit=False)
+                if request.user.is_authenticated:
+                    order.user_profile = user_profile
+                order.save()
 
-    # Save the order
-    if cart:
-        # Create the order
-        order_form = OrderForm(shipping_data)
-        if order_form.is_valid():
-            order = order_form.save(commit=False)
-            if request.user.is_authenticated:
-                order.user_profile = user_profile
-            order.save()
+                # Connect order items to the order
+                for id, quantity in cart.items():
+                    product = Product.objects.get(id=id)
 
-            # Connect order items to the order
-            for id, quantity in cart.items():
-                product = Product.objects.get(id=id)
-
-                if product.has_size:
-                    item_by_size = quantity['item_by_size']
-                    # If the product has size loop through the sizes
-                    # and get the qunatity of each size
-                    for size, size_quantity in item_by_size.items():
+                    if product.has_size:
+                        item_by_size = quantity['item_by_size']
+                        # If the product has size loop through the sizes
+                        # and get the qunatity of each size
+                        for size, size_quantity in item_by_size.items():
+                            order_item = OrderItem.objects.create(
+                                order=order,
+                                product=product,
+                                quantity=size_quantity,
+                                product_size=size
+                            )
+                            order_item.save()
+                    else:
                         order_item = OrderItem.objects.create(
                             order=order,
                             product=product,
-                            quantity=size_quantity,
-                            product_size=size
+                            quantity=quantity,
+                            product_size=None
                         )
                         order_item.save()
-                else:
-                    order_item = OrderItem.objects.create(
-                        order=order,
-                        product=product,
-                        quantity=quantity,
-                        product_size=None
-                    )
-                    order_item.save()
 
-    # Save the membership to the user
-    if membership_data:
-        membership = Membership.objects.get(
-            name=membership_data['membership'])
+        # Save the membership to the user
+        if membership_data:
+            membership = Membership.objects.get(
+                name=membership_data['membership'])
 
-        # Assign the membership and payment_plan to the user profile
-        user_profile.membership = membership
-        user_profile.payment_plan = membership_data['payment_plan']
+            # Assign the membership and payment_plan to the user profile
+            user_profile.membership = membership
+            user_profile.payment_plan = membership_data['payment_plan']
 
-        # Register the user as a member at the appropriate gym/gyms
-        if membership.level < 3:
-            gym = Gym.objects.get(name=membership_data['gym'])
-            gym.members.add(user_profile)
-            gym = gym.name
-        else:
-            gyms = Gym.objects.all()
-            for gym in gyms:
+            # Register the user as a member at the appropriate gym/gyms
+            if membership.level < 3:
+                gym = Gym.objects.get(name=membership_data['gym'])
                 gym.members.add(user_profile)
-            gym = 'All Gyms'
+                gym = gym.name
+            else:
+                gyms = Gym.objects.all()
+                for gym in gyms:
+                    gym.members.add(user_profile)
+                gym = 'All Gyms'
 
-        user_profile.save()
+            user_profile.save()
 
-        payment_plan = user_profile.payment_plan
+            payment_plan = user_profile.payment_plan
 
-        if payment_plan == 'monthly':
-            payment_plan = f'{membership.monthly_price}/month'
-        elif payment_plan == 'yearly':
-            payment_plan = f'{membership.yearly_price}/year'
+            if payment_plan == 'monthly':
+                payment_plan = f'{membership.monthly_price}/month'
+            elif payment_plan == 'yearly':
+                payment_plan = f'{membership.yearly_price}/year'
 
-    # Save shipping info to user profile if they want
-    if save_info:
-        form = UserProfileForm(shipping_data, instance=user_profile)
+        # Save shipping info to user profile if they want
+        if save_info:
+            form = UserProfileForm(shipping_data, instance=user_profile)
 
-        if form.is_valid():
-            form.save()
+            if form.is_valid():
+                form.save()
 
-    context = {
-        'shipping_data': shipping_data,
-        'order': order,
-        'gym': gym,
-        'membership': membership,
-        'payment_plan': payment_plan,
-        'user_profile': user_profile
-    }
+        context = {
+            'shipping_data': shipping_data,
+            'order': order,
+            'gym': gym,
+            'membership': membership,
+            'payment_plan': payment_plan,
+            'user_profile': user_profile
+        }
 
-    # Delete all sessions
-    if 'cart' in request.session:
-        del request.session['cart']
-    if 'save_info' in request.session:
-        del request.session['save_info']
-    if 'membership_data' in request.session:
-        del request.session['membership_data']
-    if 'shipping_data' in request.session:
-        del request.session['shipping_data']
-
+        # Delete all sessions
+        if 'cart' in request.session:
+            del request.session['cart']
+        if 'save_info' in request.session:
+            del request.session['save_info']
+        if 'membership_data' in request.session:
+            del request.session['membership_data']
+        if 'shipping_data' in request.session:
+            del request.session['shipping_data']
+    except Exception as e:
+        print('Exception 3: ', e)
     return render(request, 'checkout/checkout_success.html', context)

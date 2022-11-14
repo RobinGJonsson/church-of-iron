@@ -68,22 +68,28 @@ class StripeWH_Handler:
         Handle the payment_intent.succeeded webhook from Stripe
         """
         print('in webhook success ')
-        intent = event.data.object
-        pid = intent.id
-        cart = intent.metadata.cart
-        membership_data = intent.metadata.membership
+        try:
+            intent = event.data.object
+            pid = intent.id
+            cart = intent.metadata.cart
+            membership_data = intent.metadata.membership
 
-        billing_details = intent.charges.data[0].billing_details
-        shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
+            billing_details = intent.charges.data[0].billing_details
+            shipping_details = intent.shipping
+            grand_total = round(intent.charges.data[0].amount / 100, 2)
+        except Exception as e:
+            print('Exception 1: ', e)
 
-        # Clean data in the shipping details
-        for field, value in shipping_details.address.items():
-            if value == "":
-                shipping_details.address[field] = None
+        try:
+            # Clean data in the shipping details
+            for field, value in shipping_details.address.items():
+                if value == "":
+                    shipping_details.address[field] = None
+        except Exception as e:
+            print('Exception 2: ', e)
+            order_exists = False
+            attempt = 1
 
-        order_exists = False
-        attempt = 1
         # Try to get a successful event from stripe for 5 seconds
         print(1, 'shipping_details', shipping_details)
 
