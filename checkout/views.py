@@ -160,6 +160,7 @@ def checkout_view(request):
 def checkout_success(request):
     """ View save the order and to display
     the order summary when it has been paid for """
+    print('checkout success ')
 
     order = None
     gym = None
