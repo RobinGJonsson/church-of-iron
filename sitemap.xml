@@ -38,11 +38,6 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://robin-church-of-iron.herokuapp.com/store/?category=clothing</loc>
-  <lastmod>2022-11-14T09:40:09+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://robin-church-of-iron.herokuapp.com/store/?category=supplements</loc>
   <lastmod>2022-11-14T09:40:09+00:00</lastmod>
   <priority>0.80</priority>
